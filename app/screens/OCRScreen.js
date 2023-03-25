@@ -9,8 +9,6 @@ import {
   SafeAreaView,
 } from "react-native";
 
-import { Configuration, OpenAIApi } from "openai";
-
 import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
 
 export default function OCRScreen({ route, navigation }) {
@@ -78,7 +76,7 @@ export default function OCRScreen({ route, navigation }) {
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Translation", { text: sentence })
+                navigation.navigate("Translation", { sentence: sentence })
               }
               className="border-black border-b-2"
               key={index}
