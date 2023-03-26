@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { Configuration, OpenAIApi } from "openai";
+import * as Speech from "expo-speech";
 
 const TranslationScreen = ({ route, navigation }) => {
   const { sentence } = route.params;
@@ -87,6 +88,10 @@ const TranslationScreen = ({ route, navigation }) => {
       });
   };
 
+  const givePronunciation = () => {
+    Speech.speak(sentence, { rate: 0.5 });
+  };
+
   useEffect(() => {
     console.log("Running useEffect for fixing Text");
     fixText();
@@ -116,7 +121,7 @@ const TranslationScreen = ({ route, navigation }) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => console.log("")}
+        onPress={() => givePronunciation()}
         className="items-center"
       >
         <Text className="text-xl font-bold text-black">Pronunciation</Text>
