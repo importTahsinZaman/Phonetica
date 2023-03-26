@@ -89,7 +89,7 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   const givePronunciation = () => {
-    Speech.speak(sentence, { rate: 0.5 });
+    Speech.speak(finalizedText, { rate: 0.5 });
   };
 
   useEffect(() => {
