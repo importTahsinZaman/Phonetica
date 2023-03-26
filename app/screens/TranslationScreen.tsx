@@ -144,12 +144,13 @@ const TranslationScreen = ({ route, navigation }) => {
             <Text>Hide Modal</Text>
           </TouchableOpacity>
           <Text>{definitionExplanation}</Text>
-          {wordsList.map((word) => {
+          {wordsList.map((word, index) => {
             return (
               <TouchableOpacity
                 onPress={() => {
                   generateDefinitionExplanation(word);
                 }}
+                key={index}
               >
                 <Text>{word}</Text>
               </TouchableOpacity>

@@ -47,11 +47,15 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const takePicture = async () => {
     await camera.takePictureAsync().then(async (r) => {
-      const manipResult = await manipulateAsync(r.uri, [], {
-        compress: 0.4,
-        format: SaveFormat.JPEG,
-        base64: true,
-      });
+      const manipResult = await manipulateAsync(
+        r.uri,
+        [{ resize: { height: 1000 } }],
+        {
+          compress: 1,
+          format: SaveFormat.JPEG,
+          base64: true,
+        }
+      );
       navigation.navigate("OCR", manipResult);
     });
   };
