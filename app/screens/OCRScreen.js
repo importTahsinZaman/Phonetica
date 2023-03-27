@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 
 import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
@@ -69,22 +70,31 @@ export default function OCRScreen({ route, navigation }) {
     formatText();
   }, [ocrText]);
 
+  const styles = StyleSheet.create({
+    setFontSize30: {
+      fontSize: 30,
+    },
+  });
+
   return (
-    <SafeAreaView className="">
-      {formattedText &&
-        formattedText.map((sentence, index) => {
-          return (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Translation", { sentence: sentence })
-              }
-              className="border-black border-b-2"
-              key={index}
-            >
-              <Text>{sentence}</Text>
-            </TouchableOpacity>
-          );
-        })}
+    <SafeAreaView>
+      <ScrollView>
+        {formattedText &&
+          formattedText.map((sentence, index) => {
+            return (
+              <View key={index}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Translation", { sentence: sentence })
+                  }
+                  className="border-black border-b-2"
+                >
+                  <Text style={styles.setFontSize30}>{sentence}</Text>
+                </TouchableOpacity>
+              </View>
+            );
+          })}
+      </ScrollView>
     </SafeAreaView>
   );
 }

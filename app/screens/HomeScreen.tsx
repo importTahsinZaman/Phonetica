@@ -49,7 +49,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     await camera.takePictureAsync().then(async (r) => {
       const manipResult = await manipulateAsync(
         r.uri,
-        [{ resize: { height: 1000 } }],
+        [{ resize: { height: 1100 } }],
         {
           compress: 1,
           format: SaveFormat.JPEG,
