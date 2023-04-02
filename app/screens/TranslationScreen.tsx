@@ -13,10 +13,11 @@ import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
 
 const TranslationScreen = ({ route, navigation }) => {
-  const { sentence } = route.params;
-  const [finalizedText, setFinalizedText] = useState("");
-  const [wordsList, setWordsList] = useState([]);
-  const [translatedText, setTranslatedText] = useState("");
+  //This whole page only deals with one sentence
+  const { sentence } = route.params; //The sentence chosen by the user from OCR results
+  const [finalizedText, setFinalizedText] = useState(""); //Holds the fixed sentence (after API call to fix ocr errors)
+  const [wordsList, setWordsList] = useState([]); //The finalizedText broken into words for the user to choose from to define
+  const [translatedText, setTranslatedText] = useState(""); //translated text
   const [definitionModalVisible, setDefinitionModalVisible] = useState(false);
   const [definitionExplanation, setDefinitionExplanation] = useState("");
 
@@ -71,11 +72,16 @@ const TranslationScreen = ({ route, navigation }) => {
       .catch((error) => console.log("error", error));
   };
 
-  const generateDefinitionExplanation = async (word: string) => {
+  const generateDefinitionExplanation = async (
+    word: string,
+    instance: number
+  ) => {
+    const prompt = `Explain, to someone who only speaks Spanish, the definition and usage of occurrence ${instance} of the word "${word}" in the context of this text: "${finalizedText}". Keep the word in English and within quotation marks whenever referring to it.`;
+    console.log(prompt);
     await openai
       .createCompletion({
         model: "text-davinci-003",
-        prompt: `Explain the definition and usage of the word "${word}" in this context to someone who only speaks Spanish. Keep the word in English and within quotation marks whenever referring to it.`,
+        prompt: prompt,
         temperature: 0.7,
         max_tokens: 256,
         top_p: 1,
@@ -89,7 +95,7 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   const givePronunciation = () => {
-    Speech.speak(finalizedText, { rate: 0.5 });
+    Speech.speak(finalizedText, { rate: 0.7 });
   };
 
   useEffect(() => {
@@ -148,7 +154,26 @@ const TranslationScreen = ({ route, navigation }) => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  generateDefinitionExplanation(word);
+                  let instanceArray = [];
+                  let instanceCount = 1;
+                  for (let j = 0; j < wordsList.length; j++) {
+                    if (wordsList[j] == word) {
+                      instanceArray.push({
+                        instance: instanceCount,
+                        arrayIndex: j,
+                      });
+                      instanceCount++;
+                    }
+                  }
+                  console.log(instanceArray);
+                  let pickedInstance = {};
+                  instanceArray.forEach((instance) => {
+                    if (instance.arrayIndex == index) {
+                      pickedInstance = instance;
+                    }
+                  });
+                  console.log(pickedInstance);
+                  generateDefinitionExplanation(word, pickedInstance.instance);
                 }}
                 key={index}
               >
