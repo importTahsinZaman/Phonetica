@@ -12,7 +12,7 @@ import {
 
 import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
 
-export default function OCRScreen({ route, navigation }) {
+export default function TextSelectScreen({ route, navigation }) {
   const { height, uri, width, base64 } = route.params;
   const [ocrText, setOcrText] = useState("");
   const [formattedText, setFormattedText] = useState(null);
