@@ -7,7 +7,7 @@ const RecentScans = ({}) => {
   const COUNT = 2;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{}}>
       <Carousel
         vertical={false}
         width={PAGE_WIDTH / COUNT}

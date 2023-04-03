@@ -15,7 +15,6 @@ const HomeScreen = ({}) => {
       <HomeBanner></HomeBanner>
       <CustomText>Featured Books</CustomText>
       <FeaturedBooks></FeaturedBooks>
-      <View className={`h-[35%] select-none z-[-10]`}></View>
       <CustomText>Your Recent Scans</CustomText>
       <RecentScans></RecentScans>
     </SafeAreaView>
