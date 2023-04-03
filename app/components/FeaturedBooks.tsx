@@ -3,17 +3,21 @@ import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
 const FeaturedBooks = ({}) => {
-  const width = Dimensions.get("window").width;
+  const PAGE_WIDTH = Dimensions.get("window").width;
+  const COUNT = 2;
+
   return (
     <View style={{ flex: 1 }}>
       <Carousel
-        loop
-        width={width}
-        height={width / 2}
-        autoPlay={true}
-        data={[...new Array(6).keys()]}
-        scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        vertical={false}
+        width={PAGE_WIDTH / COUNT}
+        height={PAGE_WIDTH / 2}
+        loop={true}
+        autoPlay={false}
+        pagingEnabled={false}
+        snapEnabled={false}
+        style={{ width: PAGE_WIDTH }}
+        data={[...new Array(12).keys()]}
         renderItem={({ index }) => (
           <View
             style={{
