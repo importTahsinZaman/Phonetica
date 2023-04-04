@@ -22,8 +22,7 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const App = () => {
   const _renderIcon = (routeName, selectedTab) => {
-    const ICON_WIDTH = PAGE_WIDTH * 0.08;
-    const ICON_HEIGHT = PAGE_HEIGHT * 0.03340757238;
+    const ICON_SIZE = PAGE_WIDTH * 0.08;
 
     let color = "8D8D8D";
 
@@ -35,8 +34,8 @@ const App = () => {
       case "Home":
         return (
           <HomeIcon
-            width={ICON_WIDTH}
-            height={ICON_HEIGHT}
+            width={ICON_SIZE}
+            height={ICON_SIZE}
             style={{ color: routeName === selectedTab ? "#FFBF23" : "#8D8D8D" }}
           />
         );
@@ -44,8 +43,8 @@ const App = () => {
       case "Learn":
         return (
           <LearnIcon
-            width={ICON_WIDTH}
-            height={ICON_HEIGHT}
+            width={ICON_SIZE}
+            height={ICON_SIZE}
             style={{ color: routeName === selectedTab ? "#FFBF23" : "#8D8D8D" }}
           />
         );
@@ -82,10 +81,7 @@ const App = () => {
               style={styles.button}
               onPress={() => Alert.alert("Click Action")}
             >
-              <ScanIcon
-                width={PAGE_WIDTH * 0.08}
-                height={PAGE_HEIGHT * 0.03340757238}
-              />
+              <ScanIcon width={PAGE_WIDTH * 0.08} height={PAGE_WIDTH * 0.08} />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffbf23",
-    bottom: PAGE_HEIGHT * 0.06904231625,
+    bottom: PAGE_HEIGHT * 0.06904231625, //TODO: FIX THIS VALUE
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
