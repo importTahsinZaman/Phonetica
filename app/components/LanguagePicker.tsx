@@ -5,35 +5,35 @@ import { SelectCountry } from "react-native-element-dropdown";
 const local_data = [
   {
     value: "1",
-    lable: "Country 1",
+    lable: "ENG",
     image: {
       uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
     },
   },
   {
     value: "2",
-    lable: "Country 2",
+    lable: "FFA",
     image: {
       uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
     },
   },
   {
     value: "3",
-    lable: "Country 3",
+    lable: "ESP",
     image: {
       uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
     },
   },
   {
     value: "4",
-    lable: "Country 4",
+    lable: "DZA",
     image: {
       uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
     },
   },
   {
     value: "5",
-    lable: "Country 5",
+    lable: "ASM",
     image: {
       uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
     },
@@ -56,7 +56,7 @@ const LanguagePicker = ({}) => {
       valueField="value"
       labelField="lable"
       imageField="image"
-      placeholder="Select country"
+      placeholder="Select"
       searchPlaceholder="Search..."
       onChange={(e) => {
         setCountry(e.value);
@@ -68,9 +68,9 @@ const LanguagePicker = ({}) => {
 const styles = StyleSheet.create({
   dropdown: {
     height: 50,
-    width: 150,
+    width: 100,
     borderRadius: 22,
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
   },
   imageStyle: {
     width: 24,
