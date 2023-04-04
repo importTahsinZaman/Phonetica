@@ -5,9 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationContainer } from "@react-navigation/native";
 
 import HomeIcon from "./app/assets/HomeIcon.svg";
@@ -17,8 +17,14 @@ import ScanIcon from "./app/assets/ScanIcon.svg";
 import HomeScreen from "./app/screens/HomeScreen";
 import LearnPage from "./app/components/LearnPage";
 
+const PAGE_WIDTH = Dimensions.get("window").width;
+const PAGE_HEIGHT = Dimensions.get("window").height;
+
 const App = () => {
   const _renderIcon = (routeName, selectedTab) => {
+    const ICON_WIDTH = PAGE_WIDTH * 0.08;
+    const ICON_HEIGHT = PAGE_HEIGHT * 0.03340757238;
+
     let color = "8D8D8D";
 
     if (routeName === selectedTab) {
@@ -29,8 +35,8 @@ const App = () => {
       case "Home":
         return (
           <HomeIcon
-            width={120}
-            height={40}
+            width={ICON_WIDTH}
+            height={ICON_HEIGHT}
             style={{ color: routeName === selectedTab ? "#FFBF23" : "#8D8D8D" }}
           />
         );
@@ -38,8 +44,8 @@ const App = () => {
       case "Learn":
         return (
           <LearnIcon
-            width={120}
-            height={40}
+            width={ICON_WIDTH}
+            height={ICON_HEIGHT}
             style={{ color: routeName === selectedTab ? "#FFBF23" : "#8D8D8D" }}
           />
         );
@@ -63,8 +69,7 @@ const App = () => {
         type="DOWN"
         style={styles.bottomBar}
         // shadowStyle={styles.shadow}
-        height={74}
-        circleWidth={60}
+        height={PAGE_HEIGHT * 0.07572383073}
         bgColor="white"
         initialRouteName="Home"
         screenOptions={{
@@ -77,7 +82,10 @@ const App = () => {
               style={styles.button}
               onPress={() => Alert.alert("Click Action")}
             >
-              <ScanIcon width={25} height={25} />
+              <ScanIcon
+                width={PAGE_WIDTH * 0.08}
+                height={PAGE_HEIGHT * 0.03340757238}
+              />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -98,7 +106,7 @@ const App = () => {
   );
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   shadow: {
     shadowColor: "#000000",
     shadowOffset: {
@@ -114,13 +122,13 @@ export const styles = StyleSheet.create({
   },
   bottomBar: {},
   btnCircleUp: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: PAGE_WIDTH * 0.18666666666,
+    height: PAGE_WIDTH * 0.18666666666,
+    borderRadius: "50%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffbf23",
-    bottom: 30,
+    bottom: PAGE_HEIGHT * 0.06904231625,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -129,11 +137,6 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 1,
-  },
-  imgCircle: {
-    width: 30,
-    height: 30,
-    tintColor: "gray",
   },
   tabbarItem: {
     flex: 1,
