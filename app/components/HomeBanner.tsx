@@ -1,5 +1,5 @@
 import { Image, Dimensions, View } from "react-native";
-import SVGHomeBanner from "../components/SVGHomeBanner";
+import SVGHomeBanner from "./svg_components/SVGHomeBanner";
 
 const HomeBanner = ({}) => {
   const width = Dimensions.get("window").width;
