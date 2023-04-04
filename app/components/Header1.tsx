@@ -4,7 +4,7 @@ import CustomText from "./CustomText";
 
 const Header1 = ({}) => {
   return (
-    <View className="bg-white">
+    <View className="bg-white flex-row">
       <CustomText className="text-lg">Phonetica</CustomText>
       <LanguagePicker></LanguagePicker>
     </View>

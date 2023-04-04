@@ -10,10 +10,10 @@ const HomeScreen = ({}) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
 
   return (
-    <SafeAreaView className="flex flex-col">
+    <SafeAreaView>
       <Header1></Header1>
       <HomeBanner></HomeBanner>
-      <CustomText>Featured Books</CustomText>
+      <CustomText className="text-xl">Featured Books</CustomText>
       <FeaturedBooks></FeaturedBooks>
       <CustomText>Your Recent Scans</CustomText>
       <RecentScans></RecentScans>

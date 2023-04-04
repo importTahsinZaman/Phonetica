@@ -28,6 +28,7 @@
     "react-native": "0.71.6",
     "react-native-curved-bottom-bar": "^3.2.4",
     "react-native-dotenv": "^3.4.8",
+    "react-native-element-dropdown": "^2.9.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-reanimated": "~2.14.4",
     "react-native-reanimated-carousel": "^3.3.0",
