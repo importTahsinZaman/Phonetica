@@ -1,37 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
-
-const local_data = [
-  {
-    value: "1",
-    lable: "ENG",
-    image: {
-      uri: "https://cdn-icons-png.flaticon.com/512/197/197484.png",
-    },
-  },
-  {
-    value: "2",
-    lable: "ESP",
-    image: {
-      uri: "https://cdn-icons-png.flaticon.com/512/5372/5372848.png",
-    },
-  },
-  {
-    value: "3",
-    lable: "ESP",
-    image: {
-      uri: "https://cdn-icons-png.flaticon.com/512/197/197593.png",
-    },
-  },
-  {
-    value: "4",
-    lable: "CHN",
-    image: {
-      uri: "https://cdn-icons-png.flaticon.com/512/197/197375.png",
-    },
-  },
-];
+import LanguageData from "../assets/Languages.json";
 
 const LanguagePicker = ({}) => {
   const [country, setCountry] = useState("1");
@@ -45,7 +15,7 @@ const LanguagePicker = ({}) => {
       iconStyle={styles.iconStyle}
       maxHeight={200}
       value={country}
-      data={local_data}
+      data={LanguageData}
       valueField="value"
       labelField="lable"
       imageField="image"

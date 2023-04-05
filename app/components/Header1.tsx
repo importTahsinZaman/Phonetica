@@ -7,7 +7,7 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Header1 = ({}) => {
   return (
-    <View className="bg-white flex-row space" style={styles.OuterContainer}>
+    <View className="bg-white flex-row" style={styles.OuterContainer}>
       <CustomText style={styles.Title}>Phonetica</CustomText>
       <LanguagePicker></LanguagePicker>
     </View>

@@ -4,11 +4,13 @@ import HomeBanner from "../components/HomeBanner";
 import FeaturedBooks from "../components/FeaturedBooks";
 import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
+import DoubleLanguagePicker from "../components/DoubleLanguagePicker";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
       <Header1></Header1>
+      <DoubleLanguagePicker></DoubleLanguagePicker>
       <HomeBanner navigation={navigation}></HomeBanner>
       <CustomText
         className="text-base"

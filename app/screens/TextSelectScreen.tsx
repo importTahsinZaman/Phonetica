@@ -14,6 +14,7 @@ import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
 import ReturnHeader from "../components/ReturnHeader";
 
 import { useIsFocused } from "@react-navigation/native";
+import CustomText from "../components/CustomText";
 
 export default function TextSelectScreen({ route, navigation }) {
   const { height, uri, width, base64 } = route.params;
@@ -79,12 +80,6 @@ export default function TextSelectScreen({ route, navigation }) {
     setFormattedText(textArray);
   };
 
-  const styles = StyleSheet.create({
-    setFontSize30: {
-      fontSize: 30,
-    },
-  });
-
   return (
     <SafeAreaView>
       <ReturnHeader
@@ -105,7 +100,7 @@ export default function TextSelectScreen({ route, navigation }) {
                   }
                   className="border-black border-b-2"
                 >
-                  <Text style={styles.setFontSize30}>{sentence}</Text>
+                  <CustomText className="text-lg">{sentence}</CustomText>
                 </TouchableOpacity>
               </View>
             );

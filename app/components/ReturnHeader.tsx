@@ -31,17 +31,12 @@ const Header1: React.FC<Props> = ({
       <TouchableOpacity
         className="flex flex-row"
         onPress={() => {
-          navigation.navigate(destination);
+          navigation.goBack();
           tabBarRef?.current?.setVisible(showNavBar);
         }}
       >
         <LeftArrow style={{ color: color }}></LeftArrow>
-        <CustomText
-          style={(styles.Text, { color: color })}
-          className="text-fuchsia-50"
-        >
-          {text}
-        </CustomText>
+        <CustomText style={(styles.Text, { color: color })}>{text}</CustomText>
       </TouchableOpacity>
     </View>
   );

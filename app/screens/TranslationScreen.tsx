@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "react-native-url-polyfill/auto";
 
 import { DEEPL_KEY, OPEN_AI_API_KEY } from "@env";
 
@@ -9,8 +10,10 @@ import {
   Modal,
   Alert,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
+import ReturnHeader from "../components/ReturnHeader";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence
@@ -25,6 +28,22 @@ const TranslationScreen = ({ route, navigation }) => {
     apiKey: OPEN_AI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log("Running Initial useEffect");
+      fixText();
+    } else {
+      setFinalizedText("");
+      setTranslatedText("");
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    translateText(finalizedText);
+  }, [finalizedText]);
 
   const fixText = async () => {
     console.log("Running fix text");
@@ -98,26 +117,17 @@ const TranslationScreen = ({ route, navigation }) => {
     Speech.speak(finalizedText, { rate: 0.7 });
   };
 
-  useEffect(() => {
-    console.log("Running useEffect for fixing Text");
-    fixText();
-  }, []);
-
   return (
     <SafeAreaView>
+      <ReturnHeader
+        navigation={navigation}
+        color="black"
+        text="Select Sentence"
+      ></ReturnHeader>
       <Text>{finalizedText}</Text>
       <Text></Text>
       <Text>{translatedText}</Text>
       <Text></Text>
-
-      <TouchableOpacity
-        onPress={() => {
-          translateText(finalizedText);
-        }}
-        className="items-center"
-      >
-        <Text className="text-xl font-bold text-black">Translate</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => setDefinitionModalVisible(true)}
