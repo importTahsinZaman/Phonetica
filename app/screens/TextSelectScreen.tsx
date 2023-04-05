@@ -11,11 +11,30 @@ import {
 } from "react-native";
 
 import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
+import ReturnHeader from "../components/ReturnHeader";
+
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TextSelectScreen({ route, navigation }) {
   const { height, uri, width, base64 } = route.params;
   const [ocrText, setOcrText] = useState("");
   const [formattedText, setFormattedText] = useState(null);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log("Running Initial useEffect");
+      getOcrText();
+    } else {
+      setFormattedText(null);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    console.log("Running useEffect for Formatting Text");
+    formatText();
+  }, [ocrText]);
 
   const getOcrText = () => {
     console.log("Running getOcrText");
@@ -60,16 +79,6 @@ export default function TextSelectScreen({ route, navigation }) {
     setFormattedText(textArray);
   };
 
-  useEffect(() => {
-    console.log("Running Initial useEffect");
-    getOcrText();
-  }, []);
-
-  useEffect(() => {
-    console.log("Running useEffect for Formatting Text");
-    formatText();
-  }, [ocrText]);
-
   const styles = StyleSheet.create({
     setFontSize30: {
       fontSize: 30,
@@ -78,6 +87,13 @@ export default function TextSelectScreen({ route, navigation }) {
 
   return (
     <SafeAreaView>
+      <ReturnHeader
+        navigation={navigation}
+        color="black"
+        text="Scan"
+        destination="Scan"
+        showNavBar={false}
+      ></ReturnHeader>
       <ScrollView>
         {formattedText &&
           formattedText.map((sentence, index) => {

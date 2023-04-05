@@ -109,6 +109,7 @@ const App = () => {
           position="RIGHT"
         />
         <Stack.Screen name="Scan" component={ScanScreen} />
+        <Stack.Screen name="TextSelect" component={TextSelectScreen} />
         <Stack.Screen name="Translation" component={TranslationScreen} />
       </CurvedBottomBarExpo.Navigator>
     </NavigationContainer>
