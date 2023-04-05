@@ -15,6 +15,10 @@ import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
 import ReturnHeader from "../components/ReturnHeader";
 import DoubleLanguagePicker from "../components/DoubleLanguagePicker";
+import InfoTabs from "../components/InfoTabs";
+import TranslateContainer from "../components/TranslateContainer";
+import DefineContainer from "../components/DefineContainer";
+import PronounceContainer from "../components/PronounceContainer";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence
@@ -24,6 +28,9 @@ const TranslationScreen = ({ route, navigation }) => {
   const [translatedText, setTranslatedText] = useState(""); //translated text
   const [definitionModalVisible, setDefinitionModalVisible] = useState(false);
   const [definitionExplanation, setDefinitionExplanation] = useState("");
+  const [showTranslate, setShowTranslate] = useState(true);
+  const [showDefine, setShowDefine] = useState(false);
+  const [showPronounce, setShowPronounce] = useState(false);
 
   const configuration = new Configuration({
     apiKey: OPEN_AI_API_KEY,
@@ -126,6 +133,28 @@ const TranslationScreen = ({ route, navigation }) => {
         text="Select Sentence"
       ></ReturnHeader>
       <DoubleLanguagePicker></DoubleLanguagePicker>
+      <InfoTabs
+        TranslateSelectFunction={() => {
+          setShowTranslate(true);
+          setShowDefine(false);
+          setShowPronounce(false);
+        }}
+        DefineSelectFunction={() => {
+          setShowTranslate(false);
+          setShowDefine(true);
+          setShowPronounce(false);
+        }}
+        PronounceSelectFunction={() => {
+          setShowTranslate(false);
+          setShowDefine(false);
+          setShowPronounce(true);
+        }}
+      ></InfoTabs>
+
+      {showTranslate && <TranslateContainer></TranslateContainer>}
+      {showDefine && <DefineContainer></DefineContainer>}
+      {showPronounce && <PronounceContainer></PronounceContainer>}
+
       <Text>{finalizedText}</Text>
       <Text></Text>
       <Text>{translatedText}</Text>
