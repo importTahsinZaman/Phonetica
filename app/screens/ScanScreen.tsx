@@ -13,9 +13,10 @@ import { useState } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
+import ReturnHeader from "../components/ReturnHeader";
 
 type Props = {
-  navigation: any; //FIX THIS
+  navigation: any; //TODO: FIX THIS
 };
 
 const PAGE_WIDTH = Dimensions.get("window").width;
@@ -74,7 +75,11 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           camera = r;
         }}
       >
-        <View className="flex-1 flex-row bg-transparent m-[64]">
+        <SafeAreaView>
+          <ReturnHeader navigation={navigation}></ReturnHeader>
+        </SafeAreaView>
+
+        <SafeAreaView className="flex-1 flex-row bg-transparent m-[64]">
           <TouchableOpacity
             onPress={takePicture}
             className="flex-1 self-end items-center"
@@ -84,7 +89,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               height={PAGE_WIDTH * 0.1973333333333333333}
             ></TakePictureButtonSvg>
           </TouchableOpacity>
-        </View>
+        </SafeAreaView>
       </Camera>
     </View>
   );

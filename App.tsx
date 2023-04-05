@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react"; // <== import createRef
 import {
   Alert,
   Animated,
@@ -25,6 +25,8 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Stack = createNativeStackNavigator();
+
+export const tabBarRef: any = createRef(); // <== Call this function to hide tabbar tabBarRef?.current?.setVisible(false);
 
 const App = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -72,6 +74,7 @@ const App = () => {
     <NavigationContainer>
       <CurvedBottomBarExpo.Navigator
         type="DOWN"
+        ref={tabBarRef}
         style={styles.bottomBar}
         height={PAGE_HEIGHT * 0.07572383073}
         bgColor="white"
@@ -84,7 +87,10 @@ const App = () => {
           <Animated.View style={styles.btnCircleUp}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigate("Scan")}
+              onPress={() => {
+                navigate("Scan");
+                tabBarRef?.current?.setVisible(false);
+              }}
             >
               <ScanIcon width={PAGE_WIDTH * 0.08} height={PAGE_WIDTH * 0.08} />
             </TouchableOpacity>
