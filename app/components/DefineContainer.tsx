@@ -13,7 +13,7 @@ type ItemData = {
   word: string;
 };
 
-const DATA: ItemData[] = [
+let DATA: ItemData[] = [
   {
     id: "0",
     word: "First Item",
@@ -55,7 +55,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
   </TouchableOpacity>
 );
 
-const DefineContainer = () => {
+const DefineContainer = ({ wordsList = DATA }) => {
   const [selectedId, setSelectedId] = useState<string>();
 
   const renderItem = ({ item }: { item: ItemData }) => {
@@ -73,17 +73,19 @@ const DefineContainer = () => {
   };
 
   return (
-    <SafeAreaView
-      className="border-black border-2"
-      style={styles.wordsContainer}
-    >
-      <FlatList
-        data={DATA}
-        numColumns={4}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-      />
+    <SafeAreaView className="w-full h-[30%]">
+      <SafeAreaView
+        className="border-black border-2"
+        style={styles.wordsContainer}
+      >
+        <FlatList
+          data={wordsList}
+          numColumns={4}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          extraData={selectedId}
+        />
+      </SafeAreaView>
     </SafeAreaView>
   );
 };

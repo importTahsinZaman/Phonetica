@@ -42,6 +42,9 @@ const TranslationScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (isFocused) {
       console.log("Running Initial useEffect");
+      setShowTranslate(true);
+      setShowDefine(false);
+      setShowPronounce(false);
       fixText();
     } else {
       setFinalizedText("");
@@ -73,16 +76,16 @@ const TranslationScreen = ({ route, navigation }) => {
         const tempWordsList = response1.choices[0].text
           .trimStart()
           .match(/\b(\w+)\b/g);
-        let wordsObject: { id: number; word: string }[] = [];
+        let tempWordsObjectList: { id: string; word: string }[] = [];
 
-        tempWordsList.forEach((word: string, index: number) => {
-          wordsObject.push({
-            id: index,
+        tempWordsList.forEach((word: string, index: string) => {
+          tempWordsObjectList.push({
+            id: index.toString(),
             word: word,
           });
         });
 
-        setWordsList(wordsObject);
+        setWordsList(tempWordsObjectList);
       });
   };
 
@@ -175,15 +178,8 @@ const TranslationScreen = ({ route, navigation }) => {
           }}
         ></TranslateContainer>
       )}
-      {showDefine && <DefineContainer></DefineContainer>}
+      {showDefine && <DefineContainer wordsList={wordsList}></DefineContainer>}
       {showPronounce && <PronounceContainer></PronounceContainer>}
-
-      <TouchableOpacity
-        onPress={() => setDefinitionModalVisible(true)}
-        className="items-center"
-      >
-        <Text className="text-xl font-bold text-black">Definition</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => givePronunciation()}
