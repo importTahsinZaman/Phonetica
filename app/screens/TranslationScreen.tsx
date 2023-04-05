@@ -26,8 +26,6 @@ const TranslationScreen = ({ route, navigation }) => {
   const [finalizedText, setFinalizedText] = useState(""); //Holds the fixed sentence (after API call to fix ocr errors)
   const [wordsList, setWordsList] = useState([]); //The finalizedText broken into words for the user to choose from to define
   const [translatedText, setTranslatedText] = useState(""); //translated text
-  const [definitionModalVisible, setDefinitionModalVisible] = useState(false);
-  const [definitionExplanation, setDefinitionExplanation] = useState("");
   const [showTranslate, setShowTranslate] = useState(true);
   const [showDefine, setShowDefine] = useState(false);
   const [showPronounce, setShowPronounce] = useState(false);
@@ -90,8 +88,6 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   const translateText = async (text: string) => {
-    console.log("Running Translate Text");
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", DEEPL_KEY);
 
@@ -113,28 +109,6 @@ const TranslationScreen = ({ route, navigation }) => {
         setTranslatedText(result["translations"][0].text);
       })
       .catch((error) => console.log("error", error));
-  };
-
-  const generateDefinitionExplanation = async (
-    word: string,
-    instance: number
-  ) => {
-    const prompt = `Explain, to someone who only speaks Spanish, the definition and usage of occurrence ${instance} of the word "${word}" in the context of this text: "${finalizedText}". Keep the word in English and within quotation marks whenever referring to it.`;
-    console.log(prompt);
-    await openai
-      .createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
-        temperature: 0.7,
-        max_tokens: 256,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-      })
-      .then((result) => {
-        let response1 = JSON.parse(result.request._response);
-        setDefinitionExplanation(response1.choices[0].text.trimStart());
-      });
   };
 
   const givePronunciation = () => {
@@ -178,7 +152,13 @@ const TranslationScreen = ({ route, navigation }) => {
           }}
         ></TranslateContainer>
       )}
-      {showDefine && <DefineContainer wordsList={wordsList}></DefineContainer>}
+      {showDefine && (
+        <DefineContainer
+          wordsList={wordsList}
+          text={finalizedText}
+          openai={openai}
+        ></DefineContainer>
+      )}
       {showPronounce && <PronounceContainer></PronounceContainer>}
 
       <TouchableOpacity
@@ -187,57 +167,6 @@ const TranslationScreen = ({ route, navigation }) => {
       >
         <Text className="text-xl font-bold text-black">Pronunciation</Text>
       </TouchableOpacity>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={definitionModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setDefinitionModalVisible(!definitionModalVisible);
-        }}
-      >
-        <SafeAreaView>
-          <TouchableOpacity
-            className="p-10 bg-[#2196F3]"
-            onPress={() => setDefinitionModalVisible(!definitionModalVisible)}
-          >
-            <Text>Hide Modal</Text>
-          </TouchableOpacity>
-          <Text>{definitionExplanation}</Text>
-          {/* {wordsList.map((word, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  let instanceArray = [];
-                  let instanceCount = 1;
-                  for (let j = 0; j < wordsList.length; j++) {
-                    if (wordsList[j] == word) {
-                      instanceArray.push({
-                        instance: instanceCount,
-                        arrayIndex: j,
-                      });
-                      instanceCount++;
-                    }
-                  }
-                  console.log(instanceArray);
-                  let pickedInstance = {};
-                  instanceArray.forEach((instance) => {
-                    if (instance.arrayIndex == index) {
-                      pickedInstance = instance;
-                    }
-                  });
-                  console.log(pickedInstance);
-                  generateDefinitionExplanation(word, pickedInstance.instance);
-                }}
-                key={index}
-              >
-                <Text>{word}</Text>
-              </TouchableOpacity>
-            );
-          })} */}
-        </SafeAreaView>
-      </Modal>
     </SafeAreaView>
   );
 };
