@@ -13,9 +13,9 @@ const DoubleLanguagePicker = () => {
   return (
     <View
       style={styles.Container}
-      className="flex flex-row bg-[#FFBF23] rounded-xl mx-8 space px-2 py-1"
+      className="flex flex-row bg-[#FFBF23] rounded-xl space px-2 py-1"
     >
-      <LanguagePicker></LanguagePicker>
+      <LanguagePicker disabled={true}></LanguagePicker>
       <DoubleArrow></DoubleArrow>
       <LanguagePicker></LanguagePicker>
     </View>
