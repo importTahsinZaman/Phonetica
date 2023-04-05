@@ -7,7 +7,7 @@ const HomeScreen = ({}) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
 
   return (
-    <SafeAreaView className="flex flex-col">
+    <SafeAreaView className="flex flex-col bg-white h-screen h-full w-full w-screen">
       <CustomText>WIP</CustomText>
     </SafeAreaView>
   );

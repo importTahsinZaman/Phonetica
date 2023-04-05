@@ -81,7 +81,7 @@ export default function TextSelectScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
       <ReturnHeader
         navigation={navigation}
         color="black"

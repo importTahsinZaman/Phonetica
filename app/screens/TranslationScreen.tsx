@@ -126,7 +126,7 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
       <ReturnHeader
         navigation={navigation}
         color="black"
@@ -151,14 +151,19 @@ const TranslationScreen = ({ route, navigation }) => {
         }}
       ></InfoTabs>
 
-      {showTranslate && <TranslateContainer></TranslateContainer>}
+      {showTranslate && (
+        <TranslateContainer
+          EnglishText={finalizedText}
+          ForeignText={translatedText}
+          SpeakerFunction={() => {
+            setShowTranslate(false);
+            setShowDefine(false);
+            setShowPronounce(true);
+          }}
+        ></TranslateContainer>
+      )}
       {showDefine && <DefineContainer></DefineContainer>}
       {showPronounce && <PronounceContainer></PronounceContainer>}
-
-      <Text>{finalizedText}</Text>
-      <Text></Text>
-      <Text>{translatedText}</Text>
-      <Text></Text>
 
       <TouchableOpacity
         onPress={() => setDefinitionModalVisible(true)}
