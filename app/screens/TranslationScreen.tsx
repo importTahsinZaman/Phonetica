@@ -14,6 +14,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
 import ReturnHeader from "../components/ReturnHeader";
+import DoubleLanguagePicker from "../components/DoubleLanguagePicker";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence
@@ -124,6 +125,7 @@ const TranslationScreen = ({ route, navigation }) => {
         color="black"
         text="Select Sentence"
       ></ReturnHeader>
+      <DoubleLanguagePicker></DoubleLanguagePicker>
       <Text>{finalizedText}</Text>
       <Text></Text>
       <Text>{translatedText}</Text>

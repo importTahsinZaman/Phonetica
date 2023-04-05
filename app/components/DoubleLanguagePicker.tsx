@@ -3,18 +3,8 @@ import LanguagePicker from "./LanguagePicker";
 import DoubleArrow from "../assets/DoubleArrow.svg";
 
 const DoubleLanguagePicker = () => {
-  const styles = StyleSheet.create({
-    Container: {
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-  });
-
   return (
-    <View
-      style={styles.Container}
-      className="flex flex-row bg-[#FFBF23] rounded-xl space px-2 py-1"
-    >
+    <View className="flex flex-row bg-[#FFBF23] justify-between items-center rounded-xl space px-2 py-1 mx-5">
       <LanguagePicker disabled={true}></LanguagePicker>
       <DoubleArrow></DoubleArrow>
       <LanguagePicker></LanguagePicker>
