@@ -7,14 +7,19 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { useState } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
 
 type Props = {
   navigation: any; //FIX THIS
 };
+
+const PAGE_WIDTH = Dimensions.get("window").width;
+const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const ScanScreen: React.FC<Props> = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
@@ -71,16 +76,13 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
       >
         <View className="flex-1 flex-row bg-transparent m-[64]">
           <TouchableOpacity
-            onPress={toggleCameraType}
-            className="flex-1 self-end items-center"
-          >
-            <Text className="text-xl font-bold text-white">Flip Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={takePicture}
             className="flex-1 self-end items-center"
           >
-            <Text className="text-xl font-bold text-white">Take Picture</Text>
+            <TakePictureButtonSvg
+              width={PAGE_WIDTH * 0.1973333333333333333}
+              height={PAGE_WIDTH * 0.1973333333333333333}
+            ></TakePictureButtonSvg>
           </TouchableOpacity>
         </View>
       </Camera>

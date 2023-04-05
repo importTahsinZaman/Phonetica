@@ -8,7 +8,7 @@ const HomeScreen = ({}) => {
 
   return (
     <SafeAreaView className="flex flex-col">
-      <CustomText>Featured Books</CustomText>
+      <CustomText>WIP</CustomText>
     </SafeAreaView>
   );
 };

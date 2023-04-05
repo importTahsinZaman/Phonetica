@@ -7,35 +7,28 @@ const local_data = [
     value: "1",
     lable: "ENG",
     image: {
-      uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
+      uri: "https://cdn-icons-png.flaticon.com/512/197/197484.png",
     },
   },
   {
     value: "2",
-    lable: "FFA",
+    lable: "ESP",
     image: {
-      uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
+      uri: "https://cdn-icons-png.flaticon.com/512/5372/5372848.png",
     },
   },
   {
     value: "3",
     lable: "ESP",
     image: {
-      uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
+      uri: "https://cdn-icons-png.flaticon.com/512/197/197593.png",
     },
   },
   {
     value: "4",
-    lable: "DZA",
+    lable: "CHN",
     image: {
-      uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
-    },
-  },
-  {
-    value: "5",
-    lable: "ASM",
-    image: {
-      uri: "https://www.vigcenter.com/public/all/images/default-image.jpg",
+      uri: "https://cdn-icons-png.flaticon.com/512/197/197375.png",
     },
   },
 ];
@@ -70,7 +63,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 100,
     borderRadius: 22,
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
   },
   imageStyle: {
     width: 24,
@@ -81,10 +74,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   selectedTextStyle: {
-    fontSize: 16,
-    marginLeft: 8,
+    fontSize: 13,
+    marginLeft: 1.5,
+    fontWeight: "600",
+    // fontFamily: "SpaceGrotesk_600SemiBold",
   },
   iconStyle: {
+    tintColor: "black",
     width: 20,
     height: 20,
   },

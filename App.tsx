@@ -9,16 +9,22 @@ import {
 } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeIcon from "./app/assets/HomeIcon.svg";
 import LearnIcon from "./app/assets/LearnIcon.svg";
 import ScanIcon from "./app/assets/ScanIcon.svg";
 
 import HomeScreen from "./app/screens/HomeScreen";
-import LearnPage from "./app/components/LearnPage";
+import LearnPage from "./app/screens/LearnPage";
+import ScanScreen from "./app/screens/ScanScreen";
+import TextSelectScreen from "./app/screens/TextSelectScreen";
+import TranslationScreen from "./app/screens/TranslationScreen";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -67,7 +73,6 @@ const App = () => {
       <CurvedBottomBarExpo.Navigator
         type="DOWN"
         style={styles.bottomBar}
-        // shadowStyle={styles.shadow}
         height={PAGE_HEIGHT * 0.07572383073}
         bgColor="white"
         initialRouteName="Home"
@@ -79,7 +84,7 @@ const App = () => {
           <Animated.View style={styles.btnCircleUp}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => Alert.alert("Click Action")}
+              onPress={() => navigate("Scan")}
             >
               <ScanIcon width={PAGE_WIDTH * 0.08} height={PAGE_WIDTH * 0.08} />
             </TouchableOpacity>
@@ -97,26 +102,23 @@ const App = () => {
           component={LearnPage}
           position="RIGHT"
         />
+        <Stack.Screen name="Scan" component={ScanScreen} />
+        <Stack.Screen name="Translation" component={TranslationScreen} />
       </CurvedBottomBarExpo.Navigator>
     </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 19,
-  },
   button: {
     flex: 1,
     justifyContent: "center",
   },
-  bottomBar: {},
+  bottomBar: {
+    shadowColor: "black",
+    shadowRadius: 19,
+    shadowOpacity: 0.1,
+  },
   btnCircleUp: {
     width: PAGE_WIDTH * 0.18666666666,
     height: PAGE_WIDTH * 0.18666666666,
