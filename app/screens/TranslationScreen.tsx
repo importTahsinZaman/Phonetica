@@ -69,7 +69,20 @@ const TranslationScreen = ({ route, navigation }) => {
       .then((result) => {
         let response1 = JSON.parse(result.request._response);
         setFinalizedText(response1.choices[0].text.trimStart());
-        setWordsList(response1.choices[0].text.trimStart().match(/\b(\w+)\b/g));
+
+        const tempWordsList = response1.choices[0].text
+          .trimStart()
+          .match(/\b(\w+)\b/g);
+        let wordsObject: { id: number; word: string }[] = [];
+
+        tempWordsList.forEach((word: string, index: number) => {
+          wordsObject.push({
+            id: index,
+            word: word,
+          });
+        });
+
+        setWordsList(wordsObject);
       });
   };
 
@@ -196,7 +209,7 @@ const TranslationScreen = ({ route, navigation }) => {
             <Text>Hide Modal</Text>
           </TouchableOpacity>
           <Text>{definitionExplanation}</Text>
-          {wordsList.map((word, index) => {
+          {/* {wordsList.map((word, index) => {
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -226,7 +239,7 @@ const TranslationScreen = ({ route, navigation }) => {
                 <Text>{word}</Text>
               </TouchableOpacity>
             );
-          })}
+          })} */}
         </SafeAreaView>
       </Modal>
     </SafeAreaView>
