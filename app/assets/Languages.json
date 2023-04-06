@@ -1,28 +1,28 @@
 [
   {
     "value": "1",
-    "lable": "ENG",
+    "label": "ENG",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197484.png"
     }
   },
   {
     "value": "2",
-    "lable": "ESP",
+    "label": "ESP",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/5372/5372848.png"
     }
   },
   {
     "value": "3",
-    "lable": "ESP",
+    "label": "ESP",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197593.png"
     }
   },
   {
     "value": "4",
-    "lable": "CHN",
+    "label": "CHN",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197375.png"
     }

@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 import LanguageData from "../assets/Languages.json";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { useIsFocused } from "@react-navigation/native";
+
 const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
+  const isFocused = useIsFocused();
   const [country, setCountry] = useState("1");
 
   const styles = StyleSheet.create({
@@ -33,6 +38,29 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
     },
   });
 
+  const init = async () => {
+    if (!disabled) {
+      try {
+        const value = await AsyncStorage.getItem("TargetLanguage");
+        if (value !== null) {
+          //Function name is set country but really we're setting language
+          setCountry(value);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (disabled) {
+      //Function name is set country but really we're setting language
+      setCountry("1");
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      init();
+    }
+  }, [isFocused]);
+
   return (
     <SelectCountry
       style={styles.dropdown}
@@ -44,12 +72,18 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
       value={country}
       data={LanguageData}
       valueField="value"
-      labelField="lable"
+      labelField="label"
       imageField="image"
-      placeholder="Select"
-      searchPlaceholder="Search..."
-      onChange={(e) => {
+      placeholder="ENG"
+      searchPlaceholder="Search"
+      onChange={async (e) => {
+        //Function name is set country but really we're setting language
         setCountry(e.value);
+        try {
+          await AsyncStorage.setItem("TargetLanguage", e.value);
+        } catch (e) {
+          console.log(e);
+        }
       }}
       disable={disabled}
     />
