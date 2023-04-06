@@ -3,7 +3,7 @@ import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../components/CustomText";
 
-const HomeScreen = ({}) => {
+const LearnScreen = ({}) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
 
   return (
@@ -13,4 +13,4 @@ const HomeScreen = ({}) => {
   );
 };
 
-export default HomeScreen;
+export default LearnScreen;

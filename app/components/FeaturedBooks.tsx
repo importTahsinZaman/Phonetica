@@ -7,7 +7,7 @@ const FeaturedBooks = ({}) => {
   const COUNT = 2;
 
   return (
-    <View style={{}}>
+    <View className="w-screen">
       <Carousel
         vertical={false}
         width={PAGE_WIDTH / COUNT}
@@ -16,7 +16,7 @@ const FeaturedBooks = ({}) => {
         autoPlay={false}
         pagingEnabled={false}
         snapEnabled={false}
-        style={{ width: PAGE_WIDTH }}
+        style={{ width: "100%" }}
         data={[...new Array(12).keys()]}
         renderItem={({ index }) => (
           <View

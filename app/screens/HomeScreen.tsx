@@ -1,3 +1,4 @@
+import { View, StyleSheet, Dimensions } from "react-native";
 import Header1 from "../components/Header1";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeBanner from "../components/HomeBanner";
@@ -6,6 +7,9 @@ import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
 import DefineContainer from "../components/DefineContainer";
 
+const PAGE_WIDTH = Dimensions.get("window").width;
+const PAGE_HEIGHT = Dimensions.get("window").height;
+
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
@@ -13,14 +17,16 @@ const HomeScreen = ({ navigation }) => {
       <HomeBanner navigation={navigation}></HomeBanner>
       <CustomText
         className="text-base"
-        style={{ fontFamily: "SpaceGrotesk_700Bold" }}
+        fontThicknessNumber={4}
+        style={styles.Header}
       >
         Featured Books
       </CustomText>
       <FeaturedBooks></FeaturedBooks>
       <CustomText
         className="text-base"
-        style={{ fontFamily: "SpaceGrotesk_700Bold" }}
+        fontThicknessNumber={4}
+        style={styles.Header}
       >
         Your Recent Scans
       </CustomText>
@@ -28,5 +34,11 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  Header: {
+    marginHorizontal: PAGE_WIDTH * 0.05333333333,
+  },
+});
 
 export default HomeScreen;

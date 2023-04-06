@@ -108,7 +108,7 @@ export default function TextSelectScreen({ route, navigation }) {
       <ReturnHeader
         navigation={navigation}
         color="black"
-        text="Scan"
+        text="Scan Text"
         destination="Scan"
         showNavBar={false}
       ></ReturnHeader>

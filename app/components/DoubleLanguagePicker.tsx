@@ -15,7 +15,7 @@ const DoubleLanguagePicker = () => {
   return (
     <View
       style={styles.Container}
-      className="flex flex-row bg-[#FFBF23] justify-between items-center rounded-2xl px-6 py-2"
+      className="flex flex-row bg-[#FFBF23] justify-between items-center rounded-2xl px-6 mt-4 mb-3 py-2"
     >
       <LanguagePicker
         disabled={true}

@@ -1,4 +1,9 @@
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import CustomText from "./CustomText";
 import LeftArrow from "../assets/LeftArrow.svg";
 import { tabBarRef } from "../../App";
@@ -22,23 +27,29 @@ const Header1: React.FC<Props> = ({
   navigation,
 }) => {
   const styles = StyleSheet.create({
-    Text: {
-      fontSize: PAGE_HEIGHT * 0.02,
+    Container: {
+      marginHorizontal: PAGE_WIDTH * 0.05333333333,
     },
   });
   return (
-    <View className="fixed top-0">
+    <SafeAreaView style={styles.Container} className="fixed top-0">
       <TouchableOpacity
-        className="flex flex-row"
+        className="flex flex-row items-center py-2"
         onPress={() => {
           navigation.navigate(destination);
           tabBarRef?.current?.setVisible(showNavBar);
         }}
       >
-        <LeftArrow style={{ color: color }}></LeftArrow>
-        <CustomText style={(styles.Text, { color: color })}>{text}</CustomText>
+        <LeftArrow className="" style={{ color: color }}></LeftArrow>
+        <CustomText
+          className="text-lg mx-2"
+          fontThicknessNumber={3}
+          style={{ color: color }}
+        >
+          {text}
+        </CustomText>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

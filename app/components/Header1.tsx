@@ -7,7 +7,10 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Header1 = ({}) => {
   return (
-    <View className="bg-white flex-row justify-between items-center">
+    <View
+      style={styles.Container}
+      className="bg-white flex-row justify-between items-center"
+    >
       <CustomText style={styles.Title}>Phonetica</CustomText>
       <LanguagePicker></LanguagePicker>
     </View>
@@ -15,6 +18,9 @@ const Header1 = ({}) => {
 };
 
 const styles = StyleSheet.create({
+  Container: {
+    marginHorizontal: PAGE_WIDTH * 0.05333333333,
+  },
   Title: {
     fontFamily: "SpaceGrotesk_700Bold",
     fontSize: PAGE_HEIGHT * 0.02,

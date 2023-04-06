@@ -10,13 +10,14 @@ import {
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
 
 import HomeIcon from "./app/assets/HomeIcon.svg";
 import LearnIcon from "./app/assets/LearnIcon.svg";
 import ScanIcon from "./app/assets/ScanIcon.svg";
 
 import HomeScreen from "./app/screens/HomeScreen";
-import LearnPage from "./app/screens/LearnPage";
+import LearnScreen from "./app/screens/LearnScreen";
 import ScanScreen from "./app/screens/ScanScreen";
 import TextSelectScreen from "./app/screens/TextSelectScreen";
 import TranslationScreen from "./app/screens/TranslationScreen";
@@ -76,7 +77,7 @@ const App = () => {
         type="DOWN"
         ref={tabBarRef}
         style={styles.bottomBar}
-        height={PAGE_HEIGHT * 0.07572383073}
+        height={PAGE_HEIGHT * 0.08}
         bgColor="white"
         initialRouteName="Home"
         screenOptions={{
@@ -105,13 +106,14 @@ const App = () => {
         />
         <CurvedBottomBarExpo.Screen
           name="Learn"
-          component={LearnPage}
+          component={LearnScreen}
           position="RIGHT"
         />
         <Stack.Screen name="Scan" component={ScanScreen} />
         <Stack.Screen name="TextSelect" component={TextSelectScreen} />
         <Stack.Screen name="Translation" component={TranslationScreen} />
       </CurvedBottomBarExpo.Navigator>
+      <StatusBar style="dark" />
     </NavigationContainer>
   );
 };
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffbf23",
-    bottom: PAGE_HEIGHT * 0.06904231625, //TODO: FIX THIS VALUE
+    bottom: PAGE_HEIGHT * 0.067, //TODO: FIX THIS VALUE
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
