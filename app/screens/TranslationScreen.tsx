@@ -140,6 +140,9 @@ const TranslationScreen = ({ route, navigation }) => {
           setShowDefine(false);
           setShowPronounce(true);
         }}
+        TranslateSelected={showTranslate}
+        DefineSelected={showDefine}
+        PronounceSelected={showPronounce}
       ></InfoTabs>
 
       {showTranslate && (
@@ -161,13 +164,6 @@ const TranslationScreen = ({ route, navigation }) => {
         ></DefineContainer>
       )}
       {showPronounce && <PronounceContainer></PronounceContainer>}
-
-      <TouchableOpacity
-        onPress={() => givePronunciation()}
-        className="items-center"
-      >
-        <Text className="text-xl font-bold text-black">Pronunciation</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
