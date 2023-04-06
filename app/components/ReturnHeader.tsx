@@ -31,7 +31,7 @@ const Header1: React.FC<Props> = ({
       <TouchableOpacity
         className="flex flex-row"
         onPress={() => {
-          navigation.goBack();
+          navigation.navigate(destination);
           tabBarRef?.current?.setVisible(showNavBar);
         }}
       >

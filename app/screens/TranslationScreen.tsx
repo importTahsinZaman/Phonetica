@@ -122,6 +122,7 @@ const TranslationScreen = ({ route, navigation }) => {
         destination="TextSelect"
         color="black"
         text="Select Sentence"
+        showNavBar={false}
       ></ReturnHeader>
       <DoubleLanguagePicker></DoubleLanguagePicker>
       <InfoTabs

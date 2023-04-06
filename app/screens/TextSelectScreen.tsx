@@ -16,8 +16,9 @@ import ReturnHeader from "../components/ReturnHeader";
 import { useIsFocused } from "@react-navigation/native";
 import CustomText from "../components/CustomText";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function TextSelectScreen({ route, navigation }) {
-  const { height, uri, width, base64 } = route.params;
   const [ocrText, setOcrText] = useState("");
   const [formattedText, setFormattedText] = useState(null);
 
@@ -25,21 +26,39 @@ export default function TextSelectScreen({ route, navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      console.log("Running Initial useEffect");
-      getOcrText();
+      console.log("got focus");
+      try {
+        const { height, uri, width, base64 } = route.params;
+        getOcrText(base64);
+      } catch (e) {
+        getSavedOcrText();
+      }
     } else {
       setFormattedText(null);
     }
   }, [isFocused]);
 
   useEffect(() => {
-    console.log("Running useEffect for Formatting Text");
     formatText();
   }, [ocrText]);
 
-  const getOcrText = () => {
-    console.log("Running getOcrText");
+  const getSavedOcrText = async () => {
+    try {
+      await AsyncStorage.getItem("most_recent_ocr_text").then((value) => {
+        if (value !== null) {
+          console.log("SETTING OCR TEXT WITH STORAGE RETRIEVED VALUES!");
+          setOcrText(value);
+          formatText();
+        } else {
+          setOcrText("!ERROR PLEASE RESTART!");
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
+  const getOcrText = (base64) => {
     var myHeaders = new Headers();
     myHeaders.append("apikey", OCR_SPACE_API_KEY);
 
@@ -61,14 +80,18 @@ export default function TextSelectScreen({ route, navigation }) {
 
     fetch("https://api.ocr.space/parse/image", requestOptions)
       .then((response) => response.text())
-      // .then((result) => {
-      //   console.log(result);
-      // })
       .then((result) => JSON.parse(result))
-      .then((result) => {
+      .then(async (result) => {
         setOcrText(result.ParsedResults[0].ParsedText);
-        console.log(result.ParsedResults[0].ParsedText);
-        // translateText();
+
+        try {
+          await AsyncStorage.setItem(
+            "most_recent_ocr_text",
+            result.ParsedResults[0].ParsedText
+          );
+        } catch (e) {
+          // saving error
+        }
       })
       .catch((error) => console.log("error", error));
   };
