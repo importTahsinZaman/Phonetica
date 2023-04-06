@@ -25,16 +25,16 @@ type ItemProps = {
   item: ItemData;
   onPress: () => void;
   backgroundColor: string;
-  textColor: string;
+  borderColor: string;
 };
 
-const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
+const Item = ({ item, onPress, backgroundColor, borderColor }: ItemProps) => (
   <TouchableOpacity
     onPress={onPress}
-    style={[{ backgroundColor }]}
-    className="p-1 my-1 mx-2"
+    style={[{ backgroundColor, borderColor }]}
+    className={`p-[10] my-1 mx-2 rounded-lg border-2 `}
   >
-    <Text style={[{ color: textColor }]} className="text-base">
+    <Text style={[{}]} className="text-base">
       {item.word}
     </Text>
   </TouchableOpacity>
@@ -49,8 +49,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
   const [definitionExplanation, setDefinitionExplanation] = useState("");
 
   const renderItem = ({ item }: { item: ItemData }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.id === selectedId ? "white" : "black";
+    const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
+    const borderColor = item.id === selectedId ? "#FFBF23" : "#8D8D8D30";
 
     return (
       <Item
@@ -87,7 +87,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           }
         }}
         backgroundColor={backgroundColor}
-        textColor={color}
+        borderColor={borderColor}
       />
     );
   };
@@ -117,12 +117,13 @@ const DefineContainer: React.FC<ComponentProps> = ({
   };
 
   return (
-    <SafeAreaView className="w-full h-[30%]">
+    <SafeAreaView className="my-4 w-full min-h-[54.008908686%] max-h-[54.008908686%] justify-between">
       <SafeAreaView
-        className="border-black border-2"
+        className="mx-4 max-h-[29.072164948%]"
         style={styles.wordsContainer}
       >
         <FlatList
+          className=" w-full"
           data={wordsList}
           numColumns={4}
           renderItem={renderItem}
@@ -131,24 +132,31 @@ const DefineContainer: React.FC<ComponentProps> = ({
         />
       </SafeAreaView>
 
-      <SafeAreaView>
+      <SafeAreaView className="grow flex ">
         {definitionExplanation && (
-          <SafeAreaView className="flex flex-row justify-self-start">
+          <SafeAreaView className="flex  my-10 flex-row justify-self-start min-h-[29.896907216%]">
             <SpeakerIcon></SpeakerIcon>
-            <SafeAreaView>
-              <CustomText>{wordsList[parseInt(selectedId)].word}</CustomText>
+            <SafeAreaView className="">
+              <CustomText className="text-xl">
+                '
+                {wordsList[parseInt(selectedId)].word.charAt(0).toUpperCase() +
+                  wordsList[parseInt(selectedId)].word.slice(1)}
+                '
+              </CustomText>
               <CustomText>{definitionExplanation}</CustomText>
             </SafeAreaView>
           </SafeAreaView>
         )}
 
         {definitionExplanation && (
-          <TouchableOpacity
-            onPress={() => console.log("Create Flashcard Pressed")}
-            className="bg-[#FFBF23] p-3 rounded flex items-center justify-center mx-4"
-          >
-            <CustomText>Create Flashcard</CustomText>
-          </TouchableOpacity>
+          <SafeAreaView className="bottom-0">
+            <TouchableOpacity
+              onPress={() => console.log("Create Flashcard Pressed")}
+              className="bg-[#FFBF23]  p-3 rounded-lg flex items-center justify-center mx-6"
+            >
+              <CustomText>Create Flashcard</CustomText>
+            </TouchableOpacity>
+          </SafeAreaView>
         )}
       </SafeAreaView>
     </SafeAreaView>
@@ -157,7 +165,6 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
 const styles = StyleSheet.create({
   wordsContainer: {
-    flex: 1,
     marginTop: StatusBar.currentHeight || 0,
     flexWrap: "wrap",
   },
