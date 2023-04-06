@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -49,6 +49,13 @@ const DefineContainer: React.FC<ComponentProps> = ({
   const [targetLangString, setTargetLangString] = useTargetLangStringGlobal();
   const [selectedId, setSelectedId] = useState<string>();
   const [definitionExplanation, setDefinitionExplanation] = useState("");
+  //These exist for recall of definition method when user changes language so they don't have to click a different word and then back to their word to get definition in a different language
+  const [currentWordChosenForDefinition, setCurrentWordChosenForDefinition] =
+    useState("");
+  const [
+    currentInstanceChosenForDefinition,
+    setCurrentInstanceChosenForDefinition,
+  ] = useState("");
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -81,6 +88,11 @@ const DefineContainer: React.FC<ComponentProps> = ({
                 pickedInstance = instance;
               }
             });
+
+            setCurrentWordChosenForDefinition(item.word);
+            setCurrentInstanceChosenForDefinition(
+              pickedInstance.instance.toString()
+            );
 
             generateDefinitionExplanation(
               item.word,
@@ -117,6 +129,18 @@ const DefineContainer: React.FC<ComponentProps> = ({
         setDefinitionExplanation(response1.choices[0].text.trimStart());
       });
   };
+
+  useEffect(() => {
+    if (
+      currentInstanceChosenForDefinition !== "" &&
+      currentWordChosenForDefinition !== ""
+    ) {
+      generateDefinitionExplanation(
+        currentWordChosenForDefinition,
+        currentInstanceChosenForDefinition
+      );
+    }
+  }, [targetLangString]);
 
   return (
     <SafeAreaView className="my-4 w-full min-h-[54.008908686%] max-h-[54.008908686%] justify-between">

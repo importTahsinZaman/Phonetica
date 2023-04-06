@@ -63,7 +63,9 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
     if (!disabled) {
       //Function name is set country but really we're setting language
       await getUserTargetLanguage().then((language) => {
+        //This setCountry is just for the picker UI
         setCountry(language);
+        //These setStates are for app's global targetLanguage state
         setTargetLangNum(language);
         setTargetLangString(LangMap(language));
         setTargetLangAbbreviation(DeeplLangAbbreviationMap(language));
@@ -95,9 +97,9 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
       placeholder="ENG"
       searchPlaceholder="Search"
       onChange={async (e) => {
-        //Function name is set country but really we're setting language
+        //Function name is set country but really we're setting language. This setCountry is just for UI
         setCountry(e.value);
-        //Async Set:
+        //Async Storage Set:
         await setUserTargetLanguage(e.value);
         //Global State Sets:
         setTargetLangNum(e.value);
