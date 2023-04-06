@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
+import { useTargetLangStringGlobal } from "./LanguagePicker";
 
 type ComponentProps = {
   wordsList: ItemData[];
@@ -45,6 +46,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
   text,
   openai,
 }) => {
+  const [targetLangString, setTargetLangString] = useTargetLangStringGlobal();
   const [selectedId, setSelectedId] = useState<string>();
   const [definitionExplanation, setDefinitionExplanation] = useState("");
 
@@ -96,7 +98,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
     word: string,
     instance: string
   ) => {
-    const prompt = `Explain, to someone who only speaks Spanish, the definition and usage of occurrence ${
+    const prompt = `Explain, to someone who only speaks ${targetLangString}, the definition and usage of occurrence ${
       instance ? instance : 1
     } of the word "${word}" in the context of this text: "${text}". Keep the word in English and within quotation marks whenever referring to it.`;
     console.log(prompt);

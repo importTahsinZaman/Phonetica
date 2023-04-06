@@ -3,13 +3,7 @@ import "react-native-url-polyfill/auto";
 
 import { DEEPL_KEY, OPEN_AI_API_KEY } from "@env";
 
-import {
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from "react-native";
+import { SafeAreaView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
@@ -20,7 +14,7 @@ import TranslateContainer from "../components/TranslateContainer";
 import DefineContainer from "../components/DefineContainer";
 import PronounceContainer from "../components/PronounceContainer";
 
-import { DeeplLangAbbreviationMap } from "../components/HelperFunctions";
+import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence
@@ -28,6 +22,8 @@ const TranslationScreen = ({ route, navigation }) => {
   const [finalizedText, setFinalizedText] = useState(""); //Holds the fixed sentence (after API call to fix ocr errors)
   const [wordsList, setWordsList] = useState([]); //The finalizedText broken into words for the user to choose from to define
   const [translatedText, setTranslatedText] = useState(""); //translated text
+  const [targetLangAbbreviation, setTargetLangAbbreviation] =
+    useTargetLangAbbreviationGlobal();
   const [showTranslate, setShowTranslate] = useState(true);
   const [showDefine, setShowDefine] = useState(false);
   const [showPronounce, setShowPronounce] = useState(false);
@@ -41,7 +37,6 @@ const TranslationScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
-      console.log("Running Initial useEffect");
       setShowTranslate(true);
       setShowDefine(false);
       setShowPronounce(false);
@@ -54,11 +49,9 @@ const TranslationScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     translateText(finalizedText);
-  }, [finalizedText]);
+  }, [finalizedText, targetLangAbbreviation]);
 
   const fixText = async () => {
-    console.log("Running fix text");
-
     await openai
       .createCompletion({
         model: "text-davinci-003",
@@ -75,7 +68,7 @@ const TranslationScreen = ({ route, navigation }) => {
 
         const tempWordsList = response1.choices[0].text
           .trimStart()
-          .match(/\b(\w+)\b/g);
+          .match(/\b(\w+)'?(\w+)?\b/g);
         let tempWordsObjectList: { id: string; word: string }[] = [];
 
         tempWordsList.forEach((word: string, index: string) => {
@@ -95,7 +88,7 @@ const TranslationScreen = ({ route, navigation }) => {
 
     var formdata = new FormData();
     formdata.append("text", text);
-    formdata.append("target_lang", "ES");
+    formdata.append("target_lang", targetLangAbbreviation);
 
     var requestOptions = {
       method: "POST",
@@ -110,7 +103,7 @@ const TranslationScreen = ({ route, navigation }) => {
       .then((result) => {
         setTranslatedText(result["translations"][0].text);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("Deepl API Error", error));
   };
 
   const givePronunciation = () => {

@@ -35,7 +35,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // UK - Ukrainian
 // ZH - Chinese (simplified)
 
-const LangMap = (langNum) => {
+export const LangMap = (langNum) => {
   langNum = langNum.toString();
   let language = "";
   switch (langNum) {
@@ -103,5 +103,3 @@ export const setUserTargetLanguage = async (value: string) => {
     console.log(e);
   }
 };
-
-export default LangMap;

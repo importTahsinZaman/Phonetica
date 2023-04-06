@@ -6,13 +6,31 @@ import LanguageData from "../assets/Languages.json";
 import {
   getUserTargetLanguage,
   setUserTargetLanguage,
+  LangMap,
+  DeeplLangAbbreviationMap,
 } from "./HelperFunctions";
 
+import { GlobalStore } from "react-native-global-state-hooks";
+
 import { useIsFocused } from "@react-navigation/native";
+
+const TARGET_LANG_NUM = new GlobalStore("1");
+const TARGET_LANG_STRING = new GlobalStore("English");
+const TARGET_LANG_ABBREVIATION = new GlobalStore("EN-US");
+
+export const useTargetLangNumGlobal = TARGET_LANG_NUM.getHook();
+export const useTargetLangStringGlobal = TARGET_LANG_STRING.getHook();
+export const useTargetLangAbbreviationGlobal =
+  TARGET_LANG_ABBREVIATION.getHook();
 
 const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
   const isFocused = useIsFocused();
   const [country, setCountry] = useState("1");
+
+  const [targetLangNum, setTargetLangNum] = useTargetLangNumGlobal();
+  const [targetLangString, setTargetLangString] = useTargetLangStringGlobal();
+  const [targetLangAbbreviation, setTargetLangAbbreviation] =
+    useTargetLangAbbreviationGlobal();
 
   const styles = StyleSheet.create({
     dropdown: {
@@ -41,10 +59,15 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
     },
   });
 
-  const init = () => {
+  const init = async () => {
     if (!disabled) {
       //Function name is set country but really we're setting language
-      getUserTargetLanguage().then((language) => setCountry(language));
+      await getUserTargetLanguage().then((language) => {
+        setCountry(language);
+        setTargetLangNum(language);
+        setTargetLangString(LangMap(language));
+        setTargetLangAbbreviation(DeeplLangAbbreviationMap(language));
+      });
     } else if (disabled) {
       setCountry("1");
     }
@@ -74,7 +97,12 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
       onChange={async (e) => {
         //Function name is set country but really we're setting language
         setCountry(e.value);
-        setUserTargetLanguage(e.value);
+        //Async Set:
+        await setUserTargetLanguage(e.value);
+        //Global State Sets:
+        setTargetLangNum(e.value);
+        setTargetLangString(LangMap(e.value));
+        setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
       }}
       disable={disabled}
     />
