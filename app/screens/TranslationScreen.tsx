@@ -119,6 +119,7 @@ const TranslationScreen = ({ route, navigation }) => {
     <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
       <ReturnHeader
         navigation={navigation}
+        destination="TextSelect"
         color="black"
         text="Select Sentence"
       ></ReturnHeader>

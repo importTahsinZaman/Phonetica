@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 import LanguageData from "../assets/Languages.json";
 
-const LanguagePicker = ({ disabled = false }) => {
+const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
   const [country, setCountry] = useState("1");
 
   const styles = StyleSheet.create({
@@ -14,20 +14,19 @@ const LanguagePicker = ({ disabled = false }) => {
       paddingHorizontal: 8,
     },
     imageStyle: {
-      width: 24,
-      height: 24,
-      borderRadius: 12,
+      width: size,
+      height: size,
     },
     placeholderStyle: {
       fontSize: 16,
     },
     selectedTextStyle: {
-      fontSize: 13,
-      marginLeft: 1.5,
+      fontSize: fontSize,
+      marginLeft: 2.5,
       fontWeight: "600",
-      // fontFamily: "SpaceGrotesk_600SemiBold",
     },
     iconStyle: {
+      //Down Arrow
       tintColor: "black",
       width: disabled ? 0 : 20,
       height: disabled ? 0 : 20,
