@@ -8,30 +8,23 @@
   },
   {
     "value": "2",
-    "label": "ESP",
+    "label": "CHN",
     "image": {
-      "uri": "https://cdn-icons-png.flaticon.com/512/5372/5372848.png"
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197375.png"
     }
   },
   {
     "value": "3",
     "label": "ESP",
     "image": {
-      "uri": "https://cdn-icons-png.flaticon.com/512/197/197593.png"
+      "uri": "https://cdn-icons-png.flaticon.com/512/5372/5372848.png"
     }
   },
   {
     "value": "4",
-    "label": "BNG",
+    "label": "ESP",
     "image": {
-      "uri": "https://cdn-icons-png.flaticon.com/512/7826/7826304.png"
-    }
-  },
-  {
-    "value": "5",
-    "label": "CHN",
-    "image": {
-      "uri": "https://cdn-icons-png.flaticon.com/512/197/197375.png"
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197593.png"
     }
   }
 ]

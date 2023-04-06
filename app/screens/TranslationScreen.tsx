@@ -20,6 +20,8 @@ import TranslateContainer from "../components/TranslateContainer";
 import DefineContainer from "../components/DefineContainer";
 import PronounceContainer from "../components/PronounceContainer";
 
+import { DeeplLangAbbreviationMap } from "../components/HelperFunctions";
+
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence
   const { sentence } = route.params; //The sentence chosen by the user from OCR results

@@ -3,7 +3,10 @@ import { StyleSheet } from "react-native";
 import { SelectCountry } from "react-native-element-dropdown";
 import LanguageData from "../assets/Languages.json";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  getUserTargetLanguage,
+  setUserTargetLanguage,
+} from "./HelperFunctions";
 
 import { useIsFocused } from "@react-navigation/native";
 
@@ -38,19 +41,11 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
     },
   });
 
-  const init = async () => {
+  const init = () => {
     if (!disabled) {
-      try {
-        const value = await AsyncStorage.getItem("TargetLanguage");
-        if (value !== null) {
-          //Function name is set country but really we're setting language
-          setCountry(value);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    } else if (disabled) {
       //Function name is set country but really we're setting language
+      getUserTargetLanguage().then((language) => setCountry(language));
+    } else if (disabled) {
       setCountry("1");
     }
   };
@@ -79,11 +74,7 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
       onChange={async (e) => {
         //Function name is set country but really we're setting language
         setCountry(e.value);
-        try {
-          await AsyncStorage.setItem("TargetLanguage", e.value);
-        } catch (e) {
-          console.log(e);
-        }
+        setUserTargetLanguage(e.value);
       }}
       disable={disabled}
     />
