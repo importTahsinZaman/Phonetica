@@ -1,11 +1,10 @@
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import Header1 from "../components/Header1";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeBanner from "../components/HomeBanner";
 import FeaturedBooks from "../components/FeaturedBooks";
 import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
-import DefineContainer from "../components/DefineContainer";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
