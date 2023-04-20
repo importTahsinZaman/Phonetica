@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import { OCR_SPACE_API_KEY, OPEN_AI_API_KEY, DEEPL_KEY } from "@env";
+import { OCR_SPACE_API_KEY } from "@env";
 import ReturnHeader from "../components/ReturnHeader";
 
 import { useIsFocused } from "@react-navigation/native";
@@ -31,6 +31,7 @@ export default function TextSelectScreen({ route, navigation }) {
         const { height, uri, width, base64 } = route.params;
         getOcrText(base64);
       } catch (e) {
+        //In the instance that user is going backwards into this page, the prop retrieval fails so we grab from async storage:
         getSavedOcrText();
       }
     } else {
