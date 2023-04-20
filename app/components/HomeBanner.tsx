@@ -13,8 +13,10 @@ const HomeBanner = ({ navigation }) => {
         }}
       >
         <Banner
-          width={PAGE_WIDTH * 0.89}
-          height={PAGE_HEIGHT * 0.21}
+          //Width is page width * 2 * horizontal margin of elements
+          width={PAGE_WIDTH * 0.89333333334}
+          //Height is svg width times aspect ratio multiplier
+          height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
           viewBox="0 0 335 165"
         ></Banner>
       </TouchableOpacity>
