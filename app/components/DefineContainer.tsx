@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
-  StatusBar,
+  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,6 +10,8 @@ import {
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { useTargetLangStringGlobal } from "./LanguagePicker";
+
+const PAGE_WIDTH = Dimensions.get("window").width;
 
 type ComponentProps = {
   wordsList: ItemData[];
@@ -143,12 +145,13 @@ const DefineContainer: React.FC<ComponentProps> = ({
   }, [targetLangString]);
 
   return (
-    <SafeAreaView className="my-4 w-full min-h-[54.008908686%] max-h-[54.008908686%] justify-between">
-      <SafeAreaView className="mx-4 max-h-[36%]" style={styles.wordsContainer}>
+    <SafeAreaView className="my-4 w-full min-h-[54.01%] max-h-[55%] justify-between">
+      <SafeAreaView className="max-h-[36%]" style={styles.wordsContainer}>
         <FlatList
-          className=" w-full"
+          className="m-0 p-0"
           data={wordsList}
-          numColumns={4}
+          numColumns={100}
+          columnWrapperStyle={{ flexWrap: "wrap" }}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           extraData={selectedId}
@@ -187,10 +190,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
 };
 
 const styles = StyleSheet.create({
-  wordsContainer: {
-    marginTop: StatusBar.currentHeight || 0,
-    flexWrap: "wrap",
-  },
+  wordsContainer: { marginHorizontal: PAGE_WIDTH * 0.02988 },
 });
 
 export default DefineContainer;
