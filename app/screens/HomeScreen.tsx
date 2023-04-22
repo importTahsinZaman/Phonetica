@@ -1,6 +1,11 @@
-import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import Header1 from "../components/Header1";
-import { SafeAreaView } from "react-native-safe-area-context";
 import HomeBanner from "../components/HomeBanner";
 import FeaturedBooks from "../components/FeaturedBooks";
 import CustomText from "../components/CustomText";
