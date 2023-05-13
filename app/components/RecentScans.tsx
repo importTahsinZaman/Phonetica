@@ -25,6 +25,7 @@ const RecentScans = ({}) => {
               borderWidth: 1,
               justifyContent: "center",
             }}
+            className="m-2 rounded-xl bg-red-100 shadow-sm"
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>{index}</Text>
           </View>

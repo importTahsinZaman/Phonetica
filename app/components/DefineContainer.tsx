@@ -133,21 +133,21 @@ const DefineContainer: React.FC<ComponentProps> = ({
       });
   };
 
-  // useEffect(() => {
-  //   if (
-  //     currentInstanceChosenForDefinition !== "" &&
-  //     currentWordChosenForDefinition !== ""
-  //   ) {
-  //     generateDefinitionExplanation(
-  //       currentWordChosenForDefinition,
-  //       currentInstanceChosenForDefinition
-  //     );
-  //   }
-  // }, [targetLangString]);
+  useEffect(() => {
+    if (
+      currentInstanceChosenForDefinition !== "" &&
+      currentWordChosenForDefinition !== ""
+    ) {
+      generateDefinitionExplanation(
+        currentWordChosenForDefinition,
+        currentInstanceChosenForDefinition
+      );
+    }
+  }, [targetLangString]);
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
-      <SafeAreaView style={styles.wordsContainer}>
+      <SafeAreaView style={styles.wordsContainer} className=" h-[36.5%]">
         <FlatList
           className="m-0 p-0"
           data={wordsList}
@@ -161,7 +161,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
       <SafeAreaView
         style={styles.containerMargin}
-        className="h-[38%] max-h-[38%]"
+        className="h-[35%] max-h-[35%]"
       >
         {definitionExplanation && (
           <SafeAreaView
