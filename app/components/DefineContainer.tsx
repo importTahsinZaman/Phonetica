@@ -145,8 +145,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
   }, [targetLangString]);
 
   return (
-    <SafeAreaView className="my-4 w-full min-h-[54.01%] max-h-[55%] justify-between">
-      <SafeAreaView className="max-h-[36%]" style={styles.wordsContainer}>
+    <SafeAreaView className="my-4 w-full grow flex">
+      <SafeAreaView style={styles.wordsContainer}>
         <FlatList
           className="m-0 p-0"
           data={wordsList}
@@ -158,39 +158,50 @@ const DefineContainer: React.FC<ComponentProps> = ({
         />
       </SafeAreaView>
 
-      <SafeAreaView className="grow flex ">
+      <SafeAreaView style={styles.containerMargin}>
         {definitionExplanation && (
-          <SafeAreaView className="flex  my-10 flex-row justify-self-start min-h-[29.896907216%]">
+          <SafeAreaView
+            className="flex flex-row mt-4"
+            style={styles.defineText}
+          >
             <SpeakerIcon></SpeakerIcon>
-            <SafeAreaView className="">
+            <SafeAreaView className="ml-2">
               <CustomText className="text-xl">
                 '
                 {wordsList[parseInt(selectedId)].word.charAt(0).toUpperCase() +
                   wordsList[parseInt(selectedId)].word.slice(1)}
                 '
               </CustomText>
-              <CustomText>{definitionExplanation}</CustomText>
+              <CustomText className="text-[#8D8D8D] text-base">
+                {definitionExplanation}
+              </CustomText>
             </SafeAreaView>
           </SafeAreaView>
         )}
-
-        {definitionExplanation && (
-          <SafeAreaView className="bottom-0">
-            <TouchableOpacity
-              onPress={() => console.log("Create Flashcard Pressed")}
-              className="bg-[#FFBF23]  p-3 rounded-lg flex items-center justify-center mx-6"
-            >
-              <CustomText>Create Flashcard</CustomText>
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
       </SafeAreaView>
+
+      {definitionExplanation && (
+        <SafeAreaView style={styles.containerMargin} className="mt-auto">
+          <TouchableOpacity
+            onPress={() => console.log("Create Flashcard Pressed")}
+            className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center"
+          >
+            <CustomText>Create Flashcard</CustomText>
+          </TouchableOpacity>
+        </SafeAreaView>
+      )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   wordsContainer: { marginHorizontal: PAGE_WIDTH * 0.02988 },
+  containerMargin: {
+    marginHorizontal: PAGE_WIDTH * 0.0583333333333333333,
+  },
+  defineText: {
+    marginRight: PAGE_WIDTH * 0.0699998,
+  },
 });
 
 export default DefineContainer;

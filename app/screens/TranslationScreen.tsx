@@ -55,7 +55,7 @@ const TranslationScreen = ({ route, navigation }) => {
     await openai
       .createCompletion({
         model: "text-davinci-003",
-        prompt: `Go through the text and based on context clues and english convention, fix errors and return your new text: ${sentence}`,
+        prompt: `Fix errors and return new text: ${sentence}`,
         temperature: 0.7,
         max_tokens: 256,
         top_p: 1,
