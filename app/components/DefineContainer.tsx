@@ -10,6 +10,7 @@ import {
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { useTargetLangStringGlobal } from "./LanguagePicker";
+import { ScrollView } from "react-native-gesture-handler";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -132,17 +133,17 @@ const DefineContainer: React.FC<ComponentProps> = ({
       });
   };
 
-  useEffect(() => {
-    if (
-      currentInstanceChosenForDefinition !== "" &&
-      currentWordChosenForDefinition !== ""
-    ) {
-      generateDefinitionExplanation(
-        currentWordChosenForDefinition,
-        currentInstanceChosenForDefinition
-      );
-    }
-  }, [targetLangString]);
+  // useEffect(() => {
+  //   if (
+  //     currentInstanceChosenForDefinition !== "" &&
+  //     currentWordChosenForDefinition !== ""
+  //   ) {
+  //     generateDefinitionExplanation(
+  //       currentWordChosenForDefinition,
+  //       currentInstanceChosenForDefinition
+  //     );
+  //   }
+  // }, [targetLangString]);
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
@@ -158,7 +159,10 @@ const DefineContainer: React.FC<ComponentProps> = ({
         />
       </SafeAreaView>
 
-      <SafeAreaView style={styles.containerMargin}>
+      <SafeAreaView
+        style={styles.containerMargin}
+        className="h-[38%] max-h-[38%]"
+      >
         {definitionExplanation && (
           <SafeAreaView
             className="flex flex-row mt-4"
@@ -172,9 +176,11 @@ const DefineContainer: React.FC<ComponentProps> = ({
                   wordsList[parseInt(selectedId)].word.slice(1)}
                 '
               </CustomText>
-              <CustomText className="text-[#8D8D8D] text-base">
-                {definitionExplanation}
-              </CustomText>
+              <ScrollView className="py-1">
+                <CustomText className="text-[#8D8D8D] text-base">
+                  {definitionExplanation}
+                </CustomText>
+              </ScrollView>
             </SafeAreaView>
           </SafeAreaView>
         )}

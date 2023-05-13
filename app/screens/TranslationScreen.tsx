@@ -159,7 +159,9 @@ const TranslationScreen = ({ route, navigation }) => {
           openai={openai}
         ></DefineContainer>
       )}
-      {showPronounce && <PronounceContainer></PronounceContainer>}
+      {showPronounce && (
+        <PronounceContainer EnglishText={finalizedText}></PronounceContainer>
+      )}
     </SafeAreaView>
   );
 };
