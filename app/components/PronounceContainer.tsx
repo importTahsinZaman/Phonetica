@@ -60,6 +60,11 @@ const PronounceContainer = ({
             <TouchableOpacity
               className="bg-[#FFBF23] rounded-full p-4 flex justify-center items-center"
               onPress={() => {
+                setPlaying(false);
+                setPaused(false);
+
+                Speech.stop();
+
                 if (playBackSpeed == 1.0) {
                   setPlayBackSpeed(0.2);
                 } else if (playBackSpeed == 0.8) {
