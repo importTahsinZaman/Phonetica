@@ -22,7 +22,7 @@ const RecentScans = ({}) => {
         renderItem={({ index }) => (
           <View className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex">
             <View className="p-2.5">
-              <CustomText>
+              <CustomText className="text-[#8D8D8D]">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Deleniti animi similique facere adipisci architecto ipsam cum.
                 Quae cum laboriosam quis eos pariatur doloribus tempore animi
