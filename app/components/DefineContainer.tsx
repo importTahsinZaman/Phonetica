@@ -147,7 +147,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
-      <SafeAreaView style={styles.wordsContainer} className=" h-[36.5%]">
+      <SafeAreaView style={styles.wordsContainer} className=" max-h-[36.5%]">
         <FlatList
           className="m-0 p-0"
           data={wordsList}
