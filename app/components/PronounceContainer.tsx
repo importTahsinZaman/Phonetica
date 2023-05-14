@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
-  Button,
   SafeAreaView,
   Dimensions,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Slider from "@react-native-community/slider";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import CustomText from "./CustomText";
 import { useIsFocused } from "@react-navigation/native";
