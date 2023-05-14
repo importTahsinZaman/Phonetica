@@ -14,6 +14,7 @@ import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import CustomText from "./CustomText";
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -25,6 +26,20 @@ const PronounceContainer = ({
   const [paused, setPaused] = useState(false);
   const [playBackSpeed, setPlayBackSpeed] = useState(0.8);
 
+  const getSavedPlayBackSpeed = async () => {
+    try {
+      await AsyncStorage.getItem("pronounce_playback_speed").then((value) => {
+        if (value !== null) {
+          setPlayBackSpeed(parseFloat(value));
+        } else {
+          setPlayBackSpeed(0.8);
+        }
+      });
+    } catch (e) {
+      setPlayBackSpeed(0.8);
+    }
+  };
+
   useEffect(() => {
     Speech.stop();
   }, []);
@@ -32,6 +47,8 @@ const PronounceContainer = ({
   useEffect(() => {
     if (!isFocused) {
       Speech.stop();
+    } else if (isFocused) {
+      getSavedPlayBackSpeed();
     }
   }, [isFocused]);
 
@@ -52,29 +69,42 @@ const PronounceContainer = ({
           </CustomText>
         </View>
         <ScrollView>
-          <CustomText className="mt-3 text-base">{EnglishText}</CustomText>
+          <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
         </ScrollView>
 
         <View className=" flex flex-row justify-around items-center mb-3">
           <View>
             <TouchableOpacity
               className="bg-[#FFBF23] rounded-full p-4 flex justify-center items-center"
-              onPress={() => {
+              onPress={async () => {
                 setPlaying(false);
                 setPaused(false);
 
                 Speech.stop();
 
+                let newPlayBackSpeed = 1.0;
+
                 if (playBackSpeed == 1.0) {
-                  setPlayBackSpeed(0.2);
+                  newPlayBackSpeed = 0.2;
                 } else if (playBackSpeed == 0.8) {
-                  setPlayBackSpeed(1.0);
+                  newPlayBackSpeed = 1.0;
                 } else if (playBackSpeed == 0.6) {
-                  setPlayBackSpeed(0.8);
+                  newPlayBackSpeed = 0.8;
                 } else if (playBackSpeed == 0.4) {
-                  setPlayBackSpeed(0.6);
+                  newPlayBackSpeed = 0.6;
                 } else if (playBackSpeed == 0.2) {
-                  setPlayBackSpeed(0.4);
+                  newPlayBackSpeed = 0.4;
+                }
+
+                setPlayBackSpeed(newPlayBackSpeed);
+
+                try {
+                  await AsyncStorage.setItem(
+                    "pronounce_playback_speed",
+                    newPlayBackSpeed.toString()
+                  );
+                } catch (e) {
+                  // saving error
                 }
               }}
             >

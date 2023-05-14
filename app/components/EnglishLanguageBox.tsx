@@ -7,7 +7,6 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 
 const EnglishLanguageBox = ({
   EnglishText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,",
-  SpeakerFunction = () => console.log("English Speaker Pressed"),
 }) => {
   return (
     <View
@@ -16,9 +15,6 @@ const EnglishLanguageBox = ({
     >
       <View className="flex flex-row justify-between items-center">
         <CustomText className="text-[#8D8D8D] ">English (US)</CustomText>
-        <Pressable onPress={SpeakerFunction}>
-          <SpeakerIcon></SpeakerIcon>
-        </Pressable>
       </View>
       <ScrollView>
         <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
