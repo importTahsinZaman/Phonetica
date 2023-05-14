@@ -23,6 +23,7 @@ const PronounceContainer = ({
   const isFocused = useIsFocused();
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [playBackSpeed, setPlayBackSpeed] = useState(0.8);
 
   useEffect(() => {
     Speech.stop();
@@ -41,20 +42,44 @@ const PronounceContainer = ({
   return (
     <SafeAreaView>
       <View
-        className="bg-[#F6F6F6] rounded-xl p-4 my-4 h-[31vh]"
+        className="bg-[#F6F6F6] rounded-xl p-4 my-4 h-[35vh]"
         style={{ marginHorizontal: PAGE_WIDTH * 0.05333333333 }}
       >
         <View className="flex flex-row justify-between items-center">
           <CustomText className="text-[#8D8D8D] ">English (US)</CustomText>
+          <CustomText className="text-[#8D8D8D]">
+            Playback Speed: {playBackSpeed}
+          </CustomText>
         </View>
         <ScrollView>
-          <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
+          <CustomText className="mt-3 text-base">{EnglishText}</CustomText>
         </ScrollView>
 
-        <View className="border-black border-2 flex flex-row justify-center items-center">
+        <View className=" flex flex-row justify-around items-center mb-3">
           <View>
             <TouchableOpacity
               className="bg-[#FFBF23] rounded-full p-4 flex justify-center items-center"
+              onPress={() => {
+                if (playBackSpeed == 1.0) {
+                  setPlayBackSpeed(0.2);
+                } else if (playBackSpeed == 0.8) {
+                  setPlayBackSpeed(1.0);
+                } else if (playBackSpeed == 0.6) {
+                  setPlayBackSpeed(0.8);
+                } else if (playBackSpeed == 0.4) {
+                  setPlayBackSpeed(0.6);
+                } else if (playBackSpeed == 0.2) {
+                  setPlayBackSpeed(0.4);
+                }
+              }}
+            >
+              <Ionicons name="speedometer" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              className="bg-[#FFBF23] rounded-full p-5 flex justify-center items-center"
               onPress={() => {
                 if (playing) {
                   Speech.pause();
@@ -67,7 +92,7 @@ const PronounceContainer = ({
                     setPlaying(true);
                   } else if (!paused) {
                     Speech.speak(EnglishText, {
-                      rate: 0.8,
+                      rate: playBackSpeed,
                       onDone: () => {
                         setPlaying(false);
                         setPaused(false);
