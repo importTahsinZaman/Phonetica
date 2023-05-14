@@ -44,7 +44,7 @@ const RecentScans = ({}) => {
             </View>
             <View className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5">
               <CustomText fontThicknessNumber={3} className="text-base">
-                The Last Trip
+                The Last Trip {index}
               </CustomText>
               <View className="flex flex-row justify-between w-full">
                 <CustomText>07/02/2023</CustomText>

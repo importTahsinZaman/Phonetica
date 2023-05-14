@@ -113,20 +113,21 @@ export default function TextSelectScreen({ route, navigation }) {
         destination="Scan"
         showNavBar={false}
       ></ReturnHeader>
-      <ScrollView>
+      <ScrollView className=" mx-4 ">
         {formattedText &&
           formattedText.map((sentence, index) => {
             return (
-              <View key={index}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("Translation", { sentence: sentence })
-                  }
-                  className="border-black border-b-2"
-                >
-                  <CustomText className="text-lg">{sentence}</CustomText>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("Translation", { sentence: sentence })
+                }
+                className=" p-2 my-1 rounded-lg"
+              >
+                <CustomText className="text-lg text-[#8D8D8D]">
+                  {sentence}
+                </CustomText>
+              </TouchableOpacity>
             );
           })}
       </ScrollView>
