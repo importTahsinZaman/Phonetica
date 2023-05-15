@@ -1,11 +1,10 @@
 import React, { createRef } from "react"; // <== import createRef
 import {
-  Alert,
   Animated,
   StyleSheet,
   TouchableOpacity,
-  View,
   Dimensions,
+  Pressable,
 } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
@@ -62,12 +61,9 @@ const App = () => {
   };
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     return (
-      <TouchableOpacity
-        onPress={() => navigate(routeName)}
-        style={styles.tabbarItem}
-      >
+      <Pressable onPress={() => navigate(routeName)} style={styles.tabbarItem}>
         {_renderIcon(routeName, selectedTab)}
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -86,7 +82,7 @@ const App = () => {
         borderTopLeftRight
         renderCircle={({ selectedTab, navigate }) => (
           <Animated.View style={styles.btnCircleUp}>
-            <TouchableOpacity
+            <Pressable
               style={styles.button}
               onPress={() => {
                 navigate("Scan");
@@ -94,7 +90,7 @@ const App = () => {
               }}
             >
               <ScanIcon width={PAGE_WIDTH * 0.08} height={PAGE_WIDTH * 0.08} />
-            </TouchableOpacity>
+            </Pressable>
           </Animated.View>
         )}
         tabBar={renderTabBar}

@@ -45,13 +45,13 @@ export default function TextSelectScreen({ route, navigation }) {
 
   const getSavedOcrText = async () => {
     try {
-      await AsyncStorage.getItem("most_recent_ocr_text").then((value) => {
+      await AsyncStorage.getItem("RecentScan0").then((value) => {
         if (value !== null) {
           console.log("SETTING OCR TEXT WITH STORAGE RETRIEVED VALUES!");
           setOcrText(value);
           formatText();
         } else {
-          setOcrText("!ERROR PLEASE RESTART!");
+          setOcrText("ERROR PLEASE RESTART!");
         }
       });
     } catch (e) {
@@ -85,13 +85,47 @@ export default function TextSelectScreen({ route, navigation }) {
       .then(async (result) => {
         setOcrText(result.ParsedResults[0].ParsedText);
 
+        let oldSavedScans = [];
+        let newSavedScans = [];
+
         try {
-          await AsyncStorage.setItem(
-            "most_recent_ocr_text",
-            result.ParsedResults[0].ParsedText
-          );
+          oldSavedScans = await AsyncStorage.multiGet([
+            "RecentScan0",
+            "RecentScan1",
+            "RecentScan2",
+            "RecentScan3",
+            "RecentScan4",
+          ]);
+
+          newSavedScans = [
+            ["RecentScan0", result.ParsedResults[0].ParsedText],
+            [
+              "RecentScan1",
+              oldSavedScans[0][1] == null ? "" : oldSavedScans[0][1],
+            ],
+            [
+              "RecentScan2",
+              oldSavedScans[1][1] == null ? "" : oldSavedScans[1][1],
+            ],
+            [
+              "RecentScan3",
+              oldSavedScans[2][1] == null ? "" : oldSavedScans[2][1],
+            ],
+            [
+              "RecentScan4",
+              oldSavedScans[3][1] == null ? "" : oldSavedScans[3][1],
+            ],
+          ];
+
+          await AsyncStorage.multiSet([
+            newSavedScans[0],
+            newSavedScans[1],
+            newSavedScans[2],
+            newSavedScans[3],
+            newSavedScans[4],
+          ]);
         } catch (e) {
-          // saving error
+          console.log("Setting new saved scans error: ", e);
         }
       })
       .catch((error) => console.log("error", error));
