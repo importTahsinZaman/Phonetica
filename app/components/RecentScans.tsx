@@ -56,20 +56,32 @@ const RecentScans = ({}) => {
       } catch (e) {}
     }
 
+    let tempScanTitles = [];
+
+    for (let i = 0; i < 5; i++) {
+      try {
+        let words = tempSavedScans[i][1];
+        words = words
+          .replace(/(\r\n|\n|\r)/gm, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        let result = words.split(" ").slice(0, 3).join(" ");
+        tempScanTitles.push(result + "...");
+      } catch (e) {}
+    }
+
     if (tempSavedScans.length === 0) {
       tempSavedScans.push([
         "RecentScan0",
         "Use this 'recent scan' as demo scan text!",
       ]);
-    }
 
-    let tempScanTitles = [];
+      const d = new Date();
+      const date = d.toLocaleDateString();
+      let time = d.toLocaleTimeString();
+      time = time.slice(0, 4) + time.slice(7);
 
-    for (let i = 0; i < 5; i++) {
-      let words = tempSavedScans[i][1];
-      words.replace(/(\r\n|\n|\r)/gm, "");
-      let result = words.split(" ").slice(0, 3).join(" ");
-      tempScanTitles.push(result + "...");
+      tempScanTitles.push(date + "&$&" + time);
     }
 
     setSavedScans(tempSavedScans);
@@ -98,7 +110,10 @@ const RecentScans = ({}) => {
               </CustomText>
             </View>
             <View className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5">
-              <CustomText fontThicknessNumber={3} className="text-base">
+              <CustomText
+                fontThicknessNumber={3}
+                className="text-base whitespace-nowrap break-keep"
+              >
                 {scanTitles[index]}
               </CustomText>
               <View className="flex flex-row justify-between w-full">
