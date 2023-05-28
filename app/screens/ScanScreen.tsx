@@ -62,6 +62,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           base64: true,
         }
       );
+
       navigation.navigate("TextSelect", manipResult);
     });
   };

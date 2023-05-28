@@ -85,10 +85,10 @@ export default function TextSelectScreen({ route, navigation }) {
       .then(async (result) => {
         setOcrText(result.ParsedResults[0].ParsedText);
 
-        let oldSavedScans = [];
-        let newSavedScans = [];
-
         try {
+          let oldSavedScans = [];
+          let newSavedScans = [];
+
           oldSavedScans = await AsyncStorage.multiGet([
             "RecentScan0",
             "RecentScan1",
@@ -123,6 +123,52 @@ export default function TextSelectScreen({ route, navigation }) {
             newSavedScans[2],
             newSavedScans[3],
             newSavedScans[4],
+          ]);
+
+          ///////////////////////////////////
+
+          const d = new Date();
+          const date = d.toLocaleDateString();
+          let time = d.toLocaleTimeString();
+          time = time.slice(0, 4) + time.slice(7);
+
+          let oldSavedScanTimes = [];
+          let newSavedScanTimes = [];
+
+          oldSavedScanTimes = await AsyncStorage.multiGet([
+            "RecentScanTime0",
+            "RecentScanTime1",
+            "RecentScanTime2",
+            "RecentScanTime3",
+            "RecentScanTime4",
+          ]);
+
+          newSavedScanTimes = [
+            ["RecentScanTime0", date + "&$&" + time],
+            [
+              "RecentScanTime1",
+              oldSavedScanTimes[0][1] == null ? "" : oldSavedScanTimes[0][1],
+            ],
+            [
+              "RecentScanTime2",
+              oldSavedScanTimes[1][1] == null ? "" : oldSavedScanTimes[1][1],
+            ],
+            [
+              "RecentScanTime3",
+              oldSavedScanTimes[2][1] == null ? "" : oldSavedScanTimes[2][1],
+            ],
+            [
+              "RecentScanTime4",
+              oldSavedScanTimes[3][1] == null ? "" : oldSavedScanTimes[3][1],
+            ],
+          ];
+
+          await AsyncStorage.multiSet([
+            newSavedScanTimes[0],
+            newSavedScanTimes[1],
+            newSavedScanTimes[2],
+            newSavedScanTimes[3],
+            newSavedScanTimes[4],
           ]);
         } catch (e) {
           console.log("Setting new saved scans error: ", e);

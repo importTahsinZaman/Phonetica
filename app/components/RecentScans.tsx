@@ -12,6 +12,7 @@ const RecentScans = ({}) => {
 
   const [savedScans, setSavedScans] = useState([]);
   const [scanTitles, setScanTitles] = useState([]);
+  const [scanTimes, setScanTimes] = useState([]);
   const [indexArray, setIndexArray] = useState([]);
 
   const isFocused = useIsFocused();
@@ -24,6 +25,7 @@ const RecentScans = ({}) => {
 
   const getSavedScans = async () => {
     let tempSavedScans = [];
+    let tempSavedScanTimes = [];
 
     try {
       tempSavedScans = await AsyncStorage.multiGet([
@@ -33,14 +35,32 @@ const RecentScans = ({}) => {
         "RecentScan3",
         "RecentScan4",
       ]);
+
+      tempSavedScanTimes = await AsyncStorage.multiGet([
+        "RecentScanTime0",
+        "RecentScanTime1",
+        "RecentScanTime2",
+        "RecentScanTime3",
+        "RecentScanTime4",
+      ]);
     } catch (e) {
       console.error(e);
     }
 
     for (let i = 0; i < 5; i++) {
-      if (tempSavedScans[i][1] === null || tempSavedScans[i][1] === "") {
-        tempSavedScans.splice(i, 1);
-      }
+      try {
+        if (tempSavedScans[i][1] === null || tempSavedScans[i][1] === "") {
+          tempSavedScans.splice(i, 1);
+          tempSavedScanTimes.splice(i, 1);
+        }
+      } catch (e) {}
+    }
+
+    if (tempSavedScans.length === 0) {
+      tempSavedScans.push([
+        "RecentScan0",
+        "Use this 'recent scan' as demo scan text!",
+      ]);
     }
 
     let tempScanTitles = [];
@@ -53,6 +73,7 @@ const RecentScans = ({}) => {
     }
 
     setSavedScans(tempSavedScans);
+    setScanTimes(tempSavedScanTimes);
     setScanTitles(tempScanTitles);
     setIndexArray([...new Array(tempSavedScans.length).keys()]);
   };
@@ -81,8 +102,8 @@ const RecentScans = ({}) => {
                 {scanTitles[index]}
               </CustomText>
               <View className="flex flex-row justify-between w-full">
-                <CustomText>07/02/2023</CustomText>
-                <CustomText>8:00 PM</CustomText>
+                <CustomText>{scanTimes[index][1].split("&$&")[0]}</CustomText>
+                <CustomText>{scanTimes[index][1].split("&$&")[1]}</CustomText>
               </View>
             </View>
           </View>
