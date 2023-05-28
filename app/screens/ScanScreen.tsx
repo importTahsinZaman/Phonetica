@@ -1,9 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   Button,
   SafeAreaView,
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -62,8 +59,8 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           base64: true,
         }
       );
-
-      navigation.navigate("TextSelect", manipResult);
+      console.log(Object.keys(manipResult));
+      navigation.navigate("TextSelect", { base64: manipResult.base64 });
     });
   };
 

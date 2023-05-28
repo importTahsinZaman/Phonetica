@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
       >
         Your Recent Scans
       </CustomText>
-      <RecentScans></RecentScans>
+      <RecentScans navigation={navigation}></RecentScans>
     </SafeAreaView>
   );
 };

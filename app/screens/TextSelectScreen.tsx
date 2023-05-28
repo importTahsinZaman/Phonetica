@@ -28,7 +28,7 @@ export default function TextSelectScreen({ route, navigation }) {
     if (isFocused) {
       console.log("got focus");
       try {
-        const { height, uri, width, base64 } = route.params;
+        const { base64 } = route.params;
         getOcrText(base64);
       } catch (e) {
         //In the instance that user is going backwards into this page, the prop retrieval fails so we grab from async storage:
