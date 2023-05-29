@@ -26,7 +26,6 @@ export default function TextSelectScreen({ route, navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      console.log("got focus");
       try {
         const { base64 } = route.params;
         getOcrText(base64);

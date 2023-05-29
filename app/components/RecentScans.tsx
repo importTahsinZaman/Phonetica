@@ -6,6 +6,8 @@ import { Dimensions, TouchableOpacity, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import CustomText from "./CustomText";
 
+import { tabBarRef } from "../../App";
+
 const RecentScans = ({ navigation }) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
   const COUNT = 2;
@@ -108,71 +110,63 @@ const RecentScans = ({ navigation }) => {
     newScans.unshift(currentScan);
     newTimes.unshift(["RecentScanTime0", currentTime]);
 
-    newScans = [
-      ["RecentScan0", newScans[0][1]],
-      ["RecentScan1", newScans[1][1]],
-      ["RecentScan2", newScans[2][1]],
-      ["RecentScan3", newScans[3][1]],
-      ["RecentScan4", newScans[4][1]],
-    ];
+    let i = 0;
+    newScans.forEach((scan) => {
+      scan[0] = "RecentScan" + i;
+      i++;
+    });
 
-    newTimes = [
-      ["RecentScanTime0", newTimes[0][1]],
-      ["RecentScanTime1", newTimes[1][1]],
-      ["RecentScanTime2", newTimes[2][1]],
-      ["RecentScanTime3", newTimes[3][1]],
-      ["RecentScanTime4", newTimes[4][1]],
-    ];
-
-    console.log(newScans);
-    console.log(newTimes);
+    i = 0;
+    newTimes.forEach((time) => {
+      time[0] = "RecentScanTime" + i;
+      i++;
+    });
 
     await AsyncStorage.multiSet(newScans);
     await AsyncStorage.multiSet(newTimes);
 
+    tabBarRef?.current?.setVisible(false);
     navigation.navigate("TextSelect");
   };
 
   return (
-    <View style={{}}>
-      <Carousel
-        vertical={false}
-        width={PAGE_WIDTH / COUNT}
-        height={PAGE_WIDTH / 2}
-        loop={savedScans.length > 1 ? true : false}
-        autoPlay={false}
-        pagingEnabled={false}
-        snapEnabled={false}
-        style={{ width: PAGE_WIDTH }}
-        data={indexArray}
-        renderItem={({ index }) => (
-          <View className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex">
-            <View className="p-2.5">
-              <CustomText className="text-[#8D8D8D]">
-                {savedScans[index][1]}
-              </CustomText>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                openRecentScan(index);
-              }}
-              className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5"
-            >
-              <CustomText
-                fontThicknessNumber={3}
-                className="text-base whitespace-nowrap break-keep"
-              >
-                {scanTitles[index]}
-              </CustomText>
-              <View className="flex flex-row justify-between w-full">
-                <CustomText>{scanTimes[index][1].split("&$&")[0]}</CustomText>
-                <CustomText>{scanTimes[index][1].split("&$&")[1]}</CustomText>
-              </View>
-            </TouchableOpacity>
+    <Carousel
+      vertical={false}
+      width={PAGE_WIDTH / COUNT}
+      height={PAGE_WIDTH / 2}
+      loop={savedScans.length > 1 ? true : false}
+      autoPlay={false}
+      pagingEnabled={false}
+      snapEnabled={false}
+      style={{ width: PAGE_WIDTH }}
+      data={indexArray}
+      renderItem={({ index }) => (
+        <View className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex">
+          <View className="p-2.5">
+            <CustomText className="text-[#8D8D8D]">
+              {savedScans[index][1]}
+            </CustomText>
           </View>
-        )}
-      />
-    </View>
+          <TouchableOpacity
+            onPress={() => {
+              openRecentScan(index);
+            }}
+            className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5"
+          >
+            <CustomText
+              fontThicknessNumber={3}
+              className="text-base whitespace-nowrap break-keep"
+            >
+              {scanTitles[index]}
+            </CustomText>
+            <View className="flex flex-row justify-between w-full">
+              <CustomText>{scanTimes[index][1].split("&$&")[0]}</CustomText>
+              <CustomText>{scanTimes[index][1].split("&$&")[1]}</CustomText>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+    />
   );
 };
 
