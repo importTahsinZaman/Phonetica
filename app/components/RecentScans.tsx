@@ -50,6 +50,12 @@ const RecentScans = ({ navigation }) => {
     }
 
     tempSavedScans = tempSavedScans.filter((scan) => {
+      if (scan[1] == "") {
+        const matchesIndex = (element) =>
+          element[0].slice(-1) == scan[0].slice(-1);
+        const indexMatch = tempSavedScanTimes.findIndex(matchesIndex);
+        tempSavedScanTimes.splice(indexMatch, 1);
+      }
       return scan[1] != "";
     });
 
