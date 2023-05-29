@@ -142,17 +142,17 @@ const RecentScans = ({ navigation }) => {
       data={indexArray}
       renderItem={({ index }) => (
         <View className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex">
-          <View className="p-2.5">
-            <CustomText className="text-[#8D8D8D]">
-              {savedScans[index][1]}
-            </CustomText>
-          </View>
           <TouchableOpacity
             onPress={() => {
               openRecentScan(index);
             }}
-            className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5"
+            className="p-2.5 w-full h-full"
           >
+            <CustomText className="text-[#8D8D8D]">
+              {savedScans[index][1]}
+            </CustomText>
+          </TouchableOpacity>
+          <View className="bg-[#FFBF23] h-[30%] w-full mt-auto rounded-b-xl justify-between p-1.5">
             <CustomText
               fontThicknessNumber={3}
               className="text-base whitespace-nowrap break-keep"
@@ -163,7 +163,7 @@ const RecentScans = ({ navigation }) => {
               <CustomText>{scanTimes[index][1].split("&$&")[0]}</CustomText>
               <CustomText>{scanTimes[index][1].split("&$&")[1]}</CustomText>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
       )}
     />
