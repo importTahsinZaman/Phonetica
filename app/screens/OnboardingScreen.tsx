@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { tabBarRef } from "../../App";
+
 const OnboardingScreen = ({ navigation }) => {
   return (
     <Onboarding
@@ -23,6 +25,7 @@ const OnboardingScreen = ({ navigation }) => {
           ["RecentScanTime4", ""],
         ]);
         navigation.navigate("Home");
+        tabBarRef?.current?.setVisible(true);
       }}
       pages={[
         {

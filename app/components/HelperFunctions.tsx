@@ -98,6 +98,7 @@ export const getUserTargetLanguage = async () => {
 
 export const setUserTargetLanguage = async (value: string) => {
   try {
+    // numerical values: 1,2,etc.
     await AsyncStorage.setItem("TargetLanguage", value);
   } catch (e) {
     console.log(e);
