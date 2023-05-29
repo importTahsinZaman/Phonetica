@@ -49,14 +49,9 @@ const RecentScans = ({ navigation }) => {
       console.log("Error in getSavedScans(): " + e);
     }
 
-    for (let i = 0; i < 5; i++) {
-      try {
-        if (tempSavedScans[i][1] === null || tempSavedScans[i][1] === "") {
-          tempSavedScans.splice(i, 1);
-          tempSavedScanTimes.splice(i, 1);
-        }
-      } catch (e) {}
-    }
+    tempSavedScans = tempSavedScans.filter((scan) => {
+      return scan[1] != "";
+    });
 
     let tempScanTitles = [];
 
@@ -72,18 +67,23 @@ const RecentScans = ({ navigation }) => {
       } catch (e) {}
     }
 
-    if (tempSavedScans.length === 0) {
-      tempSavedScans.push([
-        "RecentScan0",
-        "Use this 'recent scan' as demo scan text!",
-      ]);
+    if (tempSavedScans.length == 0) {
+      tempSavedScans = [
+        ["RecentScan0", "Tutorial Scan! Use this text as a demo scan."],
+        ["RecentScan1", "Tutorial Scan 2! Use this text as a demo scan."],
+      ];
+
+      tempScanTitles = ["Tutorial Scan!", "Tutorial Scan 2!"];
 
       const d = new Date();
       const date = d.toLocaleDateString();
       let time = d.toLocaleTimeString();
       time = time.slice(0, 4) + time.slice(7);
 
-      tempScanTitles.push(date + "&$&" + time);
+      tempSavedScanTimes = [
+        ["RecentScanTime0", date + "&$&" + time],
+        ["RecentScanTime1", date + "&$&" + time],
+      ];
     }
 
     setSavedScans(tempSavedScans);
@@ -134,7 +134,7 @@ const RecentScans = ({ navigation }) => {
       vertical={false}
       width={PAGE_WIDTH / COUNT}
       height={PAGE_WIDTH / 2}
-      loop={savedScans.length > 1 ? true : false}
+      loop={false}
       autoPlay={false}
       pagingEnabled={false}
       snapEnabled={false}
