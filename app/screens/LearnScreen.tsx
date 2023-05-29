@@ -1,8 +1,9 @@
 import Header1 from "../components/Header1";
-import { Dimensions } from "react-native";
+import { Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../components/CustomText";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LearnScreen = ({}) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
@@ -15,6 +16,13 @@ const LearnScreen = ({}) => {
           COMING SOON!
         </CustomText>
       </SafeAreaView>
+      <TouchableOpacity
+        onPress={() => {
+          AsyncStorage.clear();
+        }}
+      >
+        <CustomText>Secret Button</CustomText>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
