@@ -1,5 +1,6 @@
+import { useCallback } from "react";
 import Onboarding from "react-native-onboarding-swiper";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+import { Dimensions, SafeAreaView, TouchableOpacity, View } from "react-native";
 import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingImage1 from "../assets/OnboardingImage1.svg";
@@ -7,39 +8,12 @@ import OnboardingImage2 from "../assets/OnboardingImage2.svg";
 import { tabBarRef } from "../../App";
 import * as SplashScreen from "expo-splash-screen";
 
-import {
-  useFonts,
-  SpaceGrotesk_300Light,
-  SpaceGrotesk_400Regular,
-  SpaceGrotesk_500Medium,
-  SpaceGrotesk_600SemiBold,
-  SpaceGrotesk_700Bold,
-} from "@expo-google-fonts/space-grotesk";
-
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
+SplashScreen.preventAutoHideAsync();
+
 const NextButtonComponent = ({ ...props }) => {
-  let [fontsLoaded] = useFonts({
-    //Thickness Number 1:
-    SpaceGrotesk_300Light,
-    //Thickness Number 2:
-    SpaceGrotesk_400Regular,
-    //Thickness Number 3:
-    SpaceGrotesk_500Medium,
-    //Thickness Number 4:
-    SpaceGrotesk_600SemiBold,
-    //Thickness Number 5:
-    SpaceGrotesk_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    SplashScreen.preventAutoHideAsync();
-    return null;
-  } else {
-    SplashScreen.hideAsync();
-  }
-
   return (
     <TouchableOpacity
       {...props}

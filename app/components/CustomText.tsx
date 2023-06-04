@@ -1,38 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Text } from "react-native";
-import * as SplashScreen from "expo-splash-screen";
-import {
-  useFonts,
-  SpaceGrotesk_300Light,
-  SpaceGrotesk_400Regular,
-  SpaceGrotesk_500Medium,
-  SpaceGrotesk_600SemiBold,
-  SpaceGrotesk_700Bold,
-} from "@expo-google-fonts/space-grotesk";
 
 const CustomText = ({ fontThicknessNumber = 2, style = {}, ...props }) => {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  let [fontsLoaded] = useFonts({
-    //Thickness Number 1:
-    SpaceGrotesk_300Light,
-    //Thickness Number 2:
-    SpaceGrotesk_400Regular,
-    //Thickness Number 3:
-    SpaceGrotesk_500Medium,
-    //Thickness Number 4:
-    SpaceGrotesk_600SemiBold,
-    //Thickness Number 5:
-    SpaceGrotesk_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    SplashScreen.preventAutoHideAsync();
-    return null;
-  } else {
-    SplashScreen.hideAsync();
-  }
-
   let chosenFontStyle = "SpaceGrotesk_400Regular";
 
   switch (fontThicknessNumber) {
