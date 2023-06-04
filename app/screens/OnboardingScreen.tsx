@@ -3,13 +3,43 @@ import { Dimensions, TouchableOpacity, View } from "react-native";
 import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingImage1 from "../assets/OnboardingImage1.svg";
-
+import OnboardingImage2 from "../assets/OnboardingImage2.svg";
 import { tabBarRef } from "../../App";
+import * as SplashScreen from "expo-splash-screen";
+
+import {
+  useFonts,
+  SpaceGrotesk_300Light,
+  SpaceGrotesk_400Regular,
+  SpaceGrotesk_500Medium,
+  SpaceGrotesk_600SemiBold,
+  SpaceGrotesk_700Bold,
+} from "@expo-google-fonts/space-grotesk";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const NextButtonComponent = ({ ...props }) => {
+  let [fontsLoaded] = useFonts({
+    //Thickness Number 1:
+    SpaceGrotesk_300Light,
+    //Thickness Number 2:
+    SpaceGrotesk_400Regular,
+    //Thickness Number 3:
+    SpaceGrotesk_500Medium,
+    //Thickness Number 4:
+    SpaceGrotesk_600SemiBold,
+    //Thickness Number 5:
+    SpaceGrotesk_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    SplashScreen.preventAutoHideAsync();
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
+
   return (
     <TouchableOpacity
       {...props}
@@ -70,6 +100,7 @@ const OnboardingScreen = ({ navigation }) => {
       DoneButtonComponent={DoneButtonComponent}
       DotComponent={DotComponent}
       skipToPage={2}
+      titleStyles={{ fontFamily: "SpaceGrotesk_700Bold" }}
       onDone={async () => {
         await AsyncStorage.setItem("alreadyLaunched", "true");
         await AsyncStorage.multiSet([
@@ -93,11 +124,25 @@ const OnboardingScreen = ({ navigation }) => {
           image: (
             <OnboardingImage1
               //Width is page width * 2 * horizontal margin of elements
+              width={PAGE_WIDTH * 0.9}
+              //Height is svg width times aspect ratio multiplier
+              height={PAGE_WIDTH * 0.9}
+              viewBox="0 0 667 667"
+            ></OnboardingImage1>
+          ),
+          title: "Welcome to Phonetica!",
+          subtitle: "",
+        },
+        {
+          backgroundColor: "#fff",
+          image: (
+            <OnboardingImage2
+              //Width is page width * 2 * horizontal margin of elements
               width={PAGE_WIDTH * 0.89333333334}
               //Height is svg width times aspect ratio multiplier
               height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
               viewBox="0 0 196 173"
-            ></OnboardingImage1>
+            ></OnboardingImage2>
           ),
           title: "Easily Scan Books",
           subtitle: "",
@@ -105,13 +150,13 @@ const OnboardingScreen = ({ navigation }) => {
         {
           backgroundColor: "#fff",
           image: (
-            <OnboardingImage1
+            <OnboardingImage2
               //Width is page width * 2 * horizontal margin of elements
               width={PAGE_WIDTH * 0.89333333334}
               //Height is svg width times aspect ratio multiplier
               height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
               viewBox="0 0 335 165"
-            ></OnboardingImage1>
+            ></OnboardingImage2>
           ),
           title: "Translate to your Native Language",
           subtitle: "",
@@ -119,13 +164,13 @@ const OnboardingScreen = ({ navigation }) => {
         {
           backgroundColor: "#fff",
           image: (
-            <OnboardingImage1
+            <OnboardingImage2
               //Width is page width * 2 * horizontal margin of elements
               width={PAGE_WIDTH * 0.89333333334}
               //Height is svg width times aspect ratio multiplier
               height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
               viewBox="0 0 335 165"
-            ></OnboardingImage1>
+            ></OnboardingImage2>
           ),
           title: "Read in-depth Explanations and Definitions",
           subtitle: "",
