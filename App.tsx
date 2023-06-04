@@ -135,7 +135,7 @@ const App = () => {
           <Stack.Screen name="TextSelect" component={TextSelectScreen} />
           <Stack.Screen name="Translation" component={TranslationScreen} />
         </CurvedBottomBarExpo.Navigator>
-        <StatusBar style="dark" />
+        <StatusBar hidden={false} style="dark" />
       </NavigationContainer>
     )
   );

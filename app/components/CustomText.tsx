@@ -45,7 +45,7 @@ const CustomText = ({ fontThicknessNumber = 2, style = {}, ...props }) => {
     case 4:
       chosenFontStyle = "SpaceGrotesk_600SemiBold";
       break;
-    case 3:
+    case 5:
       chosenFontStyle = "SpaceGrotesk_700Bold";
       break;
     default:
