@@ -5,8 +5,12 @@ import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingImage1 from "../assets/OnboardingImage1.svg";
 import OnboardingImage2 from "../assets/OnboardingImage2.svg";
+import OnboardingImage3 from "../assets/OnboardingImage3.svg";
+import OnboardingImage4 from "../assets/OnboardingImage4.svg";
+import OnboardingImage5 from "../assets/OnboardingImage5.svg";
 import { tabBarRef } from "../../App";
 import * as SplashScreen from "expo-splash-screen";
+import LanguagePicker from "../components/LanguagePicker";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -73,8 +77,9 @@ const OnboardingScreen = ({ navigation }) => {
       SkipButtonComponent={SkipButtonComponent}
       DoneButtonComponent={DoneButtonComponent}
       DotComponent={DotComponent}
-      skipToPage={2}
+      skipToPage={3}
       titleStyles={{ fontFamily: "SpaceGrotesk_700Bold" }}
+      subTitleStyles={{ fontFamily: "SpaceGrotesk_400Regular" }}
       onDone={async () => {
         await AsyncStorage.setItem("alreadyLaunched", "true");
         await AsyncStorage.multiSet([
@@ -101,7 +106,7 @@ const OnboardingScreen = ({ navigation }) => {
               width={PAGE_WIDTH * 0.9}
               //Height is svg width times aspect ratio multiplier
               height={PAGE_WIDTH * 0.9}
-              viewBox="0 0 667 667"
+              viewBox="0 0 650 650"
             ></OnboardingImage1>
           ),
           title: "Welcome to Phonetica!",
@@ -112,42 +117,60 @@ const OnboardingScreen = ({ navigation }) => {
           image: (
             <OnboardingImage2
               //Width is page width * 2 * horizontal margin of elements
-              width={PAGE_WIDTH * 0.89333333334}
+              width={PAGE_WIDTH * 0.9}
               //Height is svg width times aspect ratio multiplier
-              height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
-              viewBox="0 0 196 173"
+              height={PAGE_WIDTH * 0.9}
+              viewBox="0 0 620 620"
             ></OnboardingImage2>
           ),
           title: "Easily Scan Books",
-          subtitle: "",
+          subtitle:
+            "Take a picture of your book and Phonetica will recognize words, sentences, and paragraphs. Select what you would like to learn more about.",
         },
         {
           backgroundColor: "#fff",
           image: (
-            <OnboardingImage2
+            <OnboardingImage3
               //Width is page width * 2 * horizontal margin of elements
-              width={PAGE_WIDTH * 0.89333333334}
+              width={PAGE_WIDTH * 0.9}
               //Height is svg width times aspect ratio multiplier
-              height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
-              viewBox="0 0 335 165"
-            ></OnboardingImage2>
+              height={PAGE_WIDTH * 0.9}
+              viewBox="0 0 640 640"
+            ></OnboardingImage3>
           ),
           title: "Translate to your Native Language",
-          subtitle: "",
+          subtitle:
+            "Read your book in a language you understand! Our AI technology ensures you receive a translation that actually makes sense.",
         },
         {
           backgroundColor: "#fff",
           image: (
-            <OnboardingImage2
+            <OnboardingImage4
               //Width is page width * 2 * horizontal margin of elements
-              width={PAGE_WIDTH * 0.89333333334}
+              width={PAGE_WIDTH * 0.9}
               //Height is svg width times aspect ratio multiplier
-              height={PAGE_WIDTH * 0.89333333334 * 0.49253731343}
-              viewBox="0 0 335 165"
-            ></OnboardingImage2>
+              height={PAGE_WIDTH * 0.9}
+              viewBox="0 0 640 640"
+            ></OnboardingImage4>
           ),
-          title: "Read in-depth Explanations and Definitions",
-          subtitle: "",
+          title: "Read Explanations and Definitions",
+          subtitle:
+            "Select words and sentences you don't understand and Phonetica will explain definitions in context!",
+        },
+        {
+          backgroundColor: "#fff",
+          image: (
+            <OnboardingImage5
+              //Width is page width * 2 * horizontal margin of elements
+              width={PAGE_WIDTH * 0.9}
+              //Height is svg width times aspect ratio multiplier
+              height={PAGE_WIDTH * 0.9}
+              viewBox="0 0 640 640"
+            ></OnboardingImage5>
+          ),
+          title: "Time to read English!",
+          subtitle:
+            "Thank you for installing Phonetica! Please leave a review if you enjoy your experience. Have fun!",
         },
       ]}
     />
