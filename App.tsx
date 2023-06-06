@@ -41,7 +41,7 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Stack = createNativeStackNavigator();
 
-export const tabBarRef: any = createRef(); // <== Call this function to hide tabbar tabBarRef?.current?.setVisible(false);
+export const tabBarRef: any = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -132,7 +132,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <StatusBar hidden={false} style="dark" />
+      <StatusBar hidden={false} style={"dark"} />
       <CurvedBottomBarExpo.Navigator
         type="DOWN"
         ref={tabBarRef}

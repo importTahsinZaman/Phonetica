@@ -77,12 +77,12 @@ const OnboardingScreen = ({ navigation }) => {
       SkipButtonComponent={SkipButtonComponent}
       DoneButtonComponent={DoneButtonComponent}
       DotComponent={DotComponent}
-      skipToPage={3}
+      skipToPage={4}
       titleStyles={{ fontFamily: "SpaceGrotesk_700Bold" }}
       subTitleStyles={{ fontFamily: "SpaceGrotesk_400Regular" }}
       onDone={async () => {
-        await AsyncStorage.setItem("alreadyLaunched", "true");
         await AsyncStorage.multiSet([
+          ["alreadyLaunched", "true"],
           ["RecentScan0", ""],
           ["RecentScan1", ""],
           ["RecentScan2", ""],
