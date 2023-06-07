@@ -69,6 +69,9 @@ const RecentScans = ({ navigation }) => {
           .replace(/\s+/g, " ")
           .trim();
         let result = words.split(" ").slice(0, 3).join(" ");
+        if (result.length >= 15) {
+          result = result.substring(0, 16);
+        }
         tempScanTitles.push(result + "...");
       } catch (e) {}
     }
