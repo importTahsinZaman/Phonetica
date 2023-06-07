@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
 
 import { OCR_SPACE_API_KEY } from "@env";
 import ReturnHeader from "../components/ReturnHeader";

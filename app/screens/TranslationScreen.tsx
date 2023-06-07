@@ -17,7 +17,7 @@ import PronounceContainer from "../components/PronounceContainer";
 import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
 
 const TranslationScreen = ({ route, navigation }) => {
-  //This whole page only deals with one sentence
+  //This whole page only deals with one sentence!
   const { sentence } = route.params; //The sentence chosen by the user from OCR results
   const [finalizedText, setFinalizedText] = useState(""); //Holds the fixed sentence (after API call to fix ocr errors)
   const [wordsList, setWordsList] = useState([]); //The finalizedText broken into words for the user to choose from to define

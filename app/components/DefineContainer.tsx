@@ -17,7 +17,7 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 type ComponentProps = {
   wordsList: ItemData[];
   text: string;
-  openai: any; //TODO: FIX THIS
+  openai: any; //TODO: FIX THIS!
 };
 
 type ItemData = {
