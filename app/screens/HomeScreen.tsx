@@ -18,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
         fontThicknessNumber={4}
         style={styles.Header}
       >
-        Featured Books
+        Featured Videos
       </CustomText>
       <FeaturedBooks></FeaturedBooks>
       <CustomText

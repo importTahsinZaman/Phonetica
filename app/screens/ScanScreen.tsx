@@ -59,7 +59,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           base64: true,
         }
       );
-      console.log(Object.keys(manipResult));
       navigation.navigate("TextSelect", {
         base64: manipResult.base64,
         ReturnHome: false,
