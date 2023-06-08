@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { useTargetLangStringGlobal } from "./LanguagePicker";
 import { ScrollView } from "react-native-gesture-handler";
+import * as Speech from "expo-speech";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -168,7 +170,16 @@ const DefineContainer: React.FC<ComponentProps> = ({
             className="flex flex-row mt-4"
             style={styles.defineText}
           >
-            <SpeakerIcon></SpeakerIcon>
+            <Pressable
+              onPress={() => {
+                Speech.speak(wordsList[parseInt(selectedId)].word, {
+                  rate: 0.8,
+                });
+              }}
+            >
+              <SpeakerIcon></SpeakerIcon>
+            </Pressable>
+
             <SafeAreaView className="ml-2">
               <CustomText className="text-xl">
                 '
