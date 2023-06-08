@@ -172,8 +172,16 @@ const App = () => {
 
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Scan" component={ScanScreen} />
-        <Stack.Screen name="TextSelect" component={TextSelectScreen} />
-        <Stack.Screen name="Translation" component={TranslationScreen} />
+        <Stack.Screen
+          name="TextSelect"
+          component={TextSelectScreen}
+          initialParams={{ ReturnHome: false, BackNavigation: false }}
+        />
+        <Stack.Screen
+          name="Translation"
+          component={TranslationScreen}
+          initialParams={{ ReturnHome: false }}
+        />
       </CurvedBottomBarExpo.Navigator>
     </NavigationContainer>
   );

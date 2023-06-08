@@ -18,7 +18,7 @@ import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence!
-  const { sentence } = route.params; //The sentence chosen by the user from OCR results
+  const { sentence, ReturnHome } = route.params; //The sentence chosen by the user from OCR results
   const [finalizedText, setFinalizedText] = useState(""); //Holds the fixed sentence (after API call to fix ocr errors)
   const [wordsList, setWordsList] = useState([]); //The finalizedText broken into words for the user to choose from to define
   const [translatedText, setTranslatedText] = useState(""); //translated text
@@ -118,6 +118,7 @@ const TranslationScreen = ({ route, navigation }) => {
         color="black"
         text="Select Sentence"
         showNavBar={false}
+        props={{ BackNavigation: true, ReturnHome: ReturnHome }}
       ></ReturnHeader>
       <DoubleLanguagePicker></DoubleLanguagePicker>
       <InfoTabs

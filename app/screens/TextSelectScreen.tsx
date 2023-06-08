@@ -11,6 +11,7 @@ import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function TextSelectScreen({ route, navigation }) {
+  const { ReturnHome, BackNavigation } = route.params;
   const [ocrText, setOcrText] = useState("");
   const [formattedText, setFormattedText] = useState(null);
 
@@ -18,12 +19,11 @@ export default function TextSelectScreen({ route, navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      try {
+      if (ReturnHome || BackNavigation) {
+        getSavedOcrText();
+      } else {
         const { base64 } = route.params;
         getOcrText(base64);
-      } catch (e) {
-        //In the instance that user is going backwards into this page, the prop retrieval fails so we grab from async storage:
-        getSavedOcrText();
       }
     } else {
       setFormattedText(null);
@@ -46,7 +46,7 @@ export default function TextSelectScreen({ route, navigation }) {
         }
       });
     } catch (e) {
-      console.log(e);
+      console.log("GET SAVED OCR TEXT ERROR:" + e);
     }
   };
 
@@ -165,7 +165,7 @@ export default function TextSelectScreen({ route, navigation }) {
           console.log("Setting new saved scans error: ", e);
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("Setting new saved scans error2:", error));
   };
 
   const formatText = () => {
@@ -180,9 +180,10 @@ export default function TextSelectScreen({ route, navigation }) {
       <ReturnHeader
         navigation={navigation}
         color="black"
-        text="Scan Text"
-        destination="Scan"
-        showNavBar={false}
+        text={ReturnHome ? "Home" : "Scan Text"}
+        destination={ReturnHome ? "Home" : "Scan"}
+        showNavBar={ReturnHome ? true : false}
+        props={{ ReturnHome: ReturnHome }}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
         {formattedText &&

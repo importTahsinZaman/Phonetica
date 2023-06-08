@@ -16,6 +16,7 @@ type Props = {
   destination?: string;
   color?: string;
   showNavBar?: boolean;
+  props?: object;
   navigation: any; //TODO: FIX THIS
 };
 
@@ -24,6 +25,7 @@ const Header1: React.FC<Props> = ({
   destination = "Home",
   color = "white",
   showNavBar = true,
+  props = {},
   navigation,
 }) => {
   const styles = StyleSheet.create({
@@ -36,7 +38,7 @@ const Header1: React.FC<Props> = ({
       <TouchableOpacity
         className="flex flex-row items-center py-2"
         onPress={() => {
-          navigation.navigate(destination);
+          navigation.navigate(destination, props);
           tabBarRef?.current?.setVisible(showNavBar);
         }}
       >
