@@ -25,7 +25,7 @@ const Header1: React.FC<Props> = ({
   destination = "Home",
   color = "white",
   showNavBar = true,
-  props = {},
+  props,
   navigation,
 }) => {
   const styles = StyleSheet.create({

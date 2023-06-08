@@ -183,7 +183,6 @@ export default function TextSelectScreen({ route, navigation }) {
         text={ReturnHome ? "Home" : "Scan Text"}
         destination={ReturnHome ? "Home" : "Scan"}
         showNavBar={ReturnHome ? true : false}
-        props={{ ReturnHome: ReturnHome }}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
         {formattedText &&
@@ -192,7 +191,10 @@ export default function TextSelectScreen({ route, navigation }) {
               <TouchableOpacity
                 key={index}
                 onPress={() =>
-                  navigation.navigate("Translation", { sentence: sentence })
+                  navigation.navigate("Translation", {
+                    sentence: sentence,
+                    ReturnHome: ReturnHome,
+                  })
                 }
                 className=" p-2 my-1 rounded-lg"
               >
