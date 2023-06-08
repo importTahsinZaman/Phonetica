@@ -5,7 +5,7 @@ Countless families immigrate to the United States every year and struggle to hel
 Note that the images of book covers and text from books in the screenshots below are not exemplary of the sorts of materials families will be using Phonetica for and are merely a placeholder. The target age for Phonetica is 4 to 13.
 
 
-<img width="371" alt="image" src="https://user-images.githubusercontent.com/86907892/234401196-b75e7c37-a9e3-458c-9936-70e4ccde6c2a.png">
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/4ef3a423-d99a-4398-903b-229fbf8547ad)
 <img width="364" alt="image" src="https://user-images.githubusercontent.com/86907892/234401260-8ec6cc4b-1294-4535-a49c-9931301da64e.png">
 <img width="366" alt="image" src="https://user-images.githubusercontent.com/86907892/234401327-19cbe8ae-51e6-4679-89e7-b026e5faaa19.png">
 <img width="366" alt="image" src="https://user-images.githubusercontent.com/86907892/234401383-c33146b1-61f9-42b4-b4ad-da6788717f54.png">
