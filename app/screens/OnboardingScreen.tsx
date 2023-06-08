@@ -1,6 +1,5 @@
-import { useCallback } from "react";
 import Onboarding from "react-native-onboarding-swiper";
-import { Dimensions, SafeAreaView, TouchableOpacity, View } from "react-native";
+import { Dimensions, TouchableOpacity, View } from "react-native";
 import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingImage1 from "../assets/OnboardingImage1.svg";
@@ -9,13 +8,9 @@ import OnboardingImage3 from "../assets/OnboardingImage3.svg";
 import OnboardingImage4 from "../assets/OnboardingImage4.svg";
 import OnboardingImage5 from "../assets/OnboardingImage5.svg";
 import { tabBarRef } from "../../App";
-import * as SplashScreen from "expo-splash-screen";
-import LanguagePicker from "../components/LanguagePicker";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
-
-SplashScreen.preventAutoHideAsync();
 
 const NextButtonComponent = ({ ...props }) => {
   return (
@@ -80,6 +75,7 @@ const OnboardingScreen = ({ navigation }) => {
       skipToPage={4}
       titleStyles={{ fontFamily: "SpaceGrotesk_700Bold" }}
       subTitleStyles={{ fontFamily: "SpaceGrotesk_400Regular" }}
+      controlStatusBar={false}
       onDone={async () => {
         await AsyncStorage.multiSet([
           ["alreadyLaunched", "true"],
