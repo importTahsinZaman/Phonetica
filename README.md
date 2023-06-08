@@ -5,17 +5,17 @@ Countless families immigrate to the United States every year and struggle to hel
 Note that the images of book covers and text from books in the screenshots below are not exemplary of the sorts of materials families will be using Phonetica for and are merely a placeholder. The target age for Phonetica is 4 to 13.
 
 
-![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/dcdd7fec-8654-425b-94f1-154b8f85f3f6)
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/d0a310ef-c49c-40a2-bb2e-9592dfe78bb2)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/4e7f0ee9-1c60-4627-acbe-c6b53c51c08e)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/32aebaf7-fd0d-4053-9999-f9abd5ded1af)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/d355d5c6-b492-4cf1-a632-d3a875c5276c)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/fd85460b-be2d-4f1e-a326-5e47d5820ae7)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/d06a55af-f0e1-49fd-b1fc-e4e3df125637)
 ![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/c5e82377-5864-4912-8999-86b95a91fa66)
-<img width="373" alt="image" src="https://user-images.githubusercontent.com/86907892/234401476-2001c587-a6b3-4358-b006-d84d6f856398.png">
-<img width="376" alt="image" src="https://user-images.githubusercontent.com/86907892/234401541-1e8a2c6c-0b65-488b-b3f0-278ca3a90a46.png">
-<img width="383" alt="image" src="https://user-images.githubusercontent.com/86907892/234401590-6c9043cf-2076-4f85-9ab9-01fb5c47d7b6.png">
-<img width="399" alt="image" src="https://user-images.githubusercontent.com/86907892/234406078-68792dc2-b679-4e0f-a0d3-552e6eaf8c72.png">
-<img width="375" alt="image" src="https://user-images.githubusercontent.com/86907892/234401717-93923c98-750e-4e69-aa10-6f2ca9873768.png">
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/ca797ee9-b468-4d42-9327-701f76d956ec)
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/52d22892-0762-4bc7-858a-e40fd9498d2a)
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/23d6a2be-7e65-43c5-9b7d-639955df4cbb)
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/b0c2b4cb-6a40-4187-be51-5ed3197767e8)
+![image](https://github.com/importTahsinZaman/Phonetica/assets/86907892/cb544ef3-3152-4fd8-8815-2cf3ff2fba3d)
 <img width="390" alt="image" src="https://user-images.githubusercontent.com/86907892/234401775-0e7b1c5a-ff83-44a4-bdf8-d0c3a3e9edd9.png">
 
