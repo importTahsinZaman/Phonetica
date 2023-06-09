@@ -172,7 +172,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
         style={styles.containerMargin}
         className="h-[35%] max-h-[35%]"
       >
-        {definitionExplanation && !waitingForExplanationAPIResult ? (
+        {definitionExplanation && !waitingForExplanationAPIResult && (
           <SafeAreaView
             className="flex flex-row mt-4"
             style={styles.defineText}
@@ -201,7 +201,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
               </ScrollView>
             </SafeAreaView>
           </SafeAreaView>
-        ) : (
+        )}
+        {waitingForExplanationAPIResult && (
           <SafeAreaView
             className="flex flex-row mt-4"
             style={styles.defineText}
