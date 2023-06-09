@@ -7,7 +7,6 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
-  ActivityIndicator,
 } from "react-native";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";

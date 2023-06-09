@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-import { TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import {
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 
 import { OCR_SPACE_API_KEY } from "@env";
 import ReturnHeader from "../components/ReturnHeader";
@@ -10,6 +15,8 @@ import CustomText from "../components/CustomText";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SkeletonComponent from "../components/SkeletonComponent";
+
+const PAGE_WIDTH = Dimensions.get("window").width;
 
 export default function TextSelectScreen({ route, navigation }) {
   const { ReturnHome, BackNavigation } = route.params;
@@ -186,7 +193,7 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
-        {formattedText != null ? (
+        {formattedText ? (
           formattedText.map((sentence, index) => {
             return (
               <TouchableOpacity
@@ -206,7 +213,11 @@ export default function TextSelectScreen({ route, navigation }) {
             );
           })
         ) : (
-          <SkeletonComponent marginHorizontal={2} count={15} />
+          <SkeletonComponent
+            marginHorizontal={2}
+            count={15}
+            width={PAGE_WIDTH - 35}
+          />
         )}
       </ScrollView>
     </SafeAreaView>
