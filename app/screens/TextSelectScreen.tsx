@@ -9,6 +9,7 @@ import { useIsFocused } from "@react-navigation/native";
 import CustomText from "../components/CustomText";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SkeletonComponent from "../components/SkeletonComponent";
 
 export default function TextSelectScreen({ route, navigation }) {
   const { ReturnHome, BackNavigation } = route.params;
@@ -185,7 +186,7 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
-        {formattedText != null &&
+        {/* {formattedText != null ? (
           formattedText.map((sentence, index) => {
             return (
               <TouchableOpacity
@@ -203,7 +204,11 @@ export default function TextSelectScreen({ route, navigation }) {
                 </CustomText>
               </TouchableOpacity>
             );
-          })}
+          })
+        ) : (
+          <SkeletonComponent count={40} />
+        )} */}
+        <SkeletonComponent count={15} />
       </ScrollView>
     </SafeAreaView>
   );
