@@ -7,12 +7,15 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { useTargetLangStringGlobal } from "./LanguagePicker";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Speech from "expo-speech";
+import SkeletonComponent from "./SkeletonComponent";
+import SkeletonComponent2 from "./SkeletonComponent2";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -61,6 +64,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
     currentInstanceChosenForDefinition,
     setCurrentInstanceChosenForDefinition,
   ] = useState("");
+  const [waitingForExplanationAPIResult, setWaitingForExplanationAPIResult] =
+    useState(false);
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -70,7 +75,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
       <Item
         item={item}
         onPress={() => {
-          if (item.id !== selectedId) {
+          if (item.id !== selectedId && !waitingForExplanationAPIResult) {
+            setDefinitionExplanation("");
             setSelectedId(item.id);
 
             let instanceArray = [];
@@ -118,7 +124,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
     const prompt = `Explain, to someone who only speaks ${targetLangString}, the definition and usage of occurrence ${
       instance ? instance : 1
     } of the word "${word}" in the context of this text: "${text}". Keep the word in English and within quotation marks whenever referring to it.`;
-    console.log(prompt);
+    setWaitingForExplanationAPIResult(true);
     await openai
       .createCompletion({
         model: "text-davinci-003",
@@ -132,6 +138,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
       .then((result) => {
         let response1 = JSON.parse(result.request._response);
         setDefinitionExplanation(response1.choices[0].text.trimStart());
+        setWaitingForExplanationAPIResult(false);
       });
   };
 
@@ -165,7 +172,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
         style={styles.containerMargin}
         className="h-[35%] max-h-[35%]"
       >
-        {definitionExplanation && (
+        {definitionExplanation && !waitingForExplanationAPIResult ? (
           <SafeAreaView
             className="flex flex-row mt-4"
             style={styles.defineText}
@@ -192,6 +199,21 @@ const DefineContainer: React.FC<ComponentProps> = ({
                   {definitionExplanation}
                 </CustomText>
               </ScrollView>
+            </SafeAreaView>
+          </SafeAreaView>
+        ) : (
+          <SafeAreaView
+            className="flex flex-row mt-4"
+            style={styles.defineText}
+          >
+            <SkeletonComponent2 />
+            <SafeAreaView className="mx-2">
+              <SkeletonComponent count={1} width={70} />
+              <SkeletonComponent
+                count={4}
+                marginTop={5}
+                width={PAGE_WIDTH - 94}
+              />
             </SafeAreaView>
           </SafeAreaView>
         )}
