@@ -22,7 +22,7 @@ const EnglishLanguageBox = ({
         {EnglishText ? (
           <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
         ) : (
-          <SkeletonComponent marginTop={5} />
+          <SkeletonComponent marginTop={5} width={PAGE_WIDTH - 78} />
         )}
       </ScrollView>
     </View>

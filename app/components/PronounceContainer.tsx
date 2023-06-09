@@ -69,7 +69,11 @@ const PronounceContainer = ({
           {EnglishText ? (
             <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
           ) : (
-            <SkeletonComponent marginTop={5} count={4} />
+            <SkeletonComponent
+              marginTop={5}
+              count={4}
+              width={PAGE_WIDTH - 80}
+            />
           )}
         </ScrollView>
 
