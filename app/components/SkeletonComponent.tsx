@@ -7,10 +7,11 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 const AnimatedLG = Animated.createAnimatedComponent(LinearGradient);
 
 const SkeletonComponent = ({
+  count = 5,
   width = PAGE_WIDTH,
-  height = 150,
-  color1 = "#a0a0a0",
-  color2 = "#b0b0b0",
+  height = 30,
+  color1 = "#F3F3F3",
+  color2 = "#EBEBEB",
 }) => {
   const animatedValue = new Animated.Value(0);
 
@@ -31,23 +32,29 @@ const SkeletonComponent = ({
   });
 
   return (
-    <View
-      style={{
-        backgroundColor: color1,
-        borderColor: color2,
-        height: height,
-        width: width,
-      }}
-    >
-      <AnimatedLG
-        colors={[color1, color2, color2, color1]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={{
-          ...StyleSheet.absoluteFill,
-          transform: [{ translateX: translateX }],
-        }}
-      ></AnimatedLG>
+    <View style={{ width: width }}>
+      {[...Array(count)].map((e, i) => (
+        <View
+          key={i}
+          style={{
+            backgroundColor: color1,
+            borderColor: color2,
+            height: height,
+            marginBottom: i == count - 1 ? 0 : 10,
+          }}
+          className="rounded-lg"
+        >
+          <AnimatedLG
+            colors={[color1, color2, color2, color1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              ...StyleSheet.absoluteFill,
+              transform: [{ translateX: translateX }],
+            }}
+          ></AnimatedLG>
+        </View>
+      ))}
     </View>
   );
 };
