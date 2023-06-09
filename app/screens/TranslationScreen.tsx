@@ -146,11 +146,6 @@ const TranslationScreen = ({ route, navigation }) => {
         <TranslateContainer
           EnglishText={finalizedText}
           ForeignText={translatedText}
-          SpeakerFunction={() => {
-            setShowTranslate(false);
-            setShowDefine(false);
-            setShowPronounce(true);
-          }}
         ></TranslateContainer>
       )}
       {showDefine && (

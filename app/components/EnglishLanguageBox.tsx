@@ -2,6 +2,7 @@ import { View, Pressable, Dimensions } from "react-native";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { ScrollView } from "react-native-gesture-handler";
+import SkeletonComponent from "./SkeletonComponent";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -16,8 +17,13 @@ const EnglishLanguageBox = ({
       <View className="flex flex-row justify-between items-center">
         <CustomText className="text-[#8D8D8D] ">English (US)</CustomText>
       </View>
+
       <ScrollView>
-        <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
+        {EnglishText ? (
+          <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
+        ) : (
+          <SkeletonComponent marginTop={5} />
+        )}
       </ScrollView>
     </View>
   );

@@ -186,7 +186,7 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
-        {/* {formattedText != null ? (
+        {formattedText != null ? (
           formattedText.map((sentence, index) => {
             return (
               <TouchableOpacity
@@ -206,9 +206,8 @@ export default function TextSelectScreen({ route, navigation }) {
             );
           })
         ) : (
-          <SkeletonComponent count={40} />
-        )} */}
-        <SkeletonComponent count={15} />
+          <SkeletonComponent marginHorizontal={2} count={15} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

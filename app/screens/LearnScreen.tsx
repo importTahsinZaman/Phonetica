@@ -17,7 +17,6 @@ const LearnScreen = ({}) => {
           COMING SOON!
         </CustomText>
       </SafeAreaView>
-      <SkeletonComponent />
       <TouchableOpacity
         onPress={() => {
           AsyncStorage.clear();

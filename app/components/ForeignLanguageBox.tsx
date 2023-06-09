@@ -3,6 +3,7 @@ import CustomText from "./CustomText";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { useTargetLangStringGlobal } from "./LanguagePicker";
+import SkeletonComponent from "./SkeletonComponent";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -19,8 +20,13 @@ const ForeignLanguageBox = ({
       <View className="flex flex-row justify-between items-center">
         <CustomText className="text-[#8D8D8D] ">{targetLangString}</CustomText>
       </View>
+
       <ScrollView>
-        <CustomText className="mt-2 text-base">{ForeignText}</CustomText>
+        {ForeignText ? (
+          <CustomText className="mt-2 text-base">{ForeignText}</CustomText>
+        ) : (
+          <SkeletonComponent marginTop={5} />
+        )}
       </ScrollView>
     </View>
   );

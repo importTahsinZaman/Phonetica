@@ -11,6 +11,7 @@ import * as Speech from "expo-speech";
 import CustomText from "./CustomText";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SkeletonComponent from "./SkeletonComponent";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -65,7 +66,11 @@ const PronounceContainer = ({
           </CustomText>
         </View>
         <ScrollView>
-          <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
+          {EnglishText ? (
+            <CustomText className="mt-2 text-base">{EnglishText}</CustomText>
+          ) : (
+            <SkeletonComponent marginTop={5} count={4} />
+          )}
         </ScrollView>
 
         <View className=" flex flex-row justify-around items-center mb-3">

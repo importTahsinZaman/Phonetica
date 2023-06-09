@@ -10,6 +10,8 @@ const AnimatedLG = Animated.createAnimatedComponent(LinearGradient);
 
 const SkeletonComponent = ({
   count = 5,
+  marginHorizontal = 0,
+  marginTop = 0,
   width = PAGE_WIDTH,
   height = 30,
   color1 = "#F3F3F3",
@@ -34,7 +36,7 @@ const SkeletonComponent = ({
   });
 
   return (
-    <View>
+    <View style={{ marginHorizontal: marginHorizontal, marginTop: marginTop }}>
       {[...Array(count)].map((e, i) => (
         <View
           key={i}
