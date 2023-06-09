@@ -185,7 +185,7 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
-        {formattedText &&
+        {formattedText != null &&
           formattedText.map((sentence, index) => {
             return (
               <TouchableOpacity
