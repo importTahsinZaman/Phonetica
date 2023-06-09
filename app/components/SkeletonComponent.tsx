@@ -6,6 +6,8 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 
 const AnimatedLG = Animated.createAnimatedComponent(LinearGradient);
 
+//TODO: Bug Fix: Corners on the right are not rounded??? Adding overflow: "hidden" made the left corners stop clipping and stay rounded but no fix for right corners atm
+
 const SkeletonComponent = ({
   count = 5,
   width = PAGE_WIDTH,
@@ -32,7 +34,7 @@ const SkeletonComponent = ({
   });
 
   return (
-    <View style={{ width: width }}>
+    <View>
       {[...Array(count)].map((e, i) => (
         <View
           key={i}
@@ -40,9 +42,11 @@ const SkeletonComponent = ({
             backgroundColor: color1,
             borderColor: color2,
             height: height,
+            width: width,
+            borderRadius: 8,
+            overflow: "hidden",
             marginBottom: i == count - 1 ? 0 : 10,
           }}
-          className="rounded-lg"
         >
           <AnimatedLG
             colors={[color1, color2, color2, color1]}
