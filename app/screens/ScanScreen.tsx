@@ -5,6 +5,8 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+  Platform,
+  StatusBar,
 } from "react-native";
 import { useState } from "react";
 import { Camera, CameraType } from "expo-camera";
@@ -66,7 +68,12 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View className="flex-1 justify-center">
+    <SafeAreaView
+      className="flex-1 justify-center"
+      style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+    >
       <Camera
         type={type}
         className="flex-1"
@@ -115,7 +122,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         </SafeAreaView>
       </Camera>
-    </View>
+    </SafeAreaView>
   );
 };
 

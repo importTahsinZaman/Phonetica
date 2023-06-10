@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  Platform,
+  StatusBar,
 } from "react-native";
 
 import { OCR_SPACE_API_KEY } from "@env";
@@ -190,7 +192,12 @@ export default function TextSelectScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
+    <SafeAreaView
+      className="bg-white h-screen h-full w-full w-screen"
+      style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+    >
       <ReturnHeader
         navigation={navigation}
         color="black"

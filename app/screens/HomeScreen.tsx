@@ -4,6 +4,8 @@ import {
   SafeAreaView,
   View,
   ScrollView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import Header1 from "../components/Header1";
 import HomeBanner from "../components/HomeBanner";
@@ -42,7 +44,12 @@ const Content = ({ navigation }) => {
 const HomeScreen = ({ navigation }) => {
   if (PAGE_HEIGHT < 785) {
     return (
-      <SafeAreaView className="bg-white h-screen w-full">
+      <SafeAreaView
+        className="bg-white h-screen w-full"
+        style={{
+          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        }}
+      >
         <ScrollView>
           <Content navigation={navigation}></Content>
           <View style={{ height: 785 - PAGE_HEIGHT, width: PAGE_WIDTH }}></View>
@@ -51,7 +58,12 @@ const HomeScreen = ({ navigation }) => {
     );
   } else {
     return (
-      <SafeAreaView className="bg-white h-screen w-full">
+      <SafeAreaView
+        className="bg-white h-screen w-full"
+        style={{
+          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        }}
+      >
         <Content navigation={navigation}></Content>
       </SafeAreaView>
     );

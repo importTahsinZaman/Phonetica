@@ -3,7 +3,7 @@ import "react-native-url-polyfill/auto";
 
 import { DEEPL_KEY, OPEN_AI_API_KEY } from "@env";
 
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Platform, StatusBar } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Configuration, OpenAIApi } from "openai";
 import * as Speech from "expo-speech";
@@ -111,7 +111,12 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
+    <SafeAreaView
+      style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+      className="bg-white h-screen h-full w-full w-screen"
+    >
       <ReturnHeader
         navigation={navigation}
         destination="TextSelect"

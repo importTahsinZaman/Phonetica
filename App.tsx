@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   btnCircleUp: {
     width: 77.28,
     height: 77.28,
-    borderRadius: "50%",
+    borderRadius: 9999,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffbf23",
