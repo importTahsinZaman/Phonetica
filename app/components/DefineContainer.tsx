@@ -8,13 +8,14 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
+import { DEEPL_KEY } from "@env";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
-import { useTargetLangStringGlobal } from "./LanguagePicker";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Speech from "expo-speech";
 import SkeletonComponent from "./SkeletonComponent";
 import SkeletonComponent2 from "./SkeletonComponent2";
+import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -53,7 +54,6 @@ const DefineContainer: React.FC<ComponentProps> = ({
   text,
   openai,
 }) => {
-  const [targetLangString, setTargetLangString] = useTargetLangStringGlobal();
   const [selectedId, setSelectedId] = useState<string>();
   const [definitionExplanation, setDefinitionExplanation] = useState("");
   //These exist for recall of definition method when user changes language so they don't have to click a different word and then back to their word to get definition in a different language
@@ -65,6 +65,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
   ] = useState("");
   const [waitingForExplanationAPIResult, setWaitingForExplanationAPIResult] =
     useState(false);
+  const [targetLangAbbreviation, setTargetLangAbbreviation] =
+    useTargetLangAbbreviationGlobal();
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -120,9 +122,9 @@ const DefineContainer: React.FC<ComponentProps> = ({
     word: string,
     instance: string
   ) => {
-    const prompt = `Explain, to someone who only speaks ${targetLangString}, the definition and usage of occurrence ${
+    const prompt = `Explain, the definition and usage of occurrence ${
       instance ? instance : 1
-    } of the word "${word}" in the context of this text: "${text}". Keep the word in English and within quotation marks whenever referring to it.`;
+    } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it.`;
     setWaitingForExplanationAPIResult(true);
     await openai
       .createCompletion({
@@ -136,7 +138,51 @@ const DefineContainer: React.FC<ComponentProps> = ({
       })
       .then((result) => {
         let response1 = JSON.parse(result.request._response);
-        setDefinitionExplanation(response1.choices[0].text.trimStart());
+
+        if (targetLangAbbreviation != "EN-US") {
+          console.log("running foreign define");
+          let englishExplanation = response1.choices[0].text.trimStart();
+          englishExplanation = englishExplanation
+            .replace(`"${word}"`, `$%$${word}$%$`)
+            .replace(
+              `"${word.charAt(0).toUpperCase() + word.slice(1)}"`,
+              `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`
+            );
+
+          var myHeaders = new Headers();
+          myHeaders.append("Authorization", DEEPL_KEY);
+
+          var formdata = new FormData();
+          formdata.append("text", englishExplanation);
+          formdata.append("target_lang", targetLangAbbreviation);
+
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow",
+          };
+
+          fetch("https://api-free.deepl.com/v2/translate", requestOptions)
+            .then((response) => response.text())
+            .then((result) => JSON.parse(result))
+            .then((result) => {
+              let final = result["translations"][0].text;
+              final = final
+                .replace(`$%$${word}$%$`, `"${word}"`)
+                .replace(
+                  `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`,
+                  `"${word.charAt(0).toUpperCase() + word.slice(1)}"`
+                );
+              setDefinitionExplanation(final);
+            })
+            .catch((error) =>
+              console.log("Deepl API Error in Define Container", error)
+            );
+        } else {
+          console.log("running english define");
+          setDefinitionExplanation(response1.choices[0].text.trimStart());
+        }
         setWaitingForExplanationAPIResult(false);
       });
   };
@@ -151,7 +197,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
         currentInstanceChosenForDefinition
       );
     }
-  }, [targetLangString]);
+  }, [targetLangAbbreviation]);
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
