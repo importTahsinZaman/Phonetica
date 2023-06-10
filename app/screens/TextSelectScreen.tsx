@@ -20,6 +20,7 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 
 export default function TextSelectScreen({ route, navigation }) {
   const { ReturnHome, BackNavigation } = route.params;
+  const [gettingText, setGettingText] = useState(false);
   const [ocrText, setOcrText] = useState("");
   const [formattedText, setFormattedText] = useState(null);
 
@@ -44,7 +45,9 @@ export default function TextSelectScreen({ route, navigation }) {
 
   const getSavedOcrText = async () => {
     try {
+      setGettingText(true);
       await AsyncStorage.getItem("RecentScan0").then((value) => {
+        setGettingText(false);
         if (value !== null) {
           console.log("SETTING OCR TEXT WITH STORAGE RETRIEVED VALUES!");
           setOcrText(value);
@@ -59,6 +62,8 @@ export default function TextSelectScreen({ route, navigation }) {
   };
 
   const getOcrText = (base64) => {
+    setGettingText(true);
+    setFormattedText(null);
     var myHeaders = new Headers();
     myHeaders.append("apikey", OCR_SPACE_API_KEY);
 
@@ -83,6 +88,7 @@ export default function TextSelectScreen({ route, navigation }) {
       .then((result) => JSON.parse(result))
       .then(async (result) => {
         setOcrText(result.ParsedResults[0].ParsedText);
+        setGettingText(false);
 
         try {
           let oldSavedScans = [];
@@ -193,7 +199,7 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       <ScrollView className=" mx-4 ">
-        {formattedText ? (
+        {formattedText && !gettingText ? (
           formattedText.map((sentence, index) => {
             return (
               <TouchableOpacity
