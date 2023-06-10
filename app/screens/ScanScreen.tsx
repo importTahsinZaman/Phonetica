@@ -11,6 +11,7 @@ import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
 import ReturnHeader from "../components/ReturnHeader";
+import { ImageEditor } from "expo-image-editor";
 
 type Props = {
   navigation: any; //TODO: FIX THIS
@@ -22,6 +23,8 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 const ScanScreen: React.FC<Props> = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [imageUri, setImageUri] = useState(undefined);
+  const [editorVisible, setEditorVisible] = useState(false);
 
   let camera: any = null;
 
@@ -50,20 +53,16 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
 
   const takePicture = async () => {
     await camera.takePictureAsync().then(async (r) => {
-      const manipResult = await manipulateAsync(
-        r.uri,
-        [{ resize: { height: 1100 } }],
-        {
-          compress: 1,
-          format: SaveFormat.JPEG,
-          base64: true,
-        }
-      );
-      navigation.navigate("TextSelect", {
-        base64: manipResult.base64,
-        ReturnHome: false,
-      });
+      launchEditor(r.uri);
     });
+  };
+
+  const launchEditor = (uri: string) => {
+    console.log("Running Editor");
+    // Then set the image uri
+    setImageUri(uri);
+    // And set the image editor to be visible
+    setEditorVisible(true);
   };
 
   return (
@@ -80,6 +79,31 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
         </SafeAreaView>
 
         <SafeAreaView className="flex-1 flex-row bg-transparent m-[64]">
+          <ImageEditor
+            visible={editorVisible}
+            onCloseEditor={() => setEditorVisible(false)}
+            imageUri={imageUri}
+            fixedCropAspectRatio={16 / 9}
+            lockAspectRatio={false}
+            minimumCropDimensions={{
+              width: 100,
+              height: 100,
+            }}
+            onEditingComplete={async (r) => {
+              console.log("editing complete");
+
+              const manipResult = await manipulateAsync(r.uri, [], {
+                compress: 0.7,
+                format: SaveFormat.JPEG,
+                base64: true,
+              });
+              navigation.navigate("TextSelect", {
+                base64: manipResult.base64,
+                ReturnHome: false,
+              });
+            }}
+            mode="crop-only"
+          />
           <TouchableOpacity
             onPress={takePicture}
             className="flex-1 self-end items-center"
