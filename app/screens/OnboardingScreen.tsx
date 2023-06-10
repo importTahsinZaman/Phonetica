@@ -77,15 +77,20 @@ const OnboardingScreen = ({ navigation }) => {
       subTitleStyles={{ fontFamily: "SpaceGrotesk_400Regular" }}
       controlStatusBar={false}
       onDone={async () => {
+        const d = new Date();
+        const date = d.toLocaleDateString();
+        let time = d.toLocaleTimeString();
+        time = time.slice(0, 4) + time.slice(7);
+
         await AsyncStorage.multiSet([
           ["alreadyLaunched", "true"],
-          ["RecentScan0", ""],
-          ["RecentScan1", ""],
+          ["RecentScan0", "Tutorial Scan! Use this text as a demo scan."],
+          ["RecentScan1", "Tutorial Scan 2! Use this text as a demo scan."],
           ["RecentScan2", ""],
           ["RecentScan3", ""],
           ["RecentScan4", ""],
-          ["RecentScanTime0", ""],
-          ["RecentScanTime1", ""],
+          ["RecentScanTime0", date + "&$&" + time],
+          ["RecentScanTime1", date + "&$&" + time],
           ["RecentScanTime2", ""],
           ["RecentScanTime3", ""],
           ["RecentScanTime4", ""],

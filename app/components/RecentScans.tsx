@@ -77,17 +77,30 @@ const RecentScans = ({ navigation }) => {
     }
 
     if (tempSavedScans.length == 0) {
+      const d = new Date();
+      const date = d.toLocaleDateString();
+      let time = d.toLocaleTimeString();
+      time = time.slice(0, 4) + time.slice(7);
+
+      await AsyncStorage.multiSet([
+        ["RecentScan0", "Tutorial Scan! Use this text as a demo scan."],
+        ["RecentScan1", "Tutorial Scan 2! Use this text as a demo scan."],
+        ["RecentScan2", ""],
+        ["RecentScan3", ""],
+        ["RecentScan4", ""],
+        ["RecentScanTime0", date + "&$&" + time],
+        ["RecentScanTime1", date + "&$&" + time],
+        ["RecentScanTime2", ""],
+        ["RecentScanTime3", ""],
+        ["RecentScanTime4", ""],
+      ]);
+
       tempSavedScans = [
         ["RecentScan0", "Tutorial Scan! Use this text as a demo scan."],
         ["RecentScan1", "Tutorial Scan 2! Use this text as a demo scan."],
       ];
 
       tempScanTitles = ["Tutorial Scan!", "Tutorial Scan 2!"];
-
-      const d = new Date();
-      const date = d.toLocaleDateString();
-      let time = d.toLocaleTimeString();
-      time = time.slice(0, 4) + time.slice(7);
 
       tempSavedScanTimes = [
         ["RecentScanTime0", date + "&$&" + time],
@@ -98,7 +111,7 @@ const RecentScans = ({ navigation }) => {
     setSavedScans(tempSavedScans);
     setScanTimes(tempSavedScanTimes);
     setScanTitles(tempScanTitles);
-    setIndexArray([...new Array(tempSavedScans.length).keys()]);
+    setIndexArray(Array.from(Array(tempSavedScans.length).keys()));
   };
 
   const openRecentScan = async (index: number) => {
