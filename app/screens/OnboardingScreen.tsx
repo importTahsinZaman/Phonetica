@@ -73,8 +73,14 @@ const OnboardingScreen = ({ navigation }) => {
       DoneButtonComponent={DoneButtonComponent}
       DotComponent={DotComponent}
       skipToPage={4}
-      titleStyles={{ fontFamily: "SpaceGrotesk_700Bold" }}
-      subTitleStyles={{ fontFamily: "SpaceGrotesk_400Regular" }}
+      titleStyles={{
+        fontFamily: "SpaceGrotesk_700Bold",
+        fontSize: PAGE_WIDTH * 0.06280193236,
+      }}
+      subTitleStyles={{
+        fontFamily: "SpaceGrotesk_400Regular",
+        fontSize: PAGE_WIDTH * 0.03864734299,
+      }}
       controlStatusBar={false}
       onDone={async () => {
         const d = new Date();

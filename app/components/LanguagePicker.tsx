@@ -35,7 +35,7 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
   const styles = StyleSheet.create({
     dropdown: {
       height: 50,
-      width: fontSize * 7.1,
+      width: fontSize * 7.4,
       borderRadius: 22,
       paddingHorizontal: 8,
     },

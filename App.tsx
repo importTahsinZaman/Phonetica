@@ -89,13 +89,7 @@ const App = () => {
   onLayoutRootView();
 
   const _renderIcon = (routeName, selectedTab) => {
-    const ICON_SIZE = PAGE_WIDTH * 0.08;
-
-    let color = "8D8D8D";
-
-    if (routeName === selectedTab) {
-      color = "#FFBF23";
-    }
+    const ICON_SIZE = 33.12;
 
     switch (routeName) {
       case "Home":
@@ -138,7 +132,7 @@ const App = () => {
         ref={tabBarRef}
         initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
         style={styles.bottomBar}
-        height={PAGE_HEIGHT * 0.08}
+        height={71.68}
         bgColor="white"
         screenOptions={{
           header: () => null,
@@ -153,7 +147,7 @@ const App = () => {
                 tabBarRef?.current?.setVisible(false);
               }}
             >
-              <ScanIcon width={PAGE_WIDTH * 0.08} height={PAGE_WIDTH * 0.08} />
+              <ScanIcon width={33.12} height={33.12} />
             </Pressable>
           </Animated.View>
         )}
@@ -198,13 +192,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   btnCircleUp: {
-    width: PAGE_WIDTH * 0.18666666666,
-    height: PAGE_WIDTH * 0.18666666666,
+    width: 77.28,
+    height: 77.28,
     borderRadius: "50%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffbf23",
-    bottom: PAGE_HEIGHT * 0.067, //TODO: FIX THIS VALUE
+    bottom: 60.032,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

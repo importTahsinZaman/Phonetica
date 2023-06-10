@@ -1,4 +1,10 @@
-import { StyleSheet, Dimensions, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  View,
+  ScrollView,
+} from "react-native";
 import Header1 from "../components/Header1";
 import HomeBanner from "../components/HomeBanner";
 import FeaturedBooks from "../components/FeaturedBooks";
@@ -8,9 +14,9 @@ import RecentScans from "../components/RecentScans";
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
-const HomeScreen = ({ navigation }) => {
+const Content = ({ navigation }) => {
   return (
-    <SafeAreaView className="bg-white h-screen h-full w-full w-screen">
+    <View>
       <Header1></Header1>
       <HomeBanner navigation={navigation}></HomeBanner>
       <CustomText
@@ -29,8 +35,27 @@ const HomeScreen = ({ navigation }) => {
         Your Recent Scans
       </CustomText>
       <RecentScans navigation={navigation}></RecentScans>
-    </SafeAreaView>
+    </View>
   );
+};
+
+const HomeScreen = ({ navigation }) => {
+  if (PAGE_HEIGHT < 785) {
+    return (
+      <SafeAreaView className="bg-white h-screen w-full">
+        <ScrollView>
+          <Content navigation={navigation}></Content>
+          <View style={{ height: 785 - PAGE_HEIGHT, width: PAGE_WIDTH }}></View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView className="bg-white h-screen w-full">
+        <Content navigation={navigation}></Content>
+      </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
