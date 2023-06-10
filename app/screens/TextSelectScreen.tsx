@@ -216,7 +216,7 @@ export default function TextSelectScreen({ route, navigation }) {
           <SkeletonComponent
             marginHorizontal={2}
             count={15}
-            width={PAGE_WIDTH - 35}
+            width={PAGE_WIDTH * 0.91545893719}
           />
         )}
       </ScrollView>

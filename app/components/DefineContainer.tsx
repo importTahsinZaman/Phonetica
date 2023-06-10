@@ -208,11 +208,11 @@ const DefineContainer: React.FC<ComponentProps> = ({
           >
             <SkeletonComponent2 />
             <SafeAreaView className="mx-2">
-              <SkeletonComponent count={1} width={70} />
+              <SkeletonComponent count={1} width={0.169082125 * PAGE_WIDTH} />
               <SkeletonComponent
                 count={4}
                 marginTop={5}
-                width={PAGE_WIDTH - 94}
+                width={PAGE_WIDTH * 0.7729468599}
               />
             </SafeAreaView>
           </SafeAreaView>

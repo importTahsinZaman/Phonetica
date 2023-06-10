@@ -72,7 +72,7 @@ const PronounceContainer = ({
             <SkeletonComponent
               marginTop={5}
               count={4}
-              width={PAGE_WIDTH - 80}
+              width={PAGE_WIDTH * 0.80676328502}
             />
           )}
         </ScrollView>
