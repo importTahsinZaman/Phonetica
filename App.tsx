@@ -1,11 +1,5 @@
 import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
-import {
-  Animated,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  View,
-} from "react-native";
+import { Animated, StyleSheet, Dimensions, Pressable } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -132,6 +126,7 @@ const App = () => {
         ref={tabBarRef}
         initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
         style={styles.bottomBar}
+        shadowStyle={styles.shadow}
         height={71.68}
         bgColor="white"
         screenOptions={{
@@ -187,9 +182,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bottomBar: {
+    zIndex: 999,
+    backgroundColor: "#0000", // invisible color
+  },
+  shadow: {
     shadowColor: "black",
-    shadowRadius: 19,
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
     shadowOpacity: 0.1,
+    shadowRadius: 19,
+    elevation: 15,
+    // // background color must be set
+    backgroundColor: "#0000", // invisible color
   },
   btnCircleUp: {
     width: 77.28,

@@ -163,7 +163,10 @@ const RecentScans = ({ navigation }) => {
       style={{ width: PAGE_WIDTH }}
       data={indexArray}
       renderItem={({ index }) => (
-        <View className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex">
+        <View
+          className="m-2 flex-1 rounded-xl bg-white shadow justify-center flex"
+          style={{ elevation: 15 }}
+        >
           <TouchableOpacity
             onPress={() => {
               openRecentScan(index);
