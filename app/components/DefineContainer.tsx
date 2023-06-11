@@ -7,6 +7,8 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
+  Modal,
+  Button,
 } from "react-native";
 import { DEEPL_KEY } from "@env";
 import CustomText from "./CustomText";
@@ -16,6 +18,7 @@ import * as Speech from "expo-speech";
 import SkeletonComponent from "./SkeletonComponent";
 import SkeletonComponent2 from "./SkeletonComponent2";
 import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
+import { Ionicons } from "@expo/vector-icons";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -67,6 +70,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
     useState(false);
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -263,11 +267,41 @@ const DefineContainer: React.FC<ComponentProps> = ({
         )}
       </SafeAreaView>
 
-      {definitionExplanation && (
+      {definitionExplanation && !waitingForExplanationAPIResult && (
         <SafeAreaView style={styles.containerMargin} className="mt-auto">
-          <TouchableOpacity className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center">
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center"
+          >
             <CustomText>Create Flashcard</CustomText>
           </TouchableOpacity>
+        </SafeAreaView>
+      )}
+      {modalVisible && (
+        <SafeAreaView style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}
+          >
+            <SafeAreaView style={styles.centeredView}>
+              <SafeAreaView className="flex items-center border-y-4 w-full bg-[#FFBF23] border-black">
+                <Ionicons name="construct" size={50} color="black" />
+                <CustomText fontThicknessNumber={4} className="text-2xl">
+                  FLASHCARDS COMING SOON!
+                </CustomText>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hide</Text>
+                </Pressable>
+              </SafeAreaView>
+            </SafeAreaView>
+          </Modal>
         </SafeAreaView>
       )}
     </SafeAreaView>
@@ -281,6 +315,37 @@ const styles = StyleSheet.create({
   },
   defineText: {
     marginRight: PAGE_WIDTH * 0.0699998,
+  },
+  //Modal Styles:
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  button: {
+    marginTop: 15,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    elevation: 2,
+    borderWidth: 3,
+  },
+  buttonOpen: {
+    backgroundColor: "#FFBF23",
+  },
+  buttonClose: {
+    backgroundColor: "#FFBF23",
+  },
+  textStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 18,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });
 
