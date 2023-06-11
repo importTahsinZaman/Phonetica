@@ -67,7 +67,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
+    <View
       className="flex-1 justify-center"
       style={{
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
@@ -108,6 +108,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             }}
             mode="crop-only"
           />
+
           <TouchableOpacity
             onPress={takePicture}
             className="flex-1 self-end items-center"
@@ -119,7 +120,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         </SafeAreaView>
       </Camera>
-    </SafeAreaView>
+    </View>
   );
 };
 

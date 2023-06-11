@@ -104,23 +104,25 @@ const LanguagePicker = ({
       placeholder="ENG"
       searchPlaceholder="Search"
       onChange={async (e) => {
-        if (!coolingDown) {
-          if (coolDown) {
-            setCoolingDown(true);
-          }
-          //Function name is set country but really we're setting language. This setCountry is just for UI
-          setCountry(e.value);
-          //Async Storage Set:
-          await setUserTargetLanguage(e.value);
-          //Global State Sets:
-          setTargetLangNum(e.value);
-          setTargetLangString(LangMap(e.value));
-          setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
+        if (e.value != country) {
+          if (!coolingDown) {
+            if (coolDown) {
+              setCoolingDown(true);
+            }
+            //Function name is set country but really we're setting language. This setCountry is just for UI
+            setCountry(e.value);
+            //Async Storage Set:
+            await setUserTargetLanguage(e.value);
+            //Global State Sets:
+            setTargetLangNum(e.value);
+            setTargetLangString(LangMap(e.value));
+            setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
 
-          if (coolDown) {
-            const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-            await delay(10000);
-            setCoolingDown(false);
+            if (coolDown) {
+              const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+              await delay(10000);
+              setCoolingDown(false);
+            }
           }
         }
       }}
