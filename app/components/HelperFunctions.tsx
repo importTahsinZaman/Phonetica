@@ -36,6 +36,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // ZH - Chinese (simplified)
 
 export const LangMap = (langNum) => {
+  //Converts num to full string of language, Ex: 1 to "English"
   langNum = langNum.toString();
   let language = "";
   switch (langNum) {

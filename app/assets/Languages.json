@@ -2,29 +2,266 @@
   {
     "value": "1",
     "label": "ENG",
+    "language": "English",
+    "DeeplAbbreviation": "EN-US",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197484.png"
     }
   },
   {
     "value": "2",
+    "label": "BUL",
+    "language": "Bulgarian",
+    "DeeplAbbreviation": "BG",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197502.png"
+    }
+  },
+  {
+    "value": "3",
     "label": "CHN",
+    "language": "Chinese",
+    "DeeplAbbreviation": "ZH",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197375.png"
     }
   },
   {
-    "value": "3",
-    "label": "ESP",
+    "value": "4",
+    "label": "CZE",
+    "language": "Czech",
+    "DeeplAbbreviation": "CS",
     "image": {
-      "uri": "https://cdn-icons-png.flaticon.com/512/5372/5372848.png"
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197576.png"
+    }
+  },
+
+  {
+    "value": "6",
+    "label": "DAN",
+    "language": "Danish",
+    "DeeplAbbreviation": "DA",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197565.png"
     }
   },
   {
-    "value": "4",
+    "value": "7",
+    "label": "DUT",
+    "language": "Dutch",
+    "DeeplAbbreviation": "NL",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/6157/6157397.png"
+    }
+  },
+  {
+    "value": "8",
     "label": "ESP",
+    "language": "Spanish",
+    "DeeplAbbreviation": "ES",
     "image": {
       "uri": "https://cdn-icons-png.flaticon.com/512/197/197593.png"
+    }
+  },
+
+  {
+    "value": "10",
+    "label": "EST",
+    "language": "Estonian",
+    "DeeplAbbreviation": "ET",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197379.png"
+    }
+  },
+  {
+    "value": "11",
+    "label": "FIN",
+    "language": "Finnish",
+    "DeeplAbbreviation": "FI",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197585.png"
+    }
+  },
+  {
+    "value": "12",
+    "label": "FRA",
+    "language": "French",
+    "DeeplAbbreviation": "FR",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197560.png"
+    }
+  },
+  {
+    "value": "5",
+    "label": "GER",
+    "language": "German",
+    "DeeplAbbreviation": "DE",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197571.png"
+    }
+  },
+  {
+    "value": "9",
+    "label": "GRK",
+    "language": "Greek",
+    "DeeplAbbreviation": "EL",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/323/323302.png"
+    }
+  },
+
+  {
+    "value": "13",
+    "label": "HUN",
+    "language": "Hungarian",
+    "DeeplAbbreviation": "HU",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197584.png"
+    }
+  },
+  {
+    "value": "14",
+    "label": "IDN",
+    "language": "Indonesian",
+    "DeeplAbbreviation": "ID",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/6157/6157721.png"
+    }
+  },
+  {
+    "value": "15",
+    "label": "ITA",
+    "language": "Italian",
+    "DeeplAbbreviation": "IT",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197626.png"
+    }
+  },
+  {
+    "value": "16",
+    "label": "JPN",
+    "language": "Japanese",
+    "DeeplAbbreviation": "JA",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197604.png"
+    }
+  },
+  {
+    "value": "17",
+    "label": "KOR",
+    "language": "Korean",
+    "DeeplAbbreviation": "KO",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/5111/5111586.png"
+    }
+  },
+  {
+    "value": "18",
+    "label": "LTU",
+    "language": "Lithuanian",
+    "DeeplAbbreviation": "LT",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197612.png"
+    }
+  },
+  {
+    "value": "19",
+    "label": "LVA",
+    "language": "Latvian",
+    "DeeplAbbreviation": "LV",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/4852/4852937.png"
+    }
+  },
+  {
+    "value": "20",
+    "label": "NOR",
+    "language": "Norwegian",
+    "DeeplAbbreviation": "NB",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197579.png"
+    }
+  },
+
+  {
+    "value": "21",
+    "label": "POL",
+    "language": "Polish",
+    "DeeplAbbreviation": "PL",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/4628/4628690.png"
+    }
+  },
+  {
+    "value": "22",
+    "label": "PRT",
+    "language": "Portuguese",
+    "DeeplAbbreviation": "PT-PT",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197463.png"
+    }
+  },
+  {
+    "value": "23",
+    "label": "ROM",
+    "language": "Romanian",
+    "DeeplAbbreviation": "RO",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197587.png"
+    }
+  },
+  {
+    "value": "24",
+    "label": "RUS",
+    "language": "Russian",
+    "DeeplAbbreviation": "RU",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/4628/4628645.png"
+    }
+  },
+  {
+    "value": "25",
+    "label": "SLV",
+    "language": "Slovak",
+    "DeeplAbbreviation": "SK",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197592.png"
+    }
+  },
+  {
+    "value": "26",
+    "label": "SVN",
+    "language": "Slovenian",
+    "DeeplAbbreviation": "SL",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197633.png"
+    }
+  },
+  {
+    "value": "27",
+    "label": "SWE",
+    "language": "Swedish",
+    "DeeplAbbreviation": "SV",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/197/197564.png"
+    }
+  },
+  {
+    "value": "28",
+    "label": "TUR",
+    "language": "Turkish",
+    "DeeplAbbreviation": "TR",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/5111/5111548.png"
+    }
+  },
+  {
+    "value": "29",
+    "label": "UKR",
+    "language": "Ukrainian",
+    "DeeplAbbreviation": "UK",
+    "image": {
+      "uri": "https://cdn-icons-png.flaticon.com/512/4855/4855867.png"
     }
   }
 ]
