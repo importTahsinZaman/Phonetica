@@ -40,7 +40,7 @@ const TranslationScreen = ({ route, navigation }) => {
       setShowTranslate(true);
       setShowDefine(false);
       setShowPronounce(false);
-      fixText();
+      setText();
     } else {
       setFinalizedText("");
       setTranslatedText("");
@@ -51,63 +51,79 @@ const TranslationScreen = ({ route, navigation }) => {
     translateText(finalizedText);
   }, [finalizedText, targetLangAbbreviation]);
 
-  const fixText = async () => {
-    await openai
-      .createCompletion({
-        model: "text-davinci-003",
-        prompt: `Fix errors and return new text: ${sentence}`,
-        temperature: 0.7,
-        max_tokens: 256,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-      })
-      .then((result) => {
-        let response1 = JSON.parse(result.request._response);
-        setFinalizedText(response1.choices[0].text.trimStart());
+  // Currently decided to not use:
+  // const fixText = async () => {
+  //   await openai
+  //     .createCompletion({
+  //       model: "text-davinci-003",
+  //       prompt: `Fix errors and return new text: ${sentence}`,
+  //       temperature: 0.7,
+  //       max_tokens: 256,
+  //       top_p: 1,
+  //       frequency_penalty: 0,
+  //       presence_penalty: 0,
+  //     })
+  //     .then((result) => {
+  //       let response1 = JSON.parse(result.request._response);
+  //       setFinalizedText(response1.choices[0].text.trimStart());
 
-        const tempWordsList = response1.choices[0].text
-          .trimStart()
-          .match(/\b(\w+)'?(\w+)?\b/g);
-        let tempWordsObjectList: { id: string; word: string }[] = [];
+  //       const tempWordsList = response1.choices[0].text
+  //         .trimStart()
+  //         .match(/\b(\w+)'?(\w+)?\b/g);
+  //       let tempWordsObjectList: { id: string; word: string }[] = [];
 
-        tempWordsList.forEach((word: string, index: string) => {
-          tempWordsObjectList.push({
-            id: index.toString(),
-            word: word,
-          });
-        });
+  //       tempWordsList.forEach((word: string, index: string) => {
+  //         tempWordsObjectList.push({
+  //           id: index.toString(),
+  //           word: word,
+  //         });
+  //       });
 
-        setWordsList(tempWordsObjectList);
+  //       setWordsList(tempWordsObjectList);
+  //     });
+  // };
+
+  const setText = () => {
+    setFinalizedText(sentence);
+    const tempWordsList = sentence.trimStart().match(/\b(\w+)'?(\w+)?\b/g);
+    let tempWordsObjectList: { id: string; word: string }[] = [];
+
+    tempWordsList.forEach((word: string, index: string) => {
+      tempWordsObjectList.push({
+        id: index.toString(),
+        word: word,
       });
+    });
+
+    setWordsList(tempWordsObjectList);
   };
 
   const translateText = async (text: string) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", DEEPL_KEY);
+    if (targetLangAbbreviation != "EN-US") {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", DEEPL_KEY);
 
-    var formdata = new FormData();
-    formdata.append("text", text);
-    formdata.append("target_lang", targetLangAbbreviation);
+      var formdata = new FormData();
+      formdata.append("text", text);
+      formdata.append("target_lang", targetLangAbbreviation);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow",
+      };
 
-    fetch("https://api-free.deepl.com/v2/translate", requestOptions)
-      .then((response) => response.text())
-      .then((result) => JSON.parse(result))
-      .then((result) => {
-        setTranslatedText(result["translations"][0].text);
-      })
-      .catch((error) => console.log("Deepl API Error", error));
-  };
-
-  const givePronunciation = () => {
-    Speech.speak(finalizedText, { rate: 0.7 });
+      fetch("https://api-free.deepl.com/v2/translate", requestOptions)
+        .then((response) => response.text())
+        .then((result) => JSON.parse(result))
+        .then((result) => {
+          setTranslatedText(result["translations"][0].text);
+        })
+        .catch((error) => console.log("Deepl API Error", error));
+    } else {
+      setTranslatedText(finalizedText);
+    }
   };
 
   return (
