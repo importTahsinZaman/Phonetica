@@ -60,7 +60,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const launchEditor = (uri: string) => {
-    console.log("Running Editor");
     // Then set the image uri
     setImageUri(uri);
     // And set the image editor to be visible
@@ -97,8 +96,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               height: 100,
             }}
             onEditingComplete={async (r) => {
-              console.log("editing complete");
-
               const manipResult = await manipulateAsync(r.uri, [], {
                 compress: 0.7,
                 format: SaveFormat.JPEG,

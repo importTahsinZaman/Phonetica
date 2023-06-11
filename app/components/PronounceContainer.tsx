@@ -49,10 +49,6 @@ const PronounceContainer = ({
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    console.log("playing: ", playing, "paused: ", paused);
-  }, [playing, paused]);
-
   return (
     <View
       className="bg-[#F6F6F6] rounded-xl p-4 my-4 h-[350]"

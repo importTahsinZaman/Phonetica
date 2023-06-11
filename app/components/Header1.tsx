@@ -7,8 +7,6 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Header1 = ({}) => {
-  console.log("width: ", PAGE_WIDTH);
-  console.log("height: ", PAGE_HEIGHT);
   return (
     <View
       style={styles.Container}

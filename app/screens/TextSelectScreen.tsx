@@ -51,7 +51,6 @@ export default function TextSelectScreen({ route, navigation }) {
       await AsyncStorage.getItem("RecentScan0").then((value) => {
         setGettingText(false);
         if (value !== null) {
-          console.log("SETTING OCR TEXT WITH STORAGE RETRIEVED VALUES!");
           setOcrText(value);
           formatText();
         } else {

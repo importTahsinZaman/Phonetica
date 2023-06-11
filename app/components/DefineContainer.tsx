@@ -140,7 +140,6 @@ const DefineContainer: React.FC<ComponentProps> = ({
         let response1 = JSON.parse(result.request._response);
 
         if (targetLangAbbreviation != "EN-US") {
-          console.log("running foreign define");
           let englishExplanation = response1.choices[0].text.trimStart();
           englishExplanation = englishExplanation
             .replace(`"${word}"`, `$%$${word}$%$`)
@@ -180,7 +179,6 @@ const DefineContainer: React.FC<ComponentProps> = ({
               console.log("Deepl API Error in Define Container", error)
             );
         } else {
-          console.log("running english define");
           setDefinitionExplanation(response1.choices[0].text.trimStart());
         }
         setWaitingForExplanationAPIResult(false);
@@ -267,10 +265,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
       {definitionExplanation && (
         <SafeAreaView style={styles.containerMargin} className="mt-auto">
-          <TouchableOpacity
-            onPress={() => console.log("Create Flashcard Pressed")}
-            className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center"
-          >
+          <TouchableOpacity className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center">
             <CustomText>Create Flashcard</CustomText>
           </TouchableOpacity>
         </SafeAreaView>
