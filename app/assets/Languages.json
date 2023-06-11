@@ -37,7 +37,7 @@
   },
 
   {
-    "value": "6",
+    "value": "5",
     "label": "DAN",
     "language": "Danish",
     "DeeplAbbreviation": "DA",
@@ -46,7 +46,7 @@
     }
   },
   {
-    "value": "7",
+    "value": "6",
     "label": "DUT",
     "language": "Dutch",
     "DeeplAbbreviation": "NL",
@@ -55,7 +55,7 @@
     }
   },
   {
-    "value": "8",
+    "value": "7",
     "label": "ESP",
     "language": "Spanish",
     "DeeplAbbreviation": "ES",
@@ -65,7 +65,7 @@
   },
 
   {
-    "value": "10",
+    "value": "8",
     "label": "EST",
     "language": "Estonian",
     "DeeplAbbreviation": "ET",
@@ -74,7 +74,7 @@
     }
   },
   {
-    "value": "11",
+    "value": "9",
     "label": "FIN",
     "language": "Finnish",
     "DeeplAbbreviation": "FI",
@@ -83,7 +83,7 @@
     }
   },
   {
-    "value": "12",
+    "value": "10",
     "label": "FRA",
     "language": "French",
     "DeeplAbbreviation": "FR",
@@ -92,7 +92,7 @@
     }
   },
   {
-    "value": "5",
+    "value": "11",
     "label": "GER",
     "language": "German",
     "DeeplAbbreviation": "DE",
@@ -101,7 +101,7 @@
     }
   },
   {
-    "value": "9",
+    "value": "12",
     "label": "GRK",
     "language": "Greek",
     "DeeplAbbreviation": "EL",

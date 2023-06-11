@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LanguageData from "../assets/Languages.json";
 
 //Deepl Lang Abbreviations:
 // BG - Bulgarian
@@ -35,51 +36,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // UK - Ukrainian
 // ZH - Chinese (simplified)
 
-export const LangMap = (langNum) => {
+export const LangMap = (langNum: string | number) => {
   //Converts num to full string of language, Ex: 1 to "English"
   langNum = langNum.toString();
-  let language = "";
-  switch (langNum) {
-    case "1":
-      language = "English";
-      break;
-    case "2":
-      language = "Chinese";
-      break;
-    case "3":
-      language = "Spanish";
-      break;
-    case "4":
-      language = "Spanish";
-      break;
-    default:
-      language = "English";
-  }
-
-  return language;
+  let obj = LanguageData.find((o) => o.value == langNum);
+  return obj?.language;
 };
 
-export const DeeplLangAbbreviationMap = (langNum) => {
+export const DeeplLangAbbreviationMap = (langNum: string | number) => {
+  //Converts num to deepl abbreviation for that corresponding language ex: 1 to EN-US, 2 to BG
   langNum = langNum.toString();
-  let abbreviation = "";
-  switch (langNum) {
-    case "1":
-      abbreviation = "EN-US";
-      break;
-    case "2":
-      abbreviation = "ZH";
-      break;
-    case "3":
-      abbreviation = "ES";
-      break;
-    case "4":
-      abbreviation = "ES";
-      break;
-    default:
-      abbreviation = "EN-US";
-  }
-
-  return abbreviation;
+  let obj = LanguageData.find((o) => o.value == langNum);
+  return obj?.DeeplAbbreviation;
 };
 
 export const getUserTargetLanguage = async () => {
