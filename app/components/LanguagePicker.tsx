@@ -23,7 +23,12 @@ export const useTargetLangStringGlobal = TARGET_LANG_STRING.getHook();
 export const useTargetLangAbbreviationGlobal =
   TARGET_LANG_ABBREVIATION.getHook();
 
-const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
+const LanguagePicker = ({
+  disabled = false,
+  size = 24,
+  fontSize = 13,
+  coolDown = false,
+}) => {
   const isFocused = useIsFocused();
   const [country, setCountry] = useState("1");
 
@@ -31,6 +36,8 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
   const [targetLangString, setTargetLangString] = useTargetLangStringGlobal();
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
+
+  const [coolingDown, setCoolingDown] = useState(false);
 
   const styles = StyleSheet.create({
     dropdown: {
@@ -54,8 +61,8 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
     iconStyle: {
       //Down Arrow
       tintColor: "black",
-      width: disabled ? 0 : 20,
-      height: disabled ? 0 : 20,
+      width: disabled || coolingDown ? 0 : 20,
+      height: disabled || coolingDown ? 0 : 20,
     },
   });
 
@@ -97,16 +104,27 @@ const LanguagePicker = ({ disabled = false, size = 24, fontSize = 13 }) => {
       placeholder="ENG"
       searchPlaceholder="Search"
       onChange={async (e) => {
-        //Function name is set country but really we're setting language. This setCountry is just for UI
-        setCountry(e.value);
-        //Async Storage Set:
-        await setUserTargetLanguage(e.value);
-        //Global State Sets:
-        setTargetLangNum(e.value);
-        setTargetLangString(LangMap(e.value));
-        setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
+        if (!coolingDown) {
+          if (coolDown) {
+            setCoolingDown(true);
+          }
+          //Function name is set country but really we're setting language. This setCountry is just for UI
+          setCountry(e.value);
+          //Async Storage Set:
+          await setUserTargetLanguage(e.value);
+          //Global State Sets:
+          setTargetLangNum(e.value);
+          setTargetLangString(LangMap(e.value));
+          setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
+
+          if (coolDown) {
+            const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+            await delay(10000);
+            setCoolingDown(false);
+          }
+        }
       }}
-      disable={disabled}
+      disable={disabled || coolingDown}
     />
   );
 };

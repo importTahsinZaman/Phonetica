@@ -27,6 +27,7 @@ const DoubleLanguagePicker = () => {
         height={PAGE_WIDTH * 0.05333333333}
       ></DoubleArrow>
       <LanguagePicker
+        coolDown={true}
         size={PAGE_WIDTH * 0.07466666666}
         fontSize={15}
       ></LanguagePicker>
