@@ -2,7 +2,7 @@ import * as React from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
-const FeaturedBooks = ({}) => {
+const FeaturedVideos = ({}) => {
   const PAGE_WIDTH = Dimensions.get("window").width;
   const COUNT = 2;
 
@@ -34,4 +34,4 @@ const FeaturedBooks = ({}) => {
   );
 };
 
-export default FeaturedBooks;
+export default FeaturedVideos;

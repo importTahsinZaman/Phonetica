@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Header1 from "../components/Header1";
 import HomeBanner from "../components/HomeBanner";
-import FeaturedBooks from "../components/FeaturedBooks";
+import FeaturedVideos from "../components/FeaturedVideos";
 import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
 
@@ -28,7 +28,7 @@ const Content = ({ navigation }) => {
       >
         Featured Videos
       </CustomText>
-      <FeaturedBooks></FeaturedBooks>
+      <FeaturedVideos></FeaturedVideos>
       <CustomText
         className="text-base"
         fontThicknessNumber={4}
