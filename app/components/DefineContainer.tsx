@@ -146,7 +146,10 @@ const DefineContainer: React.FC<ComponentProps> = ({
         if (targetLangAbbreviation != "EN-US") {
           let englishExplanation = response1.choices[0].text.trimStart();
           englishExplanation = englishExplanation
-            .replace(`"${word}"`, `$%$${word}$%$`)
+            .replace(
+              `"${word}"`,
+              `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`
+            )
             .replace(
               `"${word.charAt(0).toUpperCase() + word.slice(1)}"`,
               `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`
@@ -172,11 +175,21 @@ const DefineContainer: React.FC<ComponentProps> = ({
             .then((result) => {
               let final = result["translations"][0].text;
               final = final
-                .replace(`$%$${word}$%$`, `"${word}"`)
+                .replace(
+                  `$%$${word}$%$`,
+                  `"${word.charAt(0).toUpperCase() + word.slice(1)}"`
+                )
                 .replace(
                   `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`,
                   `"${word.charAt(0).toUpperCase() + word.slice(1)}"`
                 );
+
+              let regex = /\$%\$([^$%]+)\$%\$/;
+              final = final.replace(
+                new RegExp(regex.source, "g"),
+                `"` + word.charAt(0).toUpperCase() + word.slice(1) + `"`
+              );
+
               setDefinitionExplanation(final);
             })
             .catch((error) =>
