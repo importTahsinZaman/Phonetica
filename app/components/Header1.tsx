@@ -27,7 +27,7 @@ const Header1 = ({}) => {
 
 const styles = StyleSheet.create({
   Container: {
-    marginHorizontal: PAGE_WIDTH * 0.0544,
+    marginHorizontal: PAGE_WIDTH * 0.055,
   },
   Title: {
     fontFamily: "SpaceGrotesk_700Bold",
