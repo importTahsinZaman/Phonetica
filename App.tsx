@@ -28,7 +28,17 @@ import {
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk";
 
-SplashScreen.preventAutoHideAsync();
+import Constants, { ExecutionEnvironment } from "expo-constants";
+
+// `true` when running in Expo Go.
+const isExpoGo =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+let analytics;
+if (!isExpoGo) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  analytics = require("@react-native-firebase/analytics").default;
+}
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;

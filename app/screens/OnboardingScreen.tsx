@@ -9,8 +9,19 @@ import OnboardingImage4 from "../assets/OnboardingImage4.svg";
 import OnboardingImage5 from "../assets/OnboardingImage5.svg";
 import { tabBarRef } from "../../App";
 
+import Constants, { ExecutionEnvironment } from "expo-constants";
+
+// `true` when running in Expo Go.
+const isExpoGo =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+let analytics;
+if (!isExpoGo) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  analytics = require("@react-native-firebase/analytics").default;
+}
+
 const PAGE_WIDTH = Dimensions.get("window").width;
-const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const NextButtonComponent = ({ ...props }) => {
   return (
@@ -101,6 +112,12 @@ const OnboardingScreen = ({ navigation }) => {
           ["RecentScanTime3", ""],
           ["RecentScanTime4", ""],
         ]);
+
+        if (isExpoGo) {
+          console.log("completed onboarding");
+        } else {
+          await analytics().logEvent("completed_onboarding");
+        }
         navigation.navigate("Home");
         tabBarRef?.current?.setVisible(true);
       }}
