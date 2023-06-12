@@ -21,14 +21,15 @@ const Content = ({ navigation }) => {
     <View>
       <Header1></Header1>
       <HomeBanner navigation={navigation}></HomeBanner>
-      <CustomText
+      {/* Featured videos not yet completed: */}
+      {/* <CustomText
         className="text-base"
         fontThicknessNumber={4}
         style={styles.Header}
       >
         Featured Videos
       </CustomText>
-      <FeaturedVideos></FeaturedVideos>
+      <FeaturedVideos></FeaturedVideos> */}
       <CustomText
         className="text-base"
         fontThicknessNumber={4}

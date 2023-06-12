@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     zIndex: 999,
-    backgroundColor: "#0000", // invisible color
+    backgroundColor: "#0000",
   },
   shadow: {
     shadowColor: "black",
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 19,
     elevation: 15,
-    // // background color must be set
-    backgroundColor: "#0000", // invisible color
+    // background color must be set
+    backgroundColor: "#0000",
   },
   btnCircleUp: {
     width: 77.28,
