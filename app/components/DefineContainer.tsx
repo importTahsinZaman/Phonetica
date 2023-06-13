@@ -141,26 +141,36 @@ const DefineContainer: React.FC<ComponentProps> = ({
         presence_penalty: 0,
       })
       .then((result) => {
-        let response1 = JSON.parse(result.request._response);
+        const response1 = JSON.parse(result.request._response);
+        const englishExplanation = response1.choices[0].text.trimStart();
 
         if (targetLangAbbreviation != "EN-US") {
-          let englishExplanation = response1.choices[0].text.trimStart();
-          englishExplanation = englishExplanation
-            .replace(
-              `"${word}"`,
-              `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`
-            )
-            .replace(
-              `"${word.charAt(0).toUpperCase() + word.slice(1)}"`,
-              `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`
-            );
+          function addKeepTags(sentence: string, word: string) {
+            // Create a regular expression with word boundaries
+            var regex = new RegExp("\\b" + word + "\\b", "gi");
+
+            // Replace the word with the word wrapped in keep tags
+            var result = sentence.replace(regex, "<keep>$&</keep>");
+
+            return result;
+          }
+
+          function removeKeepTags(sentence) {
+            var regex = /<keep>(.*?)<\/keep>/gi;
+            var result = sentence.replace(regex, "$1");
+            return result;
+          }
+
+          let queryText = addKeepTags(englishExplanation, word);
 
           var myHeaders = new Headers();
           myHeaders.append("Authorization", DEEPL_KEY);
 
           var formdata = new FormData();
-          formdata.append("text", englishExplanation);
+          formdata.append("text", queryText);
           formdata.append("target_lang", targetLangAbbreviation);
+          formdata.append("tag_handling", "xml");
+          formdata.append("ignore_tags", "keep");
 
           var requestOptions = {
             method: "POST",
@@ -174,29 +184,14 @@ const DefineContainer: React.FC<ComponentProps> = ({
             .then((result) => JSON.parse(result))
             .then((result) => {
               let final = result["translations"][0].text;
-              final = final
-                .replace(
-                  `$%$${word}$%$`,
-                  `"${word.charAt(0).toUpperCase() + word.slice(1)}"`
-                )
-                .replace(
-                  `$%$${word.charAt(0).toUpperCase() + word.slice(1)}$%$`,
-                  `"${word.charAt(0).toUpperCase() + word.slice(1)}"`
-                );
 
-              let regex = /\$%\$([^$%]+)\$%\$/;
-              final = final.replace(
-                new RegExp(regex.source, "g"),
-                `"` + word.charAt(0).toUpperCase() + word.slice(1) + `"`
-              );
-
-              setDefinitionExplanation(final);
+              setDefinitionExplanation(removeKeepTags(final));
             })
             .catch((error) =>
               console.log("Deepl API Error in Define Container", error)
             );
         } else {
-          setDefinitionExplanation(response1.choices[0].text.trimStart());
+          setDefinitionExplanation(englishExplanation);
         }
         setWaitingForExplanationAPIResult(false);
       });
