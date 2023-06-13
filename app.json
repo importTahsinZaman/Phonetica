@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.expo.Phonetica"
+      "bundleIdentifier": "com.Zaman.Phonetica"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +26,7 @@
         "backgroundColor": "#FFBF23"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.expo.Phonetica"
+      "package": "com.Zaman.Phonetica"
     },
     "web": {
       "favicon": "./assets/favicon.png"
