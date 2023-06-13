@@ -77,5 +77,6 @@ dist/
 
 GoogleService-Info.plist
 google-services.json
-ios/Phonetica/GoogleService-Info.plist
-android/app/google-services.json
+ios/
+android/
+
