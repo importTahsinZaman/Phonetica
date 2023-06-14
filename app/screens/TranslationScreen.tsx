@@ -147,16 +147,19 @@ const TranslationScreen = ({ route, navigation }) => {
           setShowTranslate(true);
           setShowDefine(false);
           setShowPronounce(false);
+          Speech.stop();
         }}
         DefineSelectFunction={() => {
           setShowTranslate(false);
           setShowDefine(true);
           setShowPronounce(false);
+          Speech.stop();
         }}
         PronounceSelectFunction={() => {
           setShowTranslate(false);
           setShowDefine(false);
           setShowPronounce(true);
+          Speech.stop();
         }}
         TranslateSelected={showTranslate}
         DefineSelected={showDefine}
