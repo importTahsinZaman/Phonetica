@@ -26,6 +26,13 @@ const LearnScreen = ({}) => {
           COMING SOON!
         </CustomText>
       </SafeAreaView>
+      <TouchableOpacity
+        onPress={() => {
+          AsyncStorage.clear();
+        }}
+      >
+        <CustomText>Secret Secret</CustomText>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

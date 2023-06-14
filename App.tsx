@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
-import { Animated, StyleSheet, Dimensions, Pressable } from "react-native";
+import { Animated, StyleSheet, Pressable } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,6 +30,8 @@ import {
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
 
+SplashScreen.preventAutoHideAsync();
+
 // `true` when running in Expo Go.
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
@@ -39,9 +41,6 @@ if (!isExpoGo) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   analytics = require("@react-native-firebase/analytics").default;
 }
-
-const PAGE_WIDTH = Dimensions.get("window").width;
-const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const Stack = createNativeStackNavigator();
 
@@ -76,7 +75,10 @@ const App = () => {
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    //IMPORTANT: THIS DELAY IS HERE BECAUSE I COULDN'T FIGURE OUT HOW TO USE THE ONLAYOUTROOTVIEW FUNCTION W/O HAVING A VIEW COMPONENT AS THE PARENT COMPONENT TO EVERYTHING ELSE. INSTEAD, I CALL THE FUNCTION MANUALLY AND THE DELAY SOMEWHAT MAKES SURE EVERYTHING IS ACTUALLY RENDERED IN. I THINK THIS MAY BE CAUSING A DOUBLE RENDER BUT IDK
+    //IMPORTANT: THIS DELAY IS HERE BECAUSE I COULDN'T FIGURE OUT HOW TO USE THE ONLAYOUTROOTVIEW
+    // FUNCTION W/O HAVING A VIEW COMPONENT AS THE PARENT COMPONENT TO EVERYTHING ELSE.
+    // INSTEAD, I CALL THE FUNCTION MANUALLY AND THE DELAY SOMEWHAT MAKES SURE EVERYTHING IS ACTUALLY
+    // RENDERED IN. I THINK THIS MAY BE CAUSING A DOUBLE RENDER BUT IDK
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await delay(250);
 
@@ -126,64 +128,65 @@ const App = () => {
 
   if (isFirstLaunch == null || !fontsLoaded) {
     return null;
+  } else {
+    console.log("rendering");
+    return (
+      <NavigationContainer>
+        <StatusBar hidden={false} style={"dark"} />
+        <CurvedBottomBarExpo.Navigator
+          type="DOWN"
+          ref={tabBarRef}
+          initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
+          style={styles.bottomBar}
+          shadowStyle={styles.shadow}
+          height={72}
+          bgColor="white"
+          screenOptions={{
+            header: () => null,
+          }}
+          borderTopLeftRight
+          renderCircle={({ selectedTab, navigate }) => (
+            <Animated.View style={styles.btnCircleUp}>
+              <Pressable
+                style={styles.button}
+                onPress={() => {
+                  navigate("Scan");
+                  tabBarRef?.current?.setVisible(false);
+                }}
+              >
+                <ScanIcon width={33.12} height={33.12} />
+              </Pressable>
+            </Animated.View>
+          )}
+          tabBar={renderTabBar}
+        >
+          <CurvedBottomBarExpo.Screen
+            name="Home"
+            position="LEFT"
+            component={HomeScreen}
+          />
+          <CurvedBottomBarExpo.Screen
+            name="Learn"
+            component={LearnScreen}
+            position="RIGHT"
+          />
+
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Scan" component={ScanScreen} />
+          <Stack.Screen
+            name="TextSelect"
+            component={TextSelectScreen}
+            initialParams={{ ReturnHome: false, BackNavigation: false }}
+          />
+          <Stack.Screen
+            name="Translation"
+            component={TranslationScreen}
+            initialParams={{ ReturnHome: false }}
+          />
+        </CurvedBottomBarExpo.Navigator>
+      </NavigationContainer>
+    );
   }
-
-  return (
-    <NavigationContainer>
-      <StatusBar hidden={false} style={"dark"} />
-      <CurvedBottomBarExpo.Navigator
-        type="DOWN"
-        ref={tabBarRef}
-        initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
-        style={styles.bottomBar}
-        shadowStyle={styles.shadow}
-        height={71.68}
-        bgColor="white"
-        screenOptions={{
-          header: () => null,
-        }}
-        borderTopLeftRight
-        renderCircle={({ selectedTab, navigate }) => (
-          <Animated.View style={styles.btnCircleUp}>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                navigate("Scan");
-                tabBarRef?.current?.setVisible(false);
-              }}
-            >
-              <ScanIcon width={33.12} height={33.12} />
-            </Pressable>
-          </Animated.View>
-        )}
-        tabBar={renderTabBar}
-      >
-        <CurvedBottomBarExpo.Screen
-          name="Home"
-          position="LEFT"
-          component={HomeScreen}
-        />
-        <CurvedBottomBarExpo.Screen
-          name="Learn"
-          component={LearnScreen}
-          position="RIGHT"
-        />
-
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        <Stack.Screen name="Scan" component={ScanScreen} />
-        <Stack.Screen
-          name="TextSelect"
-          component={TextSelectScreen}
-          initialParams={{ ReturnHome: false, BackNavigation: false }}
-        />
-        <Stack.Screen
-          name="Translation"
-          component={TranslationScreen}
-          initialParams={{ ReturnHome: false }}
-        />
-      </CurvedBottomBarExpo.Navigator>
-    </NavigationContainer>
-  );
 };
 
 const styles = StyleSheet.create({
