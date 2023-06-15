@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "react-native-url-polyfill/auto";
 
-import { DEEPL_KEY, OPEN_AI_API_KEY } from "@env";
+import { DEEPL_KEY, OPEN_AI_API_KEY, NLP_API_KEY } from "@env";
 
 import { SafeAreaView, Platform, StatusBar } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
@@ -99,7 +99,25 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   const translateText = async (text: string) => {
-    if (targetLangAbbreviation != "EN-US") {
+    if (targetLangAbbreviation === "bn") {
+      const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${text}&to=bn&from=en`;
+      const options = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": NLP_API_KEY,
+          "X-RapidAPI-Host": "nlp-translation.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        let result = await response.text();
+        result = JSON.parse(result);
+        setTranslatedText(result["translated_text"]["bn"]);
+      } catch (error) {
+        console.log("NLP API ERROR: ", error);
+      }
+    } else if (targetLangAbbreviation != "EN-US") {
       var myHeaders = new Headers();
       myHeaders.append("Authorization", DEEPL_KEY);
 

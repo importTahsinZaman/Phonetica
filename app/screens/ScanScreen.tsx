@@ -98,7 +98,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             onEditingComplete={async (r) => {
               const manipResult = await manipulateAsync(r.uri, [], {
                 compress: 0.7,
-                format: SaveFormat.PNG,
+                format: SaveFormat.JPEG,
                 base64: true,
               });
               navigation.navigate("TextSelect", {

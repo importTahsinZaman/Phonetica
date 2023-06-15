@@ -10,7 +10,7 @@ import {
   Modal,
   Button,
 } from "react-native";
-import { DEEPL_KEY } from "@env";
+import { DEEPL_KEY, NLP_API_KEY } from "@env";
 import CustomText from "./CustomText";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import { ScrollView } from "react-native-gesture-handler";
@@ -140,11 +140,29 @@ const DefineContainer: React.FC<ComponentProps> = ({
         frequency_penalty: 0,
         presence_penalty: 0,
       })
-      .then((result) => {
+      .then(async (result) => {
         const response1 = JSON.parse(result.request._response);
         const englishExplanation = response1.choices[0].text.trimStart();
 
-        if (targetLangAbbreviation != "EN-US") {
+        if (targetLangAbbreviation === "bn") {
+          const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${englishExplanation}&to=bn&from=en&protected_words=${word}`;
+          const options = {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key": NLP_API_KEY,
+              "X-RapidAPI-Host": "nlp-translation.p.rapidapi.com",
+            },
+          };
+
+          try {
+            const response = await fetch(url, options);
+            let result = await response.text();
+            result = JSON.parse(result);
+            setDefinitionExplanation(result["translated_text"]["bn"]);
+          } catch (error) {
+            console.log("NLP API ERROR: ", error);
+          }
+        } else if (targetLangAbbreviation != "EN-US") {
           function addKeepTags(sentence: string, word: string) {
             // Create a regular expression with word boundaries
             var regex = new RegExp("\\b" + word + "\\b", "gi");

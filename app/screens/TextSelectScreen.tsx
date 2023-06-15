@@ -71,7 +71,7 @@ export default function TextSelectScreen({ route, navigation }) {
     var formdata = new FormData();
     formdata.append("language", "eng");
     formdata.append("isOverlayRequired", "false");
-    formdata.append("base64image", `data:image/png;base64,${base64}`);
+    formdata.append("base64image", `data:image/jpeg;base64,${base64}`);
     formdata.append("iscreatesearchablepdf", "false");
     formdata.append("issearchablepdfhidetextlayer", "false");
     formdata.append("detectOrientation", "true");
