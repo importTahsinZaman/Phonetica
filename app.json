@@ -17,7 +17,9 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "googleServicesFile": "./GoogleService-Info.plist",
+      "env": {
+        "googleServicesFile": "./GoogleService-Info.plist"
+      },
       "bundleIdentifier": "com.Zaman.Phonetica"
     },
     "android": {
@@ -25,7 +27,9 @@
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFBF23"
       },
-      "googleServicesFile": "./google-services.json",
+      "env": {
+        "googleServicesFile": "./google-services.json"
+      },
       "package": "com.Zaman.Phonetica"
     },
     "web": {
@@ -41,6 +45,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3ce28d51-eedb-4909-ae7c-970bdcb7aacf"
+      }
+    }
   }
 }
