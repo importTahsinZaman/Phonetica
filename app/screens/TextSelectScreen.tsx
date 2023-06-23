@@ -186,7 +186,9 @@ export default function TextSelectScreen({ route, navigation }) {
   const formatText = () => {
     let preText = ocrText;
     preText = preText.replace(/(\r\n|\n|\r)/gm, " ");
-    let textArray = preText.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+    let textArray = preText
+      .replace(/(\.+|\:|\!|\?)(\"*|\'*|\)*|}*|]*)(\s|\n|\r|\r\n)/gm, "$1$2|")
+      .split("|");
     setFormattedText(textArray);
   };
 
