@@ -7,20 +7,36 @@ import {
   Dimensions,
   Platform,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
 import ReturnHeader from "../components/ReturnHeader";
 import { ImageEditor } from "expo-image-editor";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import Constants, { ExecutionEnvironment } from "expo-constants";
+
+// `true` when running in Expo Go.
+const isExpoGo =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+let analytics;
+
+if (!isExpoGo) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  analytics = require("@react-native-firebase/analytics").default;
+}
 
 type Props = {
   navigation: any; //TODO: FIX THIS
 };
 
 const PAGE_WIDTH = Dimensions.get("window").width;
-const PAGE_HEIGHT = Dimensions.get("window").height;
+
+const AD_FREQUENCY = 3; // Ads are shown every AD_FREQUENCY number of scans
 
 const ScanScreen: React.FC<Props> = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
@@ -96,11 +112,29 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               height: 100,
             }}
             onEditingComplete={async (r) => {
+              if (isExpoGo) {
+                console.log("scanned image");
+              } else {
+                await analytics().logEvent("scanned_image");
+              }
+
+              const ScanCount = await AsyncStorage.getItem("ScanCount");
+
+              let newScanCount;
+              if (parseInt(ScanCount) + 1 > AD_FREQUENCY) {
+                newScanCount = 1;
+              } else {
+                newScanCount = parseInt(ScanCount) + 1;
+              }
+
+              await AsyncStorage.setItem("ScanCount", newScanCount.toString());
+
               const manipResult = await manipulateAsync(r.uri, [], {
                 compress: 0.7,
                 format: SaveFormat.JPEG,
                 base64: true,
               });
+
               navigation.navigate("TextSelect", {
                 base64: manipResult.base64,
                 ReturnHome: false,

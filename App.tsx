@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
 import { Animated, StyleSheet, Pressable } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
@@ -63,7 +64,7 @@ const App = () => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
 
   useEffect(() => {
-    AsyncStorage.getItem("alreadyLaunched").then((value) => {
+    AsyncStorage.getItem("alreadyLaunched").then(async (value) => {
       if (value == null) {
         setIsFirstLaunch(true);
         tabBarRef?.current?.setVisible(false);
@@ -129,7 +130,6 @@ const App = () => {
   if (isFirstLaunch == null || !fontsLoaded) {
     return null;
   } else {
-    console.log("rendering");
     return (
       <NavigationContainer>
         <StatusBar hidden={false} style={"dark"} />

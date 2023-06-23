@@ -111,6 +111,7 @@ const OnboardingScreen = ({ navigation }) => {
           ["RecentScanTime2", ""],
           ["RecentScanTime3", ""],
           ["RecentScanTime4", ""],
+          ["ScanCount", "0"],
         ]);
 
         if (isExpoGo) {
@@ -118,6 +119,7 @@ const OnboardingScreen = ({ navigation }) => {
         } else {
           await analytics().logEvent("completed_onboarding");
         }
+
         navigation.navigate("Home");
         tabBarRef?.current?.setVisible(true);
       }}
