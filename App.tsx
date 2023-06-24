@@ -10,6 +10,8 @@ import HomeIcon from "./app/assets/HomeIcon.svg";
 import LearnIcon from "./app/assets/LearnIcon.svg";
 import ScanIcon from "./app/assets/ScanIcon.svg";
 
+import { tabBarRef } from "./app/components/HelperFunctions";
+
 import HomeScreen from "./app/screens/HomeScreen";
 import LearnScreen from "./app/screens/LearnScreen";
 import ScanScreen from "./app/screens/ScanScreen";
@@ -45,8 +47,6 @@ if (!isExpoGo) {
 
 const Stack = createNativeStackNavigator();
 
-export const tabBarRef = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
-
 const App = () => {
   let [fontsLoaded] = useFonts({
     //Thickness Number 1:
@@ -67,10 +67,10 @@ const App = () => {
     AsyncStorage.getItem("alreadyLaunched").then(async (value) => {
       if (value == null) {
         setIsFirstLaunch(true);
-        tabBarRef.current.setVisible(false);
+        tabBarRef?.current?.setVisible(false);
       } else {
         setIsFirstLaunch(false);
-        tabBarRef.current.setVisible(true);
+        tabBarRef?.current?.setVisible(true);
       }
     });
   }, []);

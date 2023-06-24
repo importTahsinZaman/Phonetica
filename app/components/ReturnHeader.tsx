@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import CustomText from "./CustomText";
 import LeftArrow from "../assets/LeftArrow.svg";
-import { tabBarRef } from "../../App";
+import { tabBarRef } from "./HelperFunctions";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;

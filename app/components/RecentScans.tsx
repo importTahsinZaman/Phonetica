@@ -6,7 +6,7 @@ import { Dimensions, TouchableOpacity, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import CustomText from "./CustomText";
 
-import { tabBarRef } from "../../App";
+import { tabBarRef } from "./HelperFunctions";
 
 const RecentScans = ({ navigation }) => {
   const PAGE_WIDTH = Dimensions.get("window").width;

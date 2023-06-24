@@ -7,7 +7,7 @@ import OnboardingImage2 from "../assets/OnboardingImage2.svg";
 import OnboardingImage3 from "../assets/OnboardingImage3.svg";
 import OnboardingImage4 from "../assets/OnboardingImage4.svg";
 import OnboardingImage5 from "../assets/OnboardingImage5.svg";
-import { tabBarRef } from "../../App";
+import { tabBarRef } from "../components/HelperFunctions";
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
 

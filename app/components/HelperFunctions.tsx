@@ -1,3 +1,4 @@
+import React, { createRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LanguageData from "../assets/Languages.json";
 
@@ -35,6 +36,8 @@ import LanguageData from "../assets/Languages.json";
 // TR - Turkish
 // UK - Ukrainian
 // ZH - Chinese (simplified)
+
+export const tabBarRef = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
 
 export const LangMap = (langNum: string | number) => {
   //Converts num to full string of language, Ex: 1 to "English"
