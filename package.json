@@ -59,7 +59,7 @@
     "@types/react": "~18.0.32",
     "@types/react-native": "~0.71.5",
     "@types/react-native-onboarding-swiper": "^1.1.4",
-    "typescript": "^5.0.3"
+    "typescript": "^4.9.4"
   },
   "private": true
 }
