@@ -13,12 +13,6 @@
     "production": {}
   },
   "submit": {
-    "production": {
-      "ios": {
-        "appleId": "drpineapple21366@gmail.com",
-        "ascAppId": "6450615825",
-        "appleTeamId": "MQPM5N9N6D"
-      }
-    }
+    "production": {}
   }
 }
