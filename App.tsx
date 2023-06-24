@@ -45,7 +45,7 @@ if (!isExpoGo) {
 
 const Stack = createNativeStackNavigator();
 
-export const tabBarRef: any = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
+export const tabBarRef = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -61,16 +61,16 @@ const App = () => {
     SpaceGrotesk_700Bold,
   });
 
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const [isFirstLaunch, setIsFirstLaunch] = useState<null | boolean>(null);
 
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then(async (value) => {
       if (value == null) {
         setIsFirstLaunch(true);
-        tabBarRef?.current?.setVisible(false);
+        tabBarRef.current.setVisible(false);
       } else {
         setIsFirstLaunch(false);
-        tabBarRef?.current?.setVisible(true);
+        tabBarRef.current.setVisible(true);
       }
     });
   }, []);
@@ -80,7 +80,7 @@ const App = () => {
     // FUNCTION W/O HAVING A VIEW COMPONENT AS THE PARENT COMPONENT TO EVERYTHING ELSE.
     // INSTEAD, I CALL THE FUNCTION MANUALLY AND THE DELAY SOMEWHAT MAKES SURE EVERYTHING IS ACTUALLY
     // RENDERED IN. I THINK THIS MAY BE CAUSING A DOUBLE RENDER BUT IDK
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
     await delay(250);
 
     if (fontsLoaded && isFirstLaunch != null) {
@@ -95,7 +95,7 @@ const App = () => {
 
   onLayoutRootView();
 
-  const _renderIcon = (routeName, selectedTab) => {
+  const _renderIcon = (routeName: "Home" | "Learn", selectedTab) => {
     const ICON_SIZE = 33.12;
 
     switch (routeName) {
