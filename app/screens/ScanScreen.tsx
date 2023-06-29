@@ -14,7 +14,7 @@ import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
 import ReturnHeader from "../components/ReturnHeader";
-import { ImageEditor } from "expo-image-editor";
+import { ImageEditor } from "expo-crop-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
@@ -41,7 +41,7 @@ const AD_FREQUENCY = 3; // Ads are shown every AD_FREQUENCY number of scans
 const ScanScreen: React.FC<Props> = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [imageUri, setImageUri] = useState(undefined);
+  const [imageUri, setImageUri] = useState("");
   const [editorVisible, setEditorVisible] = useState(false);
 
   let camera: any = null;
@@ -71,15 +71,9 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
 
   const takePicture = async () => {
     await camera.takePictureAsync().then(async (r) => {
-      launchEditor(r.uri);
+      setImageUri(r.uri);
+      setEditorVisible(true);
     });
-  };
-
-  const launchEditor = (uri: string) => {
-    // Then set the image uri
-    setImageUri(uri);
-    // And set the image editor to be visible
-    setEditorVisible(true);
   };
 
   return (
@@ -89,71 +83,81 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       }}
     >
-      <Camera
-        type={type}
-        className="flex-1"
-        ref={(r) => {
-          camera = r;
-        }}
-      >
-        <SafeAreaView>
-          <ReturnHeader navigation={navigation}></ReturnHeader>
-        </SafeAreaView>
+      {!editorVisible && (
+        <Camera
+          type={type}
+          className="flex-1"
+          ref={(r) => {
+            camera = r;
+          }}
+        >
+          <SafeAreaView>
+            <ReturnHeader navigation={navigation}></ReturnHeader>
+          </SafeAreaView>
 
-        <SafeAreaView className="flex-1 flex-row bg-transparent m-[64]">
-          <ImageEditor
-            visible={editorVisible}
-            onCloseEditor={() => setEditorVisible(false)}
-            imageUri={imageUri}
-            fixedCropAspectRatio={16 / 9}
-            lockAspectRatio={false}
-            minimumCropDimensions={{
-              width: 100,
-              height: 100,
-            }}
-            onEditingComplete={async (r) => {
-              if (isExpoGo) {
-                console.log("scanned image");
-              } else {
-                await analytics().logEvent("scanned_image");
-              }
+          <SafeAreaView className="flex-1 flex-row bg-transparent m-[64]">
+            <TouchableOpacity
+              onPress={takePicture}
+              className="flex-1 self-end items-center"
+            >
+              <TakePictureButtonSvg
+                width={PAGE_WIDTH * 0.1973333333333333333}
+                height={PAGE_WIDTH * 0.1973333333333333333}
+              ></TakePictureButtonSvg>
+            </TouchableOpacity>
+          </SafeAreaView>
+        </Camera>
+      )}
+      {editorVisible && (
+        <ImageEditor
+          isVisible={editorVisible}
+          imageUri={imageUri}
+          fixedAspectRatio={3 / 2}
+          editorOptions={{
+            controlBar: {
+              position: "bottom",
+            },
+          }}
+          minimumCropDimensions={{
+            width: 50,
+            height: 50,
+          }}
+          onEditingCancel={() => {
+            setEditorVisible(false);
+          }}
+          onEditingComplete={async (r) => {
+            if (isExpoGo) {
+              console.log("scanned image");
+            } else {
+              await analytics().logEvent("scanned_image");
+            }
 
-              const ScanCount = await AsyncStorage.getItem("ScanCount");
+            const ScanCount = await AsyncStorage.getItem("ScanCount");
 
-              let newScanCount;
-              if (parseInt(ScanCount) + 1 > AD_FREQUENCY) {
-                newScanCount = 1;
-              } else {
-                newScanCount = parseInt(ScanCount) + 1;
-              }
+            let newScanCount;
+            if (parseInt(ScanCount) + 1 > AD_FREQUENCY) {
+              newScanCount = 1;
+            } else {
+              newScanCount = parseInt(ScanCount) + 1;
+            }
 
-              await AsyncStorage.setItem("ScanCount", newScanCount.toString());
+            await AsyncStorage.setItem("ScanCount", newScanCount.toString());
 
-              const manipResult = await manipulateAsync(r.uri, [], {
-                compress: 0.7,
-                format: SaveFormat.JPEG,
-                base64: true,
-              });
+            const manipResult = await manipulateAsync(r.uri, [], {
+              compress: 0.7,
+              format: SaveFormat.JPEG,
+              base64: true,
+            });
 
-              navigation.navigate("TextSelect", {
-                base64: manipResult.base64,
-                ReturnHome: false,
-              });
-            }}
-            mode="crop-only"
-          />
+            setEditorVisible(false);
 
-          <TouchableOpacity
-            onPress={takePicture}
-            className="flex-1 self-end items-center"
-          >
-            <TakePictureButtonSvg
-              width={PAGE_WIDTH * 0.1973333333333333333}
-              height={PAGE_WIDTH * 0.1973333333333333333}
-            ></TakePictureButtonSvg>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </Camera>
+            navigation.navigate("TextSelect", {
+              base64: manipResult.base64,
+              ReturnHome: false,
+            });
+          }}
+        />
+      )}
     </View>
   );
 };

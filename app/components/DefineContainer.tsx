@@ -19,6 +19,10 @@ import SkeletonComponent from "./SkeletonComponent";
 import SkeletonComponent2 from "./SkeletonComponent2";
 import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
 import { Ionicons } from "@expo/vector-icons";
+import Constants, { ExecutionEnvironment } from "expo-constants";
+
+const isExpoGo =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -128,7 +132,12 @@ const DefineContainer: React.FC<ComponentProps> = ({
   ) => {
     const prompt = `Explain, the definition and usage of occurrence ${
       instance ? instance : 1
-    } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it.`;
+    } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it. If the word is not a valid English word or makes no sense within the context of the given text, return 'invalid scan'`;
+
+    if (isExpoGo) {
+      console.log("Prompt: " + prompt);
+    }
+
     setWaitingForExplanationAPIResult(true);
     await openai
       .createCompletion({
@@ -143,6 +152,10 @@ const DefineContainer: React.FC<ComponentProps> = ({
       .then(async (result) => {
         const response1 = JSON.parse(result.request._response);
         const englishExplanation = response1.choices[0].text.trimStart();
+
+        if (isExpoGo) {
+          console.log("English Explanation: ", englishExplanation);
+        }
 
         if (targetLangAbbreviation === "bn") {
           const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${englishExplanation}&to=bn&from=en&protected_words=${word}`;
