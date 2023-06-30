@@ -237,8 +237,31 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           imageUri={imageUri}
           fixedAspectRatio={777}
           editorOptions={{
+            backgroundColor: "#f2f2f2",
             controlBar: {
               position: "bottom",
+              backgroundColor: "white",
+              // height: 85,
+              cropButton: {
+                text: "crop",
+                color: "#8D8D8D",
+                iconName: "crop",
+              },
+              cancelButton: {
+                text: "cancel",
+                color: "#8D8D8D",
+                iconName: "cancel",
+              },
+              backButton: {
+                text: "cancel",
+                color: "#8D8D8D",
+                iconName: "arrow-back",
+              },
+              saveButton: {
+                text: "cancel",
+                color: "#8D8D8D",
+                iconName: "check",
+              },
             },
           }}
           minimumCropDimensions={{
