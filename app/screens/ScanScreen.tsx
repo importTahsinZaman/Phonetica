@@ -14,7 +14,7 @@ import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
 import ReturnHeader from "../components/ReturnHeader";
-import { ImageEditor } from "expo-crop-image";
+import { ImageEditor } from "@tahsinz21366/expo-crop-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
@@ -112,7 +112,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
         <ImageEditor
           isVisible={editorVisible}
           imageUri={imageUri}
-          fixedAspectRatio={3 / 2}
+          fixedAspectRatio={777}
           editorOptions={{
             controlBar: {
               position: "bottom",
