@@ -31,9 +31,7 @@ import {
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
-let analytics;
-
-let rewardedInterstitial;
+let analytics, rewardedInterstitial;
 
 const mobileAds = !isExpoGo
   ? require("react-native-google-mobile-ads").default
@@ -50,10 +48,6 @@ if (!isExpoGo) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   analytics = require("@react-native-firebase/analytics").default;
 
-  trackingPermissionPromise.then(() => {
-    console.log("requestNonPersonalizedAdsOnly: ", !adTrackingGranted); // Access the 'granted' value once the promise resolves
-  });
-
   mobileAds()
     .setRequestConfiguration({
       // Update all future requests suitable for parental guidance
@@ -67,12 +61,14 @@ if (!isExpoGo) {
       tagForUnderAgeOfConsent: true,
     })
     .then(() => {
-      rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
-        TestIds.REWARDED_INTERSTITIAL,
-        {
-          requestNonPersonalizedAdsOnly: !adTrackingGranted,
-        }
-      );
+      trackingPermissionPromise.then(() => {
+        rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
+          TestIds.REWARDED_INTERSTITIAL,
+          {
+            requestNonPersonalizedAdsOnly: !adTrackingGranted,
+          }
+        );
+      });
     });
 }
 
@@ -99,14 +95,12 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   let camera: any = null;
 
   const updateScanCount = async () => {
-    console.log("Old scan count: ", scanCount.current);
     let newScanCount = scanCount.current;
     if (scanCount.current + 1 > AD_FREQUENCY) {
       newScanCount = 1;
     } else {
       newScanCount = scanCount.current + 1;
     }
-    console.log("New Scan Count: ", newScanCount);
     await AsyncStorage.setItem("ScanCount", newScanCount.toString());
   };
 
@@ -123,16 +117,13 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
         RewardedAdEventType.EARNED_REWARD,
         async () => {
           adCompletedRef.current = true;
-          console.log("Completed Ad");
         }
       );
 
       const unsubscribeClosed = rewardedInterstitial.addAdEventListener(
         AdEventType.CLOSED,
         async () => {
-          console.log("Ad is completed: ", adCompletedRef.current);
           if (adCompletedRef.current) {
-            console.log("AD HAS BEEN COMPLETED YAYYYY");
             updateScanCount();
             setEditorVisible(false);
 
@@ -141,7 +132,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               ReturnHome: false,
             });
           } else {
-            console.log("Cancelled Ad");
             setEditorVisible(false);
             tabBarRef?.current?.setVisible(true);
             navigation.navigate("Home");
@@ -162,7 +152,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     adCompletedRef.current = false;
     if (isFocused) {
-      console.log("AD is already completed: ", adCompletedRef.current);
       let retrievedScanCount: number;
       const checkIfAdLoadNeeded = async () => {
         await AsyncStorage.getItem("ScanCount").then((result) => {
@@ -170,14 +159,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           scanCount.current = retrievedScanCount;
         });
 
-        console.log("Retrieved Scan Count:", retrievedScanCount);
-        console.log(
-          "Ad load requirements met: ",
-          !isExpoGo && retrievedScanCount == AD_FREQUENCY - 1
-        );
-
         if (!isExpoGo && retrievedScanCount == AD_FREQUENCY - 1) {
-          console.log("Loading ad...");
           const unsubscribeRewardedInterstitialEvents =
             loadRewardedInterstitial();
 
@@ -317,7 +299,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             }).then((result) => {
               imageBase64.current = result.base64;
               if (scanCount.current == AD_FREQUENCY - 1 && !isExpoGo) {
-                console.log("Showing ad....");
                 rewardedInterstitial.show();
               } else {
                 updateScanCount();

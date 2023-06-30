@@ -43,7 +43,6 @@ export default function TextSelectScreen({ route, navigation }) {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log("Calling format text...");
     formatText();
   }, [ocrText]);
 
@@ -90,9 +89,7 @@ export default function TextSelectScreen({ route, navigation }) {
       .then((response) => response.text())
       .then((result) => JSON.parse(result))
       .then(async (result) => {
-        console.log("OCR Full Result: ", JSON.stringify(result, null, 2));
         setOcrText(result.ParsedResults[0].ParsedText);
-        console.log("Parsed Text: ", result.ParsedResults[0].ParsedText);
 
         setGettingText(false);
 
@@ -189,13 +186,11 @@ export default function TextSelectScreen({ route, navigation }) {
   };
 
   const formatText = () => {
-    console.log("Format Text running...");
     let preText = ocrText;
     preText = preText.replace(/(\r\n|\n|\r)/gm, " ");
     let textArray = preText
       .replace(/(\.+|\:|\!|\?)(\"*|\'*|\)*|}*|]*)(\s|\n|\r|\r\n)/gm, "$1$2|")
       .split("|");
-    console.log("Formatted Text: ", textArray);
     setFormattedText(textArray);
   };
 
