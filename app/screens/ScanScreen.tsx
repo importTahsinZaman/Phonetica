@@ -19,7 +19,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tabBarRef } from "../components/HelperFunctions";
 import { useIsFocused } from "@react-navigation/native";
 
+import { getTrackingPermissionsAsync } from "expo-tracking-transparency";
+
 import Constants, { ExecutionEnvironment } from "expo-constants";
+import {
+  trackingPermissionPromise,
+  adTrackingGranted,
+} from "../components/HelperFunctions";
 
 // `true` when running in Expo Go.
 const isExpoGo =
@@ -29,19 +35,45 @@ let analytics;
 
 let rewardedInterstitial;
 
-const { TestIds, AdEventType, RewardedInterstitialAd, RewardedAdEventType } =
-  !isExpoGo ? require("react-native-google-mobile-ads") : "";
+const mobileAds = !isExpoGo
+  ? require("react-native-google-mobile-ads").default
+  : "";
+const {
+  MaxAdContentRating,
+  TestIds,
+  AdEventType,
+  RewardedInterstitialAd,
+  RewardedAdEventType,
+} = !isExpoGo ? require("react-native-google-mobile-ads") : "";
 
 if (!isExpoGo) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   analytics = require("@react-native-firebase/analytics").default;
 
-  rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
-    TestIds.REWARDED_INTERSTITIAL,
-    {
-      requestNonPersonalizedAdsOnly: true,
-    }
-  );
+  trackingPermissionPromise.then(() => {
+    console.log("requestNonPersonalizedAdsOnly: ", !adTrackingGranted); // Access the 'granted' value once the promise resolves
+  });
+
+  mobileAds()
+    .setRequestConfiguration({
+      // Update all future requests suitable for parental guidance
+      maxAdContentRating: MaxAdContentRating.PG,
+
+      // Indicates that you want your content treated as child-directed for purposes of COPPA.
+      tagForChildDirectedTreatment: true,
+
+      // Indicates that you want the ad request to be handled in a
+      // manner suitable for users under the age of consent.
+      tagForUnderAgeOfConsent: true,
+    })
+    .then(() => {
+      rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
+        TestIds.REWARDED_INTERSTITIAL,
+        {
+          requestNonPersonalizedAdsOnly: !adTrackingGranted,
+        }
+      );
+    });
 }
 
 type Props = {

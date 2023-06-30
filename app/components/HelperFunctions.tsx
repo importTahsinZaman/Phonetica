@@ -1,6 +1,7 @@
-import React, { createRef } from "react";
+import React, { createRef, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LanguageData from "../assets/Languages.json";
+import { getTrackingPermissionsAsync } from "expo-tracking-transparency";
 
 //Deepl Lang Abbreviations:
 // BG - Bulgarian
@@ -38,6 +39,18 @@ import LanguageData from "../assets/Languages.json";
 // ZH - Chinese (simplified)
 
 export const tabBarRef = createRef(); //Call this function to hide tabbar: tabBarRef?.current?.setVisible(false);
+
+let adTrackingGranted = false;
+
+const fetchTrackingPermission = async () => {
+  const { granted: permissionGranted } = await getTrackingPermissionsAsync();
+  adTrackingGranted = permissionGranted;
+};
+
+// Create a Promise to handle the asynchronous operation
+const trackingPermissionPromise = fetchTrackingPermission();
+
+export { trackingPermissionPromise, adTrackingGranted };
 
 export const LangMap = (langNum: string | number) => {
   //Converts num to full string of language, Ex: 1 to "English"

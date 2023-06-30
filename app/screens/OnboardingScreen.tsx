@@ -9,13 +9,22 @@ import OnboardingImage4 from "../assets/OnboardingImage4.svg";
 import OnboardingImage5 from "../assets/OnboardingImage5.svg";
 import { tabBarRef } from "../components/HelperFunctions";
 
+import {
+  requestTrackingPermissionsAsync,
+  isAvailable,
+} from "expo-tracking-transparency";
+
 import Constants, { ExecutionEnvironment } from "expo-constants";
 
 // `true` when running in Expo Go.
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
-let analytics;
+let analytics: () => {
+  (): any;
+  new (): any;
+  logEvent: { (arg0: string): any; new (): any };
+};
 if (!isExpoGo) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   analytics = require("@react-native-firebase/analytics").default;
@@ -94,6 +103,16 @@ const OnboardingScreen = ({ navigation }) => {
       }}
       controlStatusBar={false}
       onDone={async () => {
+        const { status } = await requestTrackingPermissionsAsync();
+
+        if (!isExpoGo) {
+          if (status === "granted") {
+            await analytics().logEvent("user_granted_tracking_access");
+          } else {
+            await analytics().logEvent("user_denied_tracking_access");
+          }
+        }
+
         const d = new Date();
         const date = d.toLocaleDateString();
         let time = d.toLocaleTimeString();
