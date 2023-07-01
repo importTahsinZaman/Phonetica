@@ -19,8 +19,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tabBarRef } from "../components/HelperFunctions";
 import { useIsFocused } from "@react-navigation/native";
 
-import { getTrackingPermissionsAsync } from "expo-tracking-transparency";
-
 import Constants, { ExecutionEnvironment } from "expo-constants";
 import {
   trackingPermissionPromise,
@@ -62,8 +60,18 @@ if (!isExpoGo) {
     })
     .then(() => {
       trackingPermissionPromise.then(() => {
+        let AD_ID;
+        if (__DEV__) {
+          AD_ID = TestIds.REWARDED_INTERSTITIAL;
+        } else {
+          if (Platform.OS === "ios") {
+            AD_ID = "ca-app-pub-6289844451431860/4650586365";
+          } else {
+            AD_ID = "ca-app-pub-6289844451431860/8279728235";
+          }
+        }
         rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
-          TestIds.REWARDED_INTERSTITIAL,
+          AD_ID,
           {
             requestNonPersonalizedAdsOnly: !adTrackingGranted,
           }
