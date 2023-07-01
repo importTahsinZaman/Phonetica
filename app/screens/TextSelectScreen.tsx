@@ -93,93 +93,95 @@ export default function TextSelectScreen({ route, navigation }) {
 
         setGettingText(false);
 
-        try {
-          let oldSavedScans = [];
-          let newSavedScans = [];
+        if (result.ParsedResults[0].ParsedText) {
+          try {
+            let oldSavedScans = [];
+            let newSavedScans = [];
 
-          oldSavedScans = await AsyncStorage.multiGet([
-            "RecentScan0",
-            "RecentScan1",
-            "RecentScan2",
-            "RecentScan3",
-            "RecentScan4",
-          ]);
-
-          newSavedScans = [
-            ["RecentScan0", result.ParsedResults[0].ParsedText],
-            [
+            oldSavedScans = await AsyncStorage.multiGet([
+              "RecentScan0",
               "RecentScan1",
-              oldSavedScans[0][1] == null ? "" : oldSavedScans[0][1],
-            ],
-            [
               "RecentScan2",
-              oldSavedScans[1][1] == null ? "" : oldSavedScans[1][1],
-            ],
-            [
               "RecentScan3",
-              oldSavedScans[2][1] == null ? "" : oldSavedScans[2][1],
-            ],
-            [
               "RecentScan4",
-              oldSavedScans[3][1] == null ? "" : oldSavedScans[3][1],
-            ],
-          ];
+            ]);
 
-          await AsyncStorage.multiSet([
-            newSavedScans[0],
-            newSavedScans[1],
-            newSavedScans[2],
-            newSavedScans[3],
-            newSavedScans[4],
-          ]);
+            newSavedScans = [
+              ["RecentScan0", result.ParsedResults[0].ParsedText],
+              [
+                "RecentScan1",
+                oldSavedScans[0][1] == null ? "" : oldSavedScans[0][1],
+              ],
+              [
+                "RecentScan2",
+                oldSavedScans[1][1] == null ? "" : oldSavedScans[1][1],
+              ],
+              [
+                "RecentScan3",
+                oldSavedScans[2][1] == null ? "" : oldSavedScans[2][1],
+              ],
+              [
+                "RecentScan4",
+                oldSavedScans[3][1] == null ? "" : oldSavedScans[3][1],
+              ],
+            ];
 
-          ///////////////////////////////////
+            await AsyncStorage.multiSet([
+              newSavedScans[0],
+              newSavedScans[1],
+              newSavedScans[2],
+              newSavedScans[3],
+              newSavedScans[4],
+            ]);
 
-          const d = new Date();
-          const date = d.toLocaleDateString();
-          let time = d.toLocaleTimeString();
-          time = time.slice(0, 4) + time.slice(7);
+            ///////////////////////////////////
 
-          let oldSavedScanTimes = [];
-          let newSavedScanTimes = [];
+            const d = new Date();
+            const date = d.toLocaleDateString();
+            let time = d.toLocaleTimeString();
+            time = time.slice(0, 4) + time.slice(7);
 
-          oldSavedScanTimes = await AsyncStorage.multiGet([
-            "RecentScanTime0",
-            "RecentScanTime1",
-            "RecentScanTime2",
-            "RecentScanTime3",
-            "RecentScanTime4",
-          ]);
+            let oldSavedScanTimes = [];
+            let newSavedScanTimes = [];
 
-          newSavedScanTimes = [
-            ["RecentScanTime0", date + "&$&" + time],
-            [
+            oldSavedScanTimes = await AsyncStorage.multiGet([
+              "RecentScanTime0",
               "RecentScanTime1",
-              oldSavedScanTimes[0][1] == null ? "" : oldSavedScanTimes[0][1],
-            ],
-            [
               "RecentScanTime2",
-              oldSavedScanTimes[1][1] == null ? "" : oldSavedScanTimes[1][1],
-            ],
-            [
               "RecentScanTime3",
-              oldSavedScanTimes[2][1] == null ? "" : oldSavedScanTimes[2][1],
-            ],
-            [
               "RecentScanTime4",
-              oldSavedScanTimes[3][1] == null ? "" : oldSavedScanTimes[3][1],
-            ],
-          ];
+            ]);
 
-          await AsyncStorage.multiSet([
-            newSavedScanTimes[0],
-            newSavedScanTimes[1],
-            newSavedScanTimes[2],
-            newSavedScanTimes[3],
-            newSavedScanTimes[4],
-          ]);
-        } catch (e) {
-          console.log("Setting new saved scans error: ", e);
+            newSavedScanTimes = [
+              ["RecentScanTime0", date + "&$&" + time],
+              [
+                "RecentScanTime1",
+                oldSavedScanTimes[0][1] == null ? "" : oldSavedScanTimes[0][1],
+              ],
+              [
+                "RecentScanTime2",
+                oldSavedScanTimes[1][1] == null ? "" : oldSavedScanTimes[1][1],
+              ],
+              [
+                "RecentScanTime3",
+                oldSavedScanTimes[2][1] == null ? "" : oldSavedScanTimes[2][1],
+              ],
+              [
+                "RecentScanTime4",
+                oldSavedScanTimes[3][1] == null ? "" : oldSavedScanTimes[3][1],
+              ],
+            ];
+
+            await AsyncStorage.multiSet([
+              newSavedScanTimes[0],
+              newSavedScanTimes[1],
+              newSavedScanTimes[2],
+              newSavedScanTimes[3],
+              newSavedScanTimes[4],
+            ]);
+          } catch (e) {
+            console.log("Setting new saved scans error: ", e);
+          }
         }
       })
       .catch((error) => console.log("Setting new saved scans error2:", error));
