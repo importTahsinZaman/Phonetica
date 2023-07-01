@@ -16,14 +16,14 @@ export default {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      googleServicesFile: "./GoogleService-Info.plist",
+      googleServicesFile: process.env.GOOGLE_SERVICES_PLIST,
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
       buildNumber: "4",
     },
     android: {
-      googleServicesFile: "./google-services.json",
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 
       adaptiveIcon: {
         foregroundImage: "./app/assets/adaptive-icon.png",

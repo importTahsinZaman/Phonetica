@@ -306,7 +306,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               base64: true,
             }).then((result) => {
               imageBase64.current = result.base64;
-              if (scanCount.current == AD_FREQUENCY - 1 && !isExpoGo) {
+              if (scanCount.current == AD_FREQUENCY - 1 && !isExpoGo && false) {
                 rewardedInterstitial.show();
               } else {
                 updateScanCount();
