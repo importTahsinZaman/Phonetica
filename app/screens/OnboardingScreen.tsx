@@ -120,8 +120,14 @@ const OnboardingScreen = ({ navigation }) => {
 
         await AsyncStorage.multiSet([
           ["alreadyLaunched", "true"],
-          ["RecentScan0", "Tutorial Scan! Use this text as a demo scan."],
-          ["RecentScan1", "Tutorial Scan 2! Use this text as a demo scan."],
+          [
+            "RecentScan0",
+            "Tutorial Scan: Use this text as a demo scan. In a cozy little town, there lived a girl named Lily. She loved exploring nature and had a magical ability to talk to animals. One sunny day, Lily met a squirrel named Nutmeg. Nutmeg told her about a hidden treasure in the nearby forest. Excited, they ventured into the woods together. Along the way, they encountered a wise owl, a mischievous rabbit, and a friendly deer. With their help, Lily and Nutmeg found the treasure—a sparkling necklace made of emeralds! Lily shared the treasure with her new animal friends, and they celebrated with a joyful dance. From that day on, they became inseparable companions, exploring the wonders of the world together.",
+          ],
+          [
+            "RecentScan1",
+            "Tutorial Scan: Use this text as a demo scan. In the bustling city of Brightville, there was a young boy named Max. Max had a passion for inventions and dreams of becoming a famous inventor someday. One afternoon, he discovered an old, dusty box in his grandfather's attic. Inside, he found a pair of goggles with peculiar gears and buttons. Curiosity sparked in Max's eyes as he put them on. To his amazement, the goggles transported him to a world filled with talking robots and flying cars. Max couldn't believe his eyes! He spent days exploring this futuristic realm, making new robotic friends and inventing incredible gadgets. When he returned home, Max knew that one day, he would turn his imagination into reality and change the world with his inventions.",
+          ],
           ["RecentScan2", ""],
           ["RecentScan3", ""],
           ["RecentScan4", ""],
