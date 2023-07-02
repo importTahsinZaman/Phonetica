@@ -257,24 +257,6 @@ export default function TextSelectScreen({ route, navigation }) {
         showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       {formattedText && !gettingText ? (
-        // formattedText.map((sentence, index) => {
-        //   return (
-        //     <TouchableOpacity
-        //       key={index}
-        //       onPress={() =>
-        //         navigation.navigate("Translation", {
-        //           sentence: sentence,
-        //           ReturnHome: ReturnHome,
-        //         })
-        //       }
-        //       className=" p-2 my-1 rounded-lg"
-        //     >
-        //       <CustomText className="text-lg text-[#8D8D8D]">
-        //         {sentence}
-        //       </CustomText>
-        //     </TouchableOpacity>
-        //   );
-        // })
         <FlatList
           className="mx-4"
           data={formattedText}
@@ -305,6 +287,7 @@ export default function TextSelectScreen({ route, navigation }) {
             color="#FFBF23"
             onPress={() => {
               if (formattedText[selectedTextIndex].sentence) {
+                setEditedText(formattedText[selectedTextIndex].sentence);
                 setEditingText(true);
               }
             }}
@@ -324,7 +307,7 @@ export default function TextSelectScreen({ route, navigation }) {
         </View>
       )}
 
-      {editingText && (
+      {formattedText && !gettingText && editingText && (
         <Modal
           visible={editingText}
           transparent={false}
