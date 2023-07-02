@@ -60,16 +60,17 @@ if (!isExpoGo) {
     })
     .then(() => {
       trackingPermissionPromise.then(() => {
-        let AD_ID;
-        if (__DEV__) {
-          AD_ID = TestIds.REWARDED_INTERSTITIAL;
-        } else {
-          if (Platform.OS === "ios") {
-            AD_ID = "ca-app-pub-6289844451431860/4650586365";
-          } else {
-            AD_ID = "ca-app-pub-6289844451431860/8279728235";
-          }
-        }
+        let AD_ID = TestIds.REWARDED_INTERSTITIAL;
+        // ADS ARE TURNED OFF RIGHT NOW, THIS AD WON'T EVEN SHOW SO... KEEPING THIS COMMENTED OUT
+        // if (__DEV__) {
+        //   AD_ID = TestIds.REWARDED_INTERSTITIAL;
+        // } else {
+        //   if (Platform.OS === "ios") {
+        //     AD_ID = "ca-app-pub-6289844451431860/4650586365";
+        //   } else {
+        //     AD_ID = "ca-app-pub-6289844451431860/8279728235";
+        //   }
+        // }
         rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
           AD_ID,
           {

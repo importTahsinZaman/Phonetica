@@ -63,6 +63,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
 }) => {
   const [selectedId, setSelectedId] = useState<string>();
   const [definitionExplanation, setDefinitionExplanation] = useState("");
+  const [englishDefinitionExplanation, setEnglishDefinitionExplanation] =
+    useState("");
   //These exist for recall of definition method when user changes language so they don't have to click a different word and then back to their word to get definition in a different language
   const [currentWordChosenForDefinition, setCurrentWordChosenForDefinition] =
     useState("");
@@ -152,6 +154,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
       .then(async (result) => {
         const response1 = JSON.parse(result.request._response);
         const englishExplanation = response1.choices[0].text.trimStart();
+        setEnglishDefinitionExplanation(englishExplanation);
 
         if (isExpoGo) {
           console.log("English Explanation: ", englishExplanation);
@@ -242,7 +245,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
-      <SafeAreaView style={styles.wordsContainer} className=" max-h-[36.5%]">
+      <SafeAreaView style={styles.wordsContainer} className=" max-h-[28%]">
         <FlatList
           className="m-0 p-0"
           data={wordsList}
@@ -285,6 +288,14 @@ const DefineContainer: React.FC<ComponentProps> = ({
                   {definitionExplanation}
                 </CustomText>
               </ScrollView>
+              {englishDefinitionExplanation &&
+                targetLangAbbreviation != "EN-US" && (
+                  <ScrollView className="py-1">
+                    <CustomText className="text-[#8D8D8D] text-base">
+                      {englishDefinitionExplanation}
+                    </CustomText>
+                  </ScrollView>
+                )}
             </SafeAreaView>
           </SafeAreaView>
         )}
@@ -297,10 +308,17 @@ const DefineContainer: React.FC<ComponentProps> = ({
             <SafeAreaView className="mx-2">
               <SkeletonComponent count={1} width={0.169082125 * PAGE_WIDTH} />
               <SkeletonComponent
-                count={4}
+                count={targetLangAbbreviation != "EN-US" ? 3 : 4}
                 marginTop={5}
                 width={PAGE_WIDTH * 0.7729468599}
               />
+              {targetLangAbbreviation != "EN-US" && (
+                <SkeletonComponent
+                  count={3}
+                  marginTop={15}
+                  width={PAGE_WIDTH * 0.7729468599}
+                />
+              )}
             </SafeAreaView>
           </SafeAreaView>
         )}
