@@ -12,6 +12,7 @@ import HomeBanner from "../components/HomeBanner";
 import FeaturedVideos from "../components/FeaturedVideos";
 import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
+import Flashcards from "../components/Flashcards";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -35,6 +36,14 @@ const Content = ({ navigation }) => {
         fontThicknessNumber={4}
         style={styles.Header}
       >
+        Flashcards
+      </CustomText>
+      <Flashcards></Flashcards>
+      <CustomText
+        className="text-base"
+        fontThicknessNumber={4}
+        style={styles.Header}
+      >
         Your Recent Scans
       </CustomText>
       <RecentScans navigation={navigation}></RecentScans>
@@ -43,32 +52,23 @@ const Content = ({ navigation }) => {
 };
 
 const HomeScreen = ({ navigation }) => {
-  if (PAGE_HEIGHT < 785) {
-    return (
-      <SafeAreaView
-        className="bg-white h-screen w-full"
-        style={{
-          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        }}
-      >
+  return (
+    <SafeAreaView
+      className="bg-white h-screen w-full"
+      style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+    >
+      {PAGE_HEIGHT < 785 ? (
         <ScrollView>
           <Content navigation={navigation}></Content>
           <View style={{ height: 785 - PAGE_HEIGHT, width: PAGE_WIDTH }}></View>
         </ScrollView>
-      </SafeAreaView>
-    );
-  } else {
-    return (
-      <SafeAreaView
-        className="bg-white h-screen w-full"
-        style={{
-          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        }}
-      >
+      ) : (
         <Content navigation={navigation}></Content>
-      </SafeAreaView>
-    );
-  }
+      )}
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
