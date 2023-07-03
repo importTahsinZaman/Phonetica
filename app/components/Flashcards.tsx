@@ -1,11 +1,31 @@
-import * as React from "react";
-import { Dimensions, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { Dimensions, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import CustomText from "./CustomText";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const PAGE_WIDTH = Dimensions.get("window").width;
+const COUNT = 2;
 
 const Flashcards = ({}) => {
-  const PAGE_WIDTH = Dimensions.get("window").width;
-  const COUNT = 2;
+  const isFocused = useIsFocused();
+  const [flashcards, setFlashcards] = useState([]);
+  const [indexArray, setIndexArray] = useState([]);
+
+  const getFlashcards = async () => {
+    const flashcardsStringJSON = await AsyncStorage.getItem("Flashcards");
+    const flashcardsJSON = JSON.parse(flashcardsStringJSON);
+
+    setFlashcards(flashcardsJSON);
+    setIndexArray(Array.from(Array(flashcardsJSON.length).keys()));
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      getFlashcards();
+    }
+  }, [isFocused]);
 
   return (
     <View className="w-screen">
@@ -18,7 +38,7 @@ const Flashcards = ({}) => {
         pagingEnabled={false}
         snapEnabled={false}
         style={{ width: "100%" }}
-        data={[...new Array(12).keys()]}
+        data={indexArray}
         renderItem={({ index }) => (
           <View
             className="m-2 flex-1 rounded-xl bg-[#F6F6F6] shadow flex"
@@ -29,13 +49,10 @@ const Flashcards = ({}) => {
                 fontThicknessNumber={4}
                 className="text-left text-base"
               >
-                'Remember'
+                '{flashcards[index]["word"]}'
               </CustomText>
               <CustomText className="text-left leading-5 text-[#8D8D8D] mt-2 text-[14px]">
-                Flashcards help you learn and remember words you find while
-                reading. When you're reviewing your flashcards, click the check
-                if you know the word to remove it from your deck or the x to
-                keep it around to review again later!
+                {flashcards[index]["text"]}
               </CustomText>
             </View>
           </View>

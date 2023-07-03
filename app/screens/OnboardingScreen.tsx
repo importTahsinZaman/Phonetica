@@ -118,6 +118,20 @@ const OnboardingScreen = ({ navigation }) => {
         let time = d.toLocaleTimeString();
         time = time.slice(0, 4) + time.slice(7);
 
+        const flashCardJson = JSON.stringify([
+          {
+            word: "Remember",
+            text: "Flashcards help you learn and remember words you find while reading. When you're reviewing your flashcards, click the check if you know the word to remove it from your deck or the x to keep it around to review again later!",
+            definition: "Remember means to remember",
+          },
+
+          {
+            word: "Deck",
+            text: "To add a flashcard to your deck, scan text, define a word, and at the bottom of your screen click 'Add Flashcard'!",
+            definition: "Deck is like a deck of cards",
+          },
+        ]);
+
         await AsyncStorage.multiSet([
           ["alreadyLaunched", "true"],
           [
@@ -137,6 +151,7 @@ const OnboardingScreen = ({ navigation }) => {
           ["RecentScanTime3", ""],
           ["RecentScanTime4", ""],
           ["ScanCount", "0"],
+          ["Flashcards", flashCardJson],
         ]);
 
         if (isExpoGo) {
