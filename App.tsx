@@ -18,6 +18,7 @@ import ScanScreen from "./app/screens/ScanScreen";
 import TextSelectScreen from "./app/screens/TextSelectScreen";
 import TranslationScreen from "./app/screens/TranslationScreen";
 import OnboardingScreen from "./app/screens/OnboardingScreen";
+import FlashcardScreen from "./app/screens/FlashcardScreen";
 
 import * as SplashScreen from "expo-splash-screen";
 
@@ -190,6 +191,7 @@ const App = () => {
             component={TranslationScreen}
             initialParams={{ ReturnHome: false }}
           />
+          <Stack.Screen name="Flashcard" component={FlashcardScreen} />
         </CurvedBottomBarExpo.Navigator>
         <Toast config={toastConfig} />
       </NavigationContainer>
