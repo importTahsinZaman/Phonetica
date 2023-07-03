@@ -7,8 +7,6 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
-  Modal,
-  Button,
 } from "react-native";
 import { DEEPL_KEY, NLP_API_KEY } from "@env";
 import CustomText from "./CustomText";
@@ -18,8 +16,9 @@ import * as Speech from "expo-speech";
 import SkeletonComponent from "./SkeletonComponent";
 import SkeletonComponent2 from "./SkeletonComponent2";
 import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
-import { Ionicons } from "@expo/vector-icons";
 import Constants, { ExecutionEnvironment } from "expo-constants";
+import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
@@ -76,7 +75,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
     useState(false);
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [addFlashcardEnabled, setAddFlashcardEnabled] = useState(false);
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -231,6 +230,46 @@ const DefineContainer: React.FC<ComponentProps> = ({
       });
   };
 
+  const addFlashCard = async () => {
+    try {
+      const flashcardStringJSON = await AsyncStorage.getItem("Flashcards");
+      let flashcardJSON = JSON.parse(flashcardStringJSON);
+
+      if (targetLangAbbreviation != "EN-US") {
+        flashcardJSON.unshift({
+          word: currentWordChosenForDefinition,
+          text: text,
+          definition:
+            definitionExplanation + "\n" + englishDefinitionExplanation,
+        });
+      } else {
+        flashcardJSON.unshift({
+          word: currentWordChosenForDefinition,
+          text: text,
+          definition: englishDefinitionExplanation,
+        });
+      }
+
+      await AsyncStorage.setItem("Flashcards", JSON.stringify(flashcardJSON));
+
+      Toast.show({
+        type: "success",
+        text1: "Successfully added flashcard! 🤩",
+        text2:
+          "Created new flashcard for '" + currentWordChosenForDefinition + "'",
+      });
+    } catch (e) {
+      Toast.show({
+        type: "error",
+        text1: "Unable to add flashcard 🙁",
+        text2:
+          "Unable to create new flashcard for '" +
+          currentWordChosenForDefinition +
+          "'",
+      });
+    }
+  };
+
   useEffect(() => {
     if (
       currentInstanceChosenForDefinition !== "" &&
@@ -242,6 +281,20 @@ const DefineContainer: React.FC<ComponentProps> = ({
       );
     }
   }, [targetLangAbbreviation]);
+
+  useEffect(() => {
+    let timeoutId: string | number | NodeJS.Timeout | undefined;
+
+    if (!addFlashcardEnabled) {
+      timeoutId = setTimeout(() => {
+        setAddFlashcardEnabled(true);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [addFlashcardEnabled]);
 
   return (
     <SafeAreaView className="my-4 w-full grow flex">
@@ -327,38 +380,20 @@ const DefineContainer: React.FC<ComponentProps> = ({
       {definitionExplanation && !waitingForExplanationAPIResult && (
         <SafeAreaView style={styles.containerMargin} className="mt-auto">
           <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            className="bg-[#FFBF23] p-3 rounded-lg items-center justify-center"
+            disabled={!addFlashcardEnabled}
+            onPress={() => {
+              if (addFlashcardEnabled) {
+                addFlashCard();
+              }
+            }}
+            style={{
+              backgroundColor: "#FFBF23",
+              opacity: addFlashcardEnabled ? 1 : 0.75,
+            }}
+            className="p-3 rounded-lg items-center justify-center transition-none transform-none"
           >
             <CustomText>Create Flashcard</CustomText>
           </TouchableOpacity>
-        </SafeAreaView>
-      )}
-      {modalVisible && (
-        <SafeAreaView style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(false);
-            }}
-          >
-            <SafeAreaView style={styles.centeredView}>
-              <SafeAreaView className="flex items-center border-y-4 w-full bg-[#FFBF23] border-black">
-                <Ionicons name="construct" size={50} color="black" />
-                <CustomText fontThicknessNumber={4} className="text-2xl">
-                  FLASHCARDS COMING SOON!
-                </CustomText>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Hide</Text>
-                </Pressable>
-              </SafeAreaView>
-            </SafeAreaView>
-          </Modal>
         </SafeAreaView>
       )}
     </SafeAreaView>
@@ -372,37 +407,6 @@ const styles = StyleSheet.create({
   },
   defineText: {
     marginRight: PAGE_WIDTH * 0.0699998,
-  },
-  //Modal Styles:
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  button: {
-    marginTop: 15,
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    elevation: 2,
-    borderWidth: 3,
-  },
-  buttonOpen: {
-    backgroundColor: "#FFBF23",
-  },
-  buttonClose: {
-    backgroundColor: "#FFBF23",
-  },
-  textStyle: {
-    color: "black",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 18,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
   },
 });
 

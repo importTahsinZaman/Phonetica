@@ -33,7 +33,7 @@ const Flashcards = ({}) => {
         vertical={false}
         width={PAGE_WIDTH / COUNT}
         height={PAGE_WIDTH / 2}
-        loop={true}
+        loop={false}
         autoPlay={false}
         pagingEnabled={false}
         snapEnabled={false}

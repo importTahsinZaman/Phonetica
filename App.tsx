@@ -33,6 +33,8 @@ import {
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
 
+import Toast, { BaseToast } from "react-native-toast-message";
+
 SplashScreen.preventAutoHideAsync();
 
 // `true` when running in Expo Go.
@@ -46,6 +48,11 @@ if (!isExpoGo) {
 }
 
 const Stack = createNativeStackNavigator();
+const toastConfig = {
+  success: (props) => (
+    <BaseToast {...props} style={{ borderLeftColor: "#FFBF23" }} />
+  ),
+};
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -184,6 +191,7 @@ const App = () => {
             initialParams={{ ReturnHome: false }}
           />
         </CurvedBottomBarExpo.Navigator>
+        <Toast config={toastConfig} />
       </NavigationContainer>
     );
   }
