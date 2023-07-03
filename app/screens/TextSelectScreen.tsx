@@ -322,8 +322,18 @@ export default function TextSelectScreen({ route, navigation }) {
               className="bg-[#F6F6F6] rounded-xl p-4 my-4 min-h-[31vh] max-h-[31vh] min-w-[92vw]"
               style={{ marginHorizontal: PAGE_WIDTH * 0.05333333333 }}
             >
+              <View className="flex flex-row justify-between items-center mb-2">
+                <CustomText className="text-[#8D8D8D] ">Editing...</CustomText>
+              </View>
               <TextInput
-                style={{ fontSize: 16 }}
+                autoFocus={true}
+                selectionColor="#FFBF23"
+                style={{
+                  fontSize: 16,
+                  borderBottomWidth: 0,
+                  borderBottomColor: "#FFBF23",
+                  height: "100%",
+                }}
                 editable
                 multiline
                 defaultValue={formattedText[selectedTextIndex].sentence}
