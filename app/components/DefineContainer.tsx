@@ -230,7 +230,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
       });
   };
 
-  const addFlashCard = async () => {
+  const addFlashcard = async () => {
     try {
       const flashcardStringJSON = await AsyncStorage.getItem("Flashcards");
       let flashcardJSON = JSON.parse(flashcardStringJSON);
@@ -238,6 +238,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
       if (targetLangAbbreviation != "EN-US") {
         flashcardJSON.unshift({
           word: currentWordChosenForDefinition,
+          instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition:
             definitionExplanation + "\n" + englishDefinitionExplanation,
@@ -245,6 +246,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
       } else {
         flashcardJSON.unshift({
           word: currentWordChosenForDefinition,
+          instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition: englishDefinitionExplanation,
         });
@@ -383,7 +385,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
             disabled={!addFlashcardEnabled}
             onPress={() => {
               if (addFlashcardEnabled) {
-                addFlashCard();
+                addFlashcard();
               }
             }}
             style={{

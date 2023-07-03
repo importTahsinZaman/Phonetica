@@ -121,12 +121,14 @@ const OnboardingScreen = ({ navigation }) => {
         const flashCardJson = JSON.stringify([
           {
             word: "Remember",
+            instanceNumber: 1,
             text: "Flashcards help you learn and remember words you find while reading. When you're reviewing your flashcards, click the check if you know the word to remove it from your deck or the x to keep it around to review again later!",
             definition: "Remember means to remember",
           },
 
           {
             word: "Deck",
+            instanceNumber: 1,
             text: "To add a flashcard to your deck, scan text, define a word, and at the bottom of your screen click 'Add Flashcard'!",
             definition: "Deck is like a deck of cards",
           },
