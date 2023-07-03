@@ -13,14 +13,9 @@ import { useEffect, useState, useRef } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
-import {
-  Entypo,
-  Ionicons,
-  FontAwesome5,
-  MaterialIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ReturnHeader from "../components/ReturnHeader";
+import * as ImagePicker from "expo-image-picker";
 import { ImageEditor } from "@tahsinz21366/expo-crop-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tabBarRef } from "../components/HelperFunctions";
@@ -31,6 +26,9 @@ import {
   trackingPermissionPromise,
   adTrackingGranted,
 } from "../components/HelperFunctions";
+
+const IMAGE_COMPRESSION_AMOUNT = 0.7;
+const IMAGE_SAVE_FORMAT = SaveFormat.JPEG;
 
 // `true` when running in Expo Go.
 const isExpoGo =
@@ -221,6 +219,20 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result["assets"][0].uri);
+      setEditorVisible(true);
+    }
+  };
+
   if (!rewardedInterstitialLoaded) {
     return (
       <SafeAreaView className="w-full h-full flex flex-1 items-center justify-center bg-black">
@@ -254,7 +266,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               style={{ height: PAGE_WIDTH * 0.1973333333333333333 }}
             >
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={pickImage}
                 className="flex-1 items-center h-full justify-center"
               >
                 <Ionicons
@@ -334,8 +346,8 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             }
 
             await manipulateAsync(r.uri, [], {
-              compress: 0.7,
-              format: SaveFormat.JPEG,
+              compress: IMAGE_COMPRESSION_AMOUNT,
+              format: IMAGE_SAVE_FORMAT,
               base64: true,
             }).then((result) => {
               imageBase64.current = result.base64;
