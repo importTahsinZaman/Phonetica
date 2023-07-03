@@ -13,6 +13,13 @@ import { useEffect, useState, useRef } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
+import {
+  Entypo,
+  Ionicons,
+  FontAwesome5,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import ReturnHeader from "../components/ReturnHeader";
 import { ImageEditor } from "@tahsinz21366/expo-crop-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -241,16 +248,41 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             <ReturnHeader navigation={navigation}></ReturnHeader>
           </SafeAreaView>
 
-          <SafeAreaView className="flex-1 flex-row bg-transparent m-[64]">
-            <TouchableOpacity
-              onPress={takePicture}
-              className="flex-1 self-end items-center"
+          <SafeAreaView className="bg-transparent flex-end flex-1">
+            <View
+              className="flex-row bg-transparent w-full items-center absolute bottom-16"
+              style={{ height: PAGE_WIDTH * 0.1973333333333333333 }}
             >
-              <TakePictureButtonSvg
-                width={PAGE_WIDTH * 0.1973333333333333333}
-                height={PAGE_WIDTH * 0.1973333333333333333}
-              ></TakePictureButtonSvg>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {}}
+                className="flex-1 items-center h-full justify-center"
+              >
+                <Ionicons
+                  name="images"
+                  size={PAGE_WIDTH * 0.085}
+                  color="white"
+                ></Ionicons>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={takePicture}
+                className="flex-1 items-center h-full justify-center"
+              >
+                <TakePictureButtonSvg
+                  width={PAGE_WIDTH * 0.1973333333333333333}
+                  height={PAGE_WIDTH * 0.1973333333333333333}
+                ></TakePictureButtonSvg>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={toggleCameraType}
+                className="flex-1 items-center h-full justify-center"
+              >
+                <MaterialIcons
+                  name="switch-camera"
+                  size={PAGE_WIDTH * 0.085}
+                  color="white"
+                ></MaterialIcons>
+              </TouchableOpacity>
+            </View>
           </SafeAreaView>
         </Camera>
       )}
@@ -260,7 +292,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
           imageUri={imageUri}
           fixedAspectRatio={777}
           editorOptions={{
-            backgroundColor: "#f2f2f2",
+            backgroundColor: "black",
             controlBar: {
               position: "bottom",
               backgroundColor: "white",
@@ -308,6 +340,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             }).then((result) => {
               imageBase64.current = result.base64;
               if (scanCount.current == AD_FREQUENCY - 1 && !isExpoGo && false) {
+                //ADS DISABLED FOR NOW ^^^^
                 rewardedInterstitial.show();
               } else {
                 updateScanCount();
