@@ -237,7 +237,9 @@ const DefineContainer: React.FC<ComponentProps> = ({
 
       if (targetLangAbbreviation != "EN-US") {
         flashcardJSON.unshift({
-          word: currentWordChosenForDefinition,
+          word:
+            currentWordChosenForDefinition.charAt(0).toUpperCase() +
+            currentWordChosenForDefinition.slice(1),
           instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition:
@@ -245,7 +247,9 @@ const DefineContainer: React.FC<ComponentProps> = ({
         });
       } else {
         flashcardJSON.unshift({
-          word: currentWordChosenForDefinition,
+          word:
+            currentWordChosenForDefinition.charAt(0).toUpperCase() +
+            currentWordChosenForDefinition.slice(1),
           instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition: englishDefinitionExplanation,

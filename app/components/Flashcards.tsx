@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import { Dimensions, View } from "react-native";
+import { Dimensions, TouchableOpacity, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import CustomText from "./CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { tabBarRef } from "./HelperFunctions";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const COUNT = 2;
 
-const Flashcards = ({}) => {
+const Flashcards = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [flashcards, setFlashcards] = useState([]);
   const [indexArray, setIndexArray] = useState([]);
@@ -40,9 +41,13 @@ const Flashcards = ({}) => {
         style={{ width: "100%" }}
         data={indexArray}
         renderItem={({ index }) => (
-          <View
+          <TouchableOpacity
             className="m-2 flex-1 rounded-xl bg-[#F6F6F6] shadow flex"
             style={{ elevation: 15 }}
+            onPress={() => {
+              tabBarRef?.current?.setVisible(false);
+              navigation.navigate("Flashcard");
+            }}
           >
             <View className="p-2.5 mb-10">
               <CustomText
@@ -55,7 +60,7 @@ const Flashcards = ({}) => {
                 {flashcards[index]["text"]}
               </CustomText>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

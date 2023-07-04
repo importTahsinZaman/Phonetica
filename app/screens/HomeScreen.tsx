@@ -38,7 +38,7 @@ const Content = ({ navigation }) => {
       >
         Flashcards
       </CustomText>
-      <Flashcards></Flashcards>
+      <Flashcards navigation={navigation}></Flashcards>
       <CustomText
         className="text-base"
         fontThicknessNumber={4}

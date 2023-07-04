@@ -37,7 +37,7 @@ const Header1: React.FC<Props> = ({
     <SafeAreaView style={styles.Container} className="fixed top-0">
       <TouchableOpacity
         className="flex flex-row items-center py-2"
-        onPress={() => {
+        onPressIn={() => {
           navigation.navigate(destination, props);
           tabBarRef?.current?.setVisible(showNavBar);
         }}
