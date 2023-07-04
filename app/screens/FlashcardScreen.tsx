@@ -133,21 +133,16 @@ const FlashcardScreen = ({ route, navigation }) => {
           setCurrentFlashcardIndex(index);
           setCurrentFeeling(flashcardsJSON[index]["feeling"]);
         }}
-        // onScrollBegin={() => {
-        //   console.log("On scroll begin triggered");
-        //   spin.value = 0;
-        // }}
         onProgressChange={() => {
           spin.value = 0;
         }}
         style={{}}
         renderItem={({ index }) => {
           return (
-            <RNGH
+            <Pressable
               onPress={() => {
                 spin.value = spin.value ? 0 : 1;
               }}
-              containerStyle={{ flex: 1 }}
             >
               <Animated.View
                 style={[
@@ -165,7 +160,7 @@ const FlashcardScreen = ({ route, navigation }) => {
               >
                 <CustomText>{index}</CustomText>
               </Animated.View>
-            </RNGH>
+            </Pressable>
           );
         }}
       ></Carousel>

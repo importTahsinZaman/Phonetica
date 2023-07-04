@@ -1,5 +1,4 @@
 import "expo-dev-client";
-import "react-native-gesture-handler";
 import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
 import { Animated, StyleSheet, Pressable } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
