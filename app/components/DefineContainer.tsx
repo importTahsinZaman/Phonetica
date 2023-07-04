@@ -244,6 +244,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           text: text,
           definition:
             definitionExplanation + "\n" + englishDefinitionExplanation,
+          feeling: 3,
         });
       } else {
         flashcardJSON.unshift({
@@ -253,6 +254,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition: englishDefinitionExplanation,
+          feeling: 3,
         });
       }
 

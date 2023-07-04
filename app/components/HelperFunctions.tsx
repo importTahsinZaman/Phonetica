@@ -1,4 +1,4 @@
-import React, { createRef, useRef } from "react";
+import React, { createRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LanguageData from "../assets/Languages.json";
 import { getTrackingPermissionsAsync } from "expo-tracking-transparency";

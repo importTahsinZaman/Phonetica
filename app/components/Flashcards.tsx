@@ -32,6 +32,7 @@ const Flashcards = ({ navigation }) => {
     <View className="w-screen">
       <Carousel
         vertical={false}
+        windowSize={11}
         width={PAGE_WIDTH / COUNT}
         height={PAGE_WIDTH / 2}
         loop={false}
@@ -46,7 +47,10 @@ const Flashcards = ({ navigation }) => {
             style={{ elevation: 15 }}
             onPress={() => {
               tabBarRef?.current?.setVisible(false);
-              navigation.navigate("Flashcard");
+              navigation.navigate("Flashcard", {
+                initialFlashcardIndex: index,
+                initialFeeling: flashcards[index]["feeling"],
+              });
             }}
           >
             <View className="p-2.5 mb-10">
