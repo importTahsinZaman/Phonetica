@@ -147,8 +147,11 @@ const FlashcardScreen = ({ route, navigation }) => {
           setCurrentFlashcardIndex(index);
           setCurrentFeeling(flashcardsJSON[index]["feeling"]);
         }}
-        onProgressChange={() => {
-          spin.value = 0;
+        onProgressChange={(offsetProgress, absoluteProgress) => {
+          if (spin.value !== 0 && absoluteProgress % 1 != 0) {
+            console.log("updating spin value");
+            spin.value = 0;
+          }
         }}
         style={{}}
         renderItem={({ index }) => {
