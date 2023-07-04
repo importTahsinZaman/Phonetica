@@ -29,6 +29,8 @@ const PAGE_HEIGHT = Dimensions.get("window").height;
 const FLASHCARD_WIDTH = PAGE_WIDTH;
 const FLASHCARD_HEIGHT = PAGE_HEIGHT * 0.7142;
 
+const flashcardCarouselRef = createRef();
+
 const FlashcardScreen = ({ route, navigation }) => {
   const { initialFlashcardIndex, initialFeeling } = route.params;
   const isFocused = useIsFocused();
@@ -37,7 +39,6 @@ const FlashcardScreen = ({ route, navigation }) => {
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState();
   const [currentFeeling, setCurrentFeeling] = useState();
   const spin = useSharedValue<number>(0);
-  const flashcardCarouselRef = createRef();
 
   const rStyle = useAnimatedStyle(() => {
     const spinVal = interpolate(spin.value, [0, 1], [0, 180]);
@@ -89,14 +90,27 @@ const FlashcardScreen = ({ route, navigation }) => {
   useEffect(() => {
     spin.value = 0;
     if (isFocused) {
-      getFlashcardJSON();
       // the scrollTo() line only works when theres a comma after 'initialFlashcardIndex' but prettier wants to get rid of it, thus prettier ignore is required
       // prettier-ignore
       flashcardCarouselRef?.current?.scrollTo({ index: initialFlashcardIndex, });
+
+      getFlashcardJSON();
+
       setCurrentFlashcardIndex(initialFlashcardIndex);
       setCurrentFeeling(initialFeeling);
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Use scrollTo() inside the callback to ensure it executes after the initial render
+        // the scrollTo() line only works when theres a comma after 'initialFlashcardIndex' but prettier wants to get rid of it, thus prettier ignore is required
+        // prettier-ignore
+        flashcardCarouselRef?.current?.scrollTo({ index: initialFlashcardIndex, });
+      });
+    });
+  }, []);
 
   return (
     <SafeAreaView
