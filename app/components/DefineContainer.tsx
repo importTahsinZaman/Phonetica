@@ -319,6 +319,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
               onPress={() => {
                 Speech.speak(wordsList[parseInt(selectedId)].word, {
                   rate: 0.8,
+                  voice: "com.apple.ttsbundle.siri_Aaron_en-US_compact",
                 });
               }}
             >

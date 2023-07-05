@@ -127,6 +127,7 @@ const PronounceContainer = ({
                   setPlaying(true);
                 } else if (!paused) {
                   Speech.speak(EnglishText, {
+                    voice: "com.apple.ttsbundle.siri_Aaron_en-US_compact",
                     rate: playBackSpeed,
                     onDone: () => {
                       setPlaying(false);
