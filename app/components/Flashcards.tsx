@@ -5,21 +5,24 @@ import Carousel from "react-native-reanimated-carousel";
 import CustomText from "./CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tabBarRef } from "./HelperFunctions";
+import { GlobalStore } from "react-native-global-state-hooks";
+
+const FLASHCARDS = new GlobalStore([]);
+
+export const useFlashcardsGlobal = FLASHCARDS.getHook();
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const COUNT = 2;
 
 const Flashcards = ({ navigation }) => {
   const isFocused = useIsFocused();
-  const [flashcards, setFlashcards] = useState([]);
-  const [indexArray, setIndexArray] = useState([]);
+  const [flashcards, setFlashcards] = useFlashcardsGlobal();
 
   const getFlashcards = async () => {
     const flashcardsStringJSON = await AsyncStorage.getItem("Flashcards");
     const flashcardsJSON = JSON.parse(flashcardsStringJSON);
 
     setFlashcards(flashcardsJSON);
-    setIndexArray(Array.from(Array(flashcardsJSON.length).keys()));
   };
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const Flashcards = ({ navigation }) => {
         pagingEnabled={false}
         snapEnabled={false}
         style={{ width: "100%" }}
-        data={indexArray}
+        data={flashcards}
         renderItem={({ index }) => (
           <TouchableOpacity
             className="m-2 flex-1 rounded-xl bg-[#F6F6F6] shadow flex"

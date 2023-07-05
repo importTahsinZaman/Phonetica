@@ -243,7 +243,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           instanceNumber: currentInstanceChosenForDefinition,
           text: text,
           definition:
-            definitionExplanation + "\n" + englishDefinitionExplanation,
+            definitionExplanation + "\n\n" + englishDefinitionExplanation,
           feeling: 3,
         });
       } else {
@@ -392,6 +392,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
             onPress={() => {
               if (addFlashcardEnabled) {
                 addFlashcard();
+                setAddFlashcardEnabled(false);
               }
             }}
             style={{

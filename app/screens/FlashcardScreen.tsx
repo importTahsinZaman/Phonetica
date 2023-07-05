@@ -20,8 +20,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { TouchableOpacity as RNGH } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
+import { useFlashcardsGlobal } from "../components/Flashcards";
+import Toast from "react-native-toast-message";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -34,8 +35,7 @@ const flashcardCarouselRef = createRef();
 const FlashcardScreen = ({ route, navigation }) => {
   const { initialFlashcardIndex, initialFeeling } = route.params;
   const isFocused = useIsFocused();
-  const [flashcardsJSON, setFlashcardsJSON] = useState([]);
-  const [indexArray, setIndexArray] = useState([]);
+  const [flashcardsJSON, setFlashcardsJSON] = useFlashcardsGlobal();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState();
   const [currentFeeling, setCurrentFeeling] = useState();
   const spin = useSharedValue<number>(0);
@@ -67,7 +67,6 @@ const FlashcardScreen = ({ route, navigation }) => {
     const flashcardsJSON = JSON.parse(flashcardsStringJSON);
 
     setFlashcardsJSON(flashcardsJSON);
-    setIndexArray(Array.from(Array(flashcardsJSON.length).keys()));
   };
 
   const setFlashcardStorage = async (newFlashcardStorage) => {
@@ -87,27 +86,68 @@ const FlashcardScreen = ({ route, navigation }) => {
     setFlashcardStorage(newFlashcardsJSON);
   };
 
-  useEffect(() => {
+  const removeCard = () => {
+    Toast.show({
+      type: "success",
+      text1:
+        "Congratulations on learning '" +
+        flashcardsJSON[currentFlashcardIndex]["word"] +
+        "'! 🎉",
+      text2: "Removed Flashcard",
+    });
+
+    let newIndex;
+    if (currentFlashcardIndex === flashcardsJSON.length - 1) {
+      newIndex = currentFlashcardIndex - 1;
+    } else {
+      newIndex = currentFlashcardIndex;
+    }
+
+    let newFlashcardsJSON = flashcardsJSON;
+    newFlashcardsJSON.splice(currentFlashcardIndex, 1);
+
+    setFlashcardsJSON(newFlashcardsJSON);
+    setFlashcardStorage(newFlashcardsJSON);
+
+    navigation.navigate("Flashcard", {
+      initialFlashcardIndex: newIndex,
+      initialFeeling: newFlashcardsJSON[newIndex]["feeling"],
+    });
+
+    scrollTo(newIndex);
+
+    setCurrentFlashcardIndex(newIndex);
+    setCurrentFeeling(newFlashcardsJSON[newIndex]["feeling"]);
+  };
+
+  const scrollTo = (index: number) => {
+    // Use scrollTo() inside the callback to ensure it executes after the initial render
+    // the scrollTo() line only works when theres a comma after 'initialFlashcardIndex' but prettier wants to get rid of it, thus prettier ignore is required
+    // prettier-ignore
+    flashcardCarouselRef?.current?.scrollTo({ index: index, });
+  };
+
+  const init = () => {
     spin.value = 0;
+    scrollTo(initialFlashcardIndex);
+
+    getFlashcardJSON();
+
+    setCurrentFlashcardIndex(initialFlashcardIndex);
+    setCurrentFeeling(initialFeeling);
+  };
+
+  useEffect(() => {
+    console.log("Focus Changed, Is Focused: ", isFocused);
     if (isFocused) {
-      // the scrollTo() line only works when theres a comma after 'initialFlashcardIndex' but prettier wants to get rid of it, thus prettier ignore is required
-      // prettier-ignore
-      flashcardCarouselRef?.current?.scrollTo({ index: initialFlashcardIndex, });
-
-      getFlashcardJSON();
-
-      setCurrentFlashcardIndex(initialFlashcardIndex);
-      setCurrentFeeling(initialFeeling);
+      init();
     }
   }, [isFocused]);
 
   useEffect(() => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // Use scrollTo() inside the callback to ensure it executes after the initial render
-        // the scrollTo() line only works when theres a comma after 'initialFlashcardIndex' but prettier wants to get rid of it, thus prettier ignore is required
-        // prettier-ignore
-        flashcardCarouselRef?.current?.scrollTo({ index: initialFlashcardIndex, });
+        scrollTo(initialFlashcardIndex);
       });
     });
   }, []);
@@ -129,7 +169,7 @@ const FlashcardScreen = ({ route, navigation }) => {
       <Carousel
         ref={flashcardCarouselRef}
         loop={false}
-        // windowSize={11}
+        windowSize={11}
         vertical={false}
         autoPlay={false}
         pagingEnabled={true}
@@ -142,14 +182,13 @@ const FlashcardScreen = ({ route, navigation }) => {
           parallaxScrollingOffset: 50,
           parallaxAdjacentItemScale: 0.8,
         }}
-        data={indexArray}
+        data={flashcardsJSON}
         onScrollEnd={(index) => {
           setCurrentFlashcardIndex(index);
           setCurrentFeeling(flashcardsJSON[index]["feeling"]);
         }}
         onProgressChange={(offsetProgress, absoluteProgress) => {
           if (spin.value !== 0 && absoluteProgress % 1 != 0) {
-            console.log("updating spin value");
             spin.value = 0;
           }
         }}
@@ -166,16 +205,34 @@ const FlashcardScreen = ({ route, navigation }) => {
                   Styles.flashcard,
                   currentFlashcardIndex === index && bStyle,
                 ]}
+                className="shadow"
               >
-                <CustomText>"Back View: " + {index}</CustomText>
+                <CustomText
+                  className="text-2xl mx-4 mt-5"
+                  fontThicknessNumber={5}
+                >
+                  '{flashcardsJSON[index]["word"]}'
+                </CustomText>
+                <CustomText className="text-lg mt-2 mx-4">
+                  {flashcardsJSON[index]["definition"]}
+                </CustomText>
               </Animated.View>
               <Animated.View
                 style={[
                   Styles.flashcard,
                   currentFlashcardIndex === index && rStyle,
                 ]}
+                className="shadow"
               >
-                <CustomText>{index}</CustomText>
+                <CustomText
+                  className="text-2xl mx-4 mt-5"
+                  fontThicknessNumber={5}
+                >
+                  '{flashcardsJSON[index]["word"]}'
+                </CustomText>
+                <CustomText className="text-lg mt-2 mx-4">
+                  {flashcardsJSON[index]["text"]}
+                </CustomText>
               </Animated.View>
             </Pressable>
           );
@@ -254,7 +311,7 @@ const FlashcardScreen = ({ route, navigation }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onPress={() => console.log(0)}
+          onPress={() => removeCard()}
         >
           <Text style={{ fontSize: 20 }}>😁</Text>
         </TouchableOpacity>
@@ -268,16 +325,15 @@ const Styles = StyleSheet.create({
     backfaceVisibility: "hidden",
     borderRadius: 12,
     backgroundColor: "#F6F6F6",
-    shadowColor: "black",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 4,
-    justifyContent: "center",
-    alignItems: "center",
+    // shadowColor: "black",
+    // shadowOpacity: 0.2,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 4,
+    // elevation: 4,
     position: "absolute",
     height: FLASHCARD_HEIGHT,
     width: FLASHCARD_WIDTH,
+    justifyContent: "center",
   },
 });
 
