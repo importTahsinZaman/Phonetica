@@ -235,28 +235,16 @@ const DefineContainer: React.FC<ComponentProps> = ({
       const flashcardStringJSON = await AsyncStorage.getItem("Flashcards");
       let flashcardJSON = JSON.parse(flashcardStringJSON);
 
-      if (targetLangAbbreviation != "EN-US") {
-        flashcardJSON.unshift({
-          word:
-            currentWordChosenForDefinition.charAt(0).toUpperCase() +
-            currentWordChosenForDefinition.slice(1),
-          instanceNumber: currentInstanceChosenForDefinition,
-          text: text,
-          definition:
-            definitionExplanation + "\n\n" + englishDefinitionExplanation,
-          feeling: 3,
-        });
-      } else {
-        flashcardJSON.unshift({
-          word:
-            currentWordChosenForDefinition.charAt(0).toUpperCase() +
-            currentWordChosenForDefinition.slice(1),
-          instanceNumber: currentInstanceChosenForDefinition,
-          text: text,
-          definition: englishDefinitionExplanation,
-          feeling: 3,
-        });
-      }
+      flashcardJSON.unshift({
+        word:
+          currentWordChosenForDefinition.charAt(0).toUpperCase() +
+          currentWordChosenForDefinition.slice(1),
+        instanceNumber: currentInstanceChosenForDefinition,
+        text: text,
+        definition: definitionExplanation,
+        englishDefinition: englishDefinitionExplanation,
+        feeling: 3,
+      });
 
       await AsyncStorage.setItem("Flashcards", JSON.stringify(flashcardJSON));
 

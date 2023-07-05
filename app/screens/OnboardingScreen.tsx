@@ -118,12 +118,19 @@ const OnboardingScreen = ({ navigation }) => {
         let time = d.toLocaleTimeString();
         time = time.slice(0, 4) + time.slice(7);
 
+        const flashDef1 =
+          "In this context, 'remember' means to retain and recall information or words that you have learned in the past. In the given sentence, it suggests that flashcards are useful for aiding the process of learning and retaining new words encountered during reading, and during flashcard review, you can indicate your familiarity with each word by selecting the appropriate emoji.";
+
+        const flashDef2 =
+          "Deck refers to a set of cards usually used in various games. In this context, 'deck' refers to a set of flashcards";
+
         const flashCardJson = JSON.stringify([
           {
             word: "Remember",
             instanceNumber: 1,
             text: "Flashcards help you learn and remember words you find while reading. When you're reviewing your flashcards, click the emoji that corresponds to how well you know the word.",
-            definition: "Remember means to remember",
+            definition: flashDef1,
+            englishDefinition: flashDef1,
             feeling: 3,
           },
 
@@ -131,7 +138,8 @@ const OnboardingScreen = ({ navigation }) => {
             word: "Deck",
             instanceNumber: 1,
             text: "To add a flashcard to your deck, scan text, define a word, and at the bottom of your screen click 'Add Flashcard'!",
-            definition: "Deck is like a deck of cards",
+            definition: flashDef2,
+            englishDefinition: flashDef2,
             feeling: 3,
           },
         ]);

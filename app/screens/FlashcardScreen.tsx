@@ -23,12 +23,14 @@ import Animated, {
 import { useIsFocused } from "@react-navigation/native";
 import { useFlashcardsGlobal } from "../components/Flashcards";
 import Toast from "react-native-toast-message";
+import SpeakerIcon from "../assets/SpeakerIcon.svg";
+import * as Speech from "expo-speech";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const FLASHCARD_WIDTH = PAGE_WIDTH;
-const FLASHCARD_HEIGHT = PAGE_HEIGHT * 0.7142;
+const FLASHCARD_HEIGHT = PAGE_HEIGHT * 0.65;
 
 const flashcardCarouselRef = createRef();
 
@@ -38,6 +40,7 @@ const FlashcardScreen = ({ route, navigation }) => {
   const [flashcardsJSON, setFlashcardsJSON] = useFlashcardsGlobal();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState();
   const [currentFeeling, setCurrentFeeling] = useState();
+  const [definitionSide, setDefinitionSide] = useState(false);
   const spin = useSharedValue<number>(0);
 
   const rStyle = useAnimatedStyle(() => {
@@ -133,6 +136,7 @@ const FlashcardScreen = ({ route, navigation }) => {
 
       setCurrentFlashcardIndex(0);
       setCurrentFeeling(3);
+      setDefinitionSide(false);
     }
   };
 
@@ -144,6 +148,7 @@ const FlashcardScreen = ({ route, navigation }) => {
   };
 
   const init = () => {
+    setDefinitionSide(false);
     spin.value = 0;
     scrollTo(initialFlashcardIndex);
 
@@ -154,9 +159,10 @@ const FlashcardScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log("Focus Changed, Is Focused: ", isFocused);
     if (isFocused) {
       init();
+    } else {
+      Speech.stop();
     }
   }, [isFocused]);
 
@@ -229,6 +235,7 @@ const FlashcardScreen = ({ route, navigation }) => {
           onProgressChange={(offsetProgress, absoluteProgress) => {
             if (spin.value !== 0 && absoluteProgress % 1 != 0) {
               spin.value = 0;
+              setDefinitionSide(false);
             }
           }}
           style={{}}
@@ -236,6 +243,11 @@ const FlashcardScreen = ({ route, navigation }) => {
             return (
               <Pressable
                 onPress={() => {
+                  if (spin.value == 1) {
+                    setDefinitionSide(false);
+                  } else {
+                    setDefinitionSide(true);
+                  }
                   spin.value = spin.value ? 0 : 1;
                 }}
               >
@@ -255,6 +267,12 @@ const FlashcardScreen = ({ route, navigation }) => {
                   <CustomText className="text-lg mt-2 mx-4">
                     {flashcardsJSON[index]["definition"]}
                   </CustomText>
+                  {flashcardsJSON[index]["definition"] !==
+                    flashcardsJSON[index]["englishDefinition"] && (
+                    <CustomText className="text-lg mt-2 mx-4">
+                      {flashcardsJSON[index]["englishDefinition"]}
+                    </CustomText>
+                  )}
                 </Animated.View>
                 <Animated.View
                   style={[
@@ -282,8 +300,80 @@ const FlashcardScreen = ({ route, navigation }) => {
         <View
           style={{
             flexDirection: "row",
+            justifyContent: "space-around",
+            marginVertical: 4,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#FFBF23",
+              borderRadius: 12,
+              width: 180,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              marginLeft: 25,
+              marginHorizontal: 10,
+              alignItems: "center",
+              flexDirection: "row",
+              paddingVertical: 10,
+              paddingLeft: 8,
+            }}
+            onPress={() =>
+              Speech.speak(flashcardsJSON[currentFlashcardIndex]["word"], {
+                rate: 0.8,
+              })
+            }
+          >
+            <SpeakerIcon></SpeakerIcon>
+            <CustomText style={{ fontSize: 16 }}>Word</CustomText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#FFBF23",
+              borderRadius: 12,
+              width: 180,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              marginRight: 25,
+              marginHorizontal: 10,
+              alignItems: "center",
+              flexDirection: "row",
+              paddingLeft: 8,
+            }}
+            onPress={() => {
+              if (definitionSide) {
+                Speech.speak(
+                  flashcardsJSON[currentFlashcardIndex]["englishDefinition"],
+                  {
+                    rate: 0.8,
+                  }
+                );
+              } else {
+                Speech.speak(flashcardsJSON[currentFlashcardIndex]["text"], {
+                  rate: 0.8,
+                });
+              }
+            }}
+          >
+            <SpeakerIcon></SpeakerIcon>
+            <CustomText style={{ fontSize: 16 }}>
+              {definitionSide ? "Definition" : "Sentence"}
+            </CustomText>
+          </TouchableOpacity>
+        </View>
+
+        {/* emoji row */}
+        <View
+          style={{
+            flexDirection: "row",
             justifyContent: "space-evenly",
-            paddingVertical: 12,
+            marginVertical: 25,
           }}
         >
           <TouchableOpacity
