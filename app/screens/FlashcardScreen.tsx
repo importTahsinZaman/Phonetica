@@ -43,6 +43,8 @@ const FlashcardScreen = ({ route, navigation }) => {
   const [definitionSide, setDefinitionSide] = useState(false);
   const spin = useSharedValue<number>(0);
 
+  console.log("Width: ", PAGE_WIDTH, " Height: ", PAGE_HEIGHT); //414, 896
+
   const rStyle = useAnimatedStyle(() => {
     const spinVal = interpolate(spin.value, [0, 1], [0, 180]);
     return {
@@ -308,14 +310,14 @@ const FlashcardScreen = ({ route, navigation }) => {
             style={{
               backgroundColor: "#FFBF23",
               borderRadius: 12,
-              width: 180,
+              width: PAGE_WIDTH * (180 / 414),
               shadowColor: "black",
               shadowOpacity: 0.2,
               shadowOffset: { width: 0, height: 2 },
               shadowRadius: 4,
               elevation: 4,
-              marginLeft: 25,
-              marginHorizontal: 10,
+              marginLeft: PAGE_WIDTH * (25 / 414),
+              marginHorizontal: PAGE_WIDTH * (10 / 414),
               alignItems: "center",
               flexDirection: "row",
               paddingVertical: 10,
@@ -324,6 +326,7 @@ const FlashcardScreen = ({ route, navigation }) => {
             onPress={() =>
               Speech.speak(flashcardsJSON[currentFlashcardIndex]["word"], {
                 rate: 0.8,
+                voice: "com.apple.ttsbundle.siri_Aaron_en-US_compact",
               })
             }
           >
@@ -334,29 +337,31 @@ const FlashcardScreen = ({ route, navigation }) => {
             style={{
               backgroundColor: "#FFBF23",
               borderRadius: 12,
-              width: 180,
+              width: PAGE_WIDTH * (180 / 414),
               shadowColor: "black",
               shadowOpacity: 0.2,
               shadowOffset: { width: 0, height: 2 },
               shadowRadius: 4,
               elevation: 4,
-              marginRight: 25,
-              marginHorizontal: 10,
+              marginRight: PAGE_WIDTH * (25 / 414),
+              marginHorizontal: PAGE_WIDTH * (10 / 414),
               alignItems: "center",
               flexDirection: "row",
               paddingLeft: 8,
             }}
-            onPress={() => {
+            onPress={async () => {
               if (definitionSide) {
                 Speech.speak(
                   flashcardsJSON[currentFlashcardIndex]["englishDefinition"],
                   {
+                    voice: "com.apple.ttsbundle.siri_Aaron_en-US_compact",
                     rate: 0.8,
                   }
                 );
               } else {
                 Speech.speak(flashcardsJSON[currentFlashcardIndex]["text"], {
                   rate: 0.8,
+                  voice: "com.apple.ttsbundle.siri_Aaron_en-US_compact",
                 });
               }
             }}
