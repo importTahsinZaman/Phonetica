@@ -96,28 +96,44 @@ const FlashcardScreen = ({ route, navigation }) => {
       text2: "Removed Flashcard",
     });
 
-    let newIndex;
-    if (currentFlashcardIndex === flashcardsJSON.length - 1) {
-      newIndex = currentFlashcardIndex - 1;
+    if (flashcardsJSON.length > 1) {
+      let newIndex;
+      if (currentFlashcardIndex === flashcardsJSON.length - 1) {
+        newIndex = currentFlashcardIndex - 1;
+      } else {
+        newIndex = currentFlashcardIndex;
+      }
+
+      let newFlashcardsJSON = flashcardsJSON;
+      newFlashcardsJSON.splice(currentFlashcardIndex, 1);
+
+      setFlashcardsJSON(newFlashcardsJSON);
+      setFlashcardStorage(newFlashcardsJSON);
+
+      navigation.navigate("Flashcard", {
+        initialFlashcardIndex: newIndex,
+        initialFeeling: newFlashcardsJSON[newIndex]["feeling"],
+      });
+
+      scrollTo(newIndex);
+
+      setCurrentFlashcardIndex(newIndex);
+      setCurrentFeeling(newFlashcardsJSON[newIndex]["feeling"]);
     } else {
-      newIndex = currentFlashcardIndex;
+      let newFlashcardsJSON = flashcardsJSON;
+      newFlashcardsJSON.splice(currentFlashcardIndex, 1);
+
+      setFlashcardsJSON(newFlashcardsJSON);
+      setFlashcardStorage(newFlashcardsJSON);
+
+      navigation.navigate("Flashcard", {
+        initialFlashcardIndex: 0,
+        initialFeeling: 3,
+      });
+
+      setCurrentFlashcardIndex(0);
+      setCurrentFeeling(3);
     }
-
-    let newFlashcardsJSON = flashcardsJSON;
-    newFlashcardsJSON.splice(currentFlashcardIndex, 1);
-
-    setFlashcardsJSON(newFlashcardsJSON);
-    setFlashcardStorage(newFlashcardsJSON);
-
-    navigation.navigate("Flashcard", {
-      initialFlashcardIndex: newIndex,
-      initialFeeling: newFlashcardsJSON[newIndex]["feeling"],
-    });
-
-    scrollTo(newIndex);
-
-    setCurrentFlashcardIndex(newIndex);
-    setCurrentFeeling(newFlashcardsJSON[newIndex]["feeling"]);
   };
 
   const scrollTo = (index: number) => {
@@ -152,172 +168,196 @@ const FlashcardScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  return (
-    <SafeAreaView
-      style={{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-      className="bg-white h-screen w-screen"
-    >
-      <ReturnHeader
-        navigation={navigation}
-        text="Home"
-        destination="Home"
-        showNavBar={true}
-        color="black"
-      ></ReturnHeader>
-      <Carousel
-        ref={flashcardCarouselRef}
-        loop={false}
-        windowSize={11}
-        vertical={false}
-        autoPlay={false}
-        pagingEnabled={true}
-        snapEnabled={true}
-        width={FLASHCARD_WIDTH}
-        height={FLASHCARD_HEIGHT}
-        mode="parallax"
-        modeConfig={{
-          parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 50,
-          parallaxAdjacentItemScale: 0.8,
-        }}
-        data={flashcardsJSON}
-        onScrollEnd={(index) => {
-          setCurrentFlashcardIndex(index);
-          setCurrentFeeling(flashcardsJSON[index]["feeling"]);
-        }}
-        onProgressChange={(offsetProgress, absoluteProgress) => {
-          if (spin.value !== 0 && absoluteProgress % 1 != 0) {
-            spin.value = 0;
-          }
-        }}
-        style={{}}
-        renderItem={({ index }) => {
-          return (
-            <Pressable
-              onPress={() => {
-                spin.value = spin.value ? 0 : 1;
-              }}
-            >
-              <Animated.View
-                style={[
-                  Styles.flashcard,
-                  currentFlashcardIndex === index && bStyle,
-                ]}
-                className="shadow"
-              >
-                <CustomText
-                  className="text-2xl mx-4 mt-5"
-                  fontThicknessNumber={5}
-                >
-                  '{flashcardsJSON[index]["word"]}'
-                </CustomText>
-                <CustomText className="text-lg mt-2 mx-4">
-                  {flashcardsJSON[index]["definition"]}
-                </CustomText>
-              </Animated.View>
-              <Animated.View
-                style={[
-                  Styles.flashcard,
-                  currentFlashcardIndex === index && rStyle,
-                ]}
-                className="shadow"
-              >
-                <CustomText
-                  className="text-2xl mx-4 mt-5"
-                  fontThicknessNumber={5}
-                >
-                  '{flashcardsJSON[index]["word"]}'
-                </CustomText>
-                <CustomText className="text-lg mt-2 mx-4">
-                  {flashcardsJSON[index]["text"]}
-                </CustomText>
-              </Animated.View>
-            </Pressable>
-          );
-        }}
-      ></Carousel>
-
-      {/* Emoji Row */}
-      <View
+  if (flashcardsJSON.length === 0) {
+    return (
+      <SafeAreaView
         style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          paddingVertical: 12,
+          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         }}
+        className="bg-white h-screen w-screen"
       >
-        <TouchableOpacity
-          style={{
-            backgroundColor: currentFeeling == 3 ? "#FFBF23" : "#F6F6F6",
-            borderRadius: 12,
-            padding: 18,
-            shadowColor: "black",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            elevation: 4,
-            justifyContent: "center",
-            alignItems: "center",
+        <ReturnHeader
+          navigation={navigation}
+          text="Home"
+          destination="Home"
+          showNavBar={true}
+          color="black"
+        ></ReturnHeader>
+        <View className="absolute w-full h-full p-8 flex justify-center items-center">
+          <CustomText fontThicknessNumber={4} className="text-2xl text-center">
+            Congratulations on completing all your flashcards! 🎉
+          </CustomText>
+        </View>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView
+        style={{
+          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        }}
+        className="bg-white h-screen w-screen"
+      >
+        <ReturnHeader
+          navigation={navigation}
+          text="Home"
+          destination="Home"
+          showNavBar={true}
+          color="black"
+        ></ReturnHeader>
+        <Carousel
+          ref={flashcardCarouselRef}
+          loop={false}
+          windowSize={11}
+          vertical={false}
+          autoPlay={false}
+          pagingEnabled={true}
+          snapEnabled={true}
+          width={FLASHCARD_WIDTH}
+          height={FLASHCARD_HEIGHT}
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingScale: 0.9,
+            parallaxScrollingOffset: 50,
+            parallaxAdjacentItemScale: 0.8,
           }}
-          onPress={() => updateFeeling(3)}
-        >
-          <Text style={{ fontSize: 20 }}>😥</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: currentFeeling == 2 ? "#FFBF23" : "#F6F6F6",
-            borderRadius: 12,
-            padding: 18,
-            shadowColor: "black",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            elevation: 4,
-            justifyContent: "center",
-            alignItems: "center",
+          data={flashcardsJSON}
+          onScrollEnd={(index) => {
+            setCurrentFlashcardIndex(index);
+            setCurrentFeeling(flashcardsJSON[index]["feeling"]);
           }}
-          onPress={() => updateFeeling(2)}
-        >
-          <Text style={{ fontSize: 20 }}>😕</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: currentFeeling == 1 ? "#FFBF23" : "#F6F6F6",
-            borderRadius: 12,
-            padding: 18,
-            shadowColor: "black",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            elevation: 4,
-            justifyContent: "center",
-            alignItems: "center",
+          onProgressChange={(offsetProgress, absoluteProgress) => {
+            if (spin.value !== 0 && absoluteProgress % 1 != 0) {
+              spin.value = 0;
+            }
           }}
-          onPress={() => updateFeeling(1)}
-        >
-          <Text style={{ fontSize: 20 }}>😐</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: false ? "#FFBF23" : "#F6F6F6",
-            borderRadius: 12,
-            padding: 18,
-            shadowColor: "black",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            elevation: 4,
-            justifyContent: "center",
-            alignItems: "center",
+          style={{}}
+          renderItem={({ index }) => {
+            return (
+              <Pressable
+                onPress={() => {
+                  spin.value = spin.value ? 0 : 1;
+                }}
+              >
+                <Animated.View
+                  style={[
+                    Styles.flashcard,
+                    currentFlashcardIndex === index && bStyle,
+                  ]}
+                  className="shadow"
+                >
+                  <CustomText
+                    className="text-2xl mx-4 mt-5"
+                    fontThicknessNumber={5}
+                  >
+                    '{flashcardsJSON[index]["word"]}'
+                  </CustomText>
+                  <CustomText className="text-lg mt-2 mx-4">
+                    {flashcardsJSON[index]["definition"]}
+                  </CustomText>
+                </Animated.View>
+                <Animated.View
+                  style={[
+                    Styles.flashcard,
+                    currentFlashcardIndex === index && rStyle,
+                  ]}
+                  className="shadow"
+                >
+                  <CustomText
+                    className="text-2xl mx-4 mt-5"
+                    fontThicknessNumber={5}
+                  >
+                    '{flashcardsJSON[index]["word"]}'
+                  </CustomText>
+                  <CustomText className="text-lg mt-2 mx-4">
+                    {flashcardsJSON[index]["text"]}
+                  </CustomText>
+                </Animated.View>
+              </Pressable>
+            );
           }}
-          onPress={() => removeCard()}
+        ></Carousel>
+
+        {/* Emoji Row */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingVertical: 12,
+          }}
         >
-          <Text style={{ fontSize: 20 }}>😁</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+          <TouchableOpacity
+            style={{
+              backgroundColor: currentFeeling == 3 ? "#FFBF23" : "#F6F6F6",
+              borderRadius: 12,
+              padding: 18,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => updateFeeling(3)}
+          >
+            <Text style={{ fontSize: 20 }}>😥</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: currentFeeling == 2 ? "#FFBF23" : "#F6F6F6",
+              borderRadius: 12,
+              padding: 18,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => updateFeeling(2)}
+          >
+            <Text style={{ fontSize: 20 }}>😕</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: currentFeeling == 1 ? "#FFBF23" : "#F6F6F6",
+              borderRadius: 12,
+              padding: 18,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => updateFeeling(1)}
+          >
+            <Text style={{ fontSize: 20 }}>😐</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: false ? "#FFBF23" : "#F6F6F6",
+              borderRadius: 12,
+              padding: 18,
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              elevation: 4,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => removeCard()}
+          >
+            <Text style={{ fontSize: 20 }}>😁</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 };
 
 const Styles = StyleSheet.create({

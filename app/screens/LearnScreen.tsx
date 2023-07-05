@@ -25,13 +25,6 @@ const LearnScreen = ({}) => {
         <CustomText fontThicknessNumber={4} className="text-2xl">
           COMING SOON!
         </CustomText>
-        <TouchableOpacity
-          onPress={() => {
-            AsyncStorage.clear();
-          }}
-        >
-          <CustomText>hehehehehe</CustomText>
-        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
   );

@@ -34,7 +34,7 @@ const Header1: React.FC<Props> = ({
     },
   });
   return (
-    <SafeAreaView style={styles.Container} className="fixed top-0">
+    <SafeAreaView style={styles.Container} className="fixed top-0 z-10">
       <TouchableOpacity
         className="flex flex-row items-center py-2"
         onPressIn={() => {
