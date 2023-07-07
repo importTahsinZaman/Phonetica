@@ -2,8 +2,6 @@ import { View, Dimensions, Animated, StyleSheet, Easing } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect } from "react";
 
-const PAGE_WIDTH = Dimensions.get("window").width;
-
 const AnimatedLG = Animated.createAnimatedComponent(LinearGradient);
 
 //TODO: Bug Fix: Corners on the right are not rounded??? Adding overflow: "hidden" made the left corners stop clipping and stay rounded but no fix for right corners atm

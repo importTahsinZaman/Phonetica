@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "Phonetica",
     slug: "Phonetica",
-    version: "1.0.7",
+    version: "1.0.8",
     orientation: "portrait",
     icon: "./app/assets/icon.png",
     userInterfaceStyle: "light",
@@ -20,7 +20,7 @@ export default {
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
-      buildNumber: "8",
+      buildNumber: "9",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
@@ -49,6 +49,13 @@ export default {
         {
           userTrackingPermission:
             "This identifier will be used to deliver personalized ads to you.",
+        },
+      ],
+      [
+        "expo-camera",
+        {
+          cameraPermission:
+            "Your camera will be used to scan and then translate text.",
         },
       ],
     ],
