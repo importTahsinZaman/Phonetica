@@ -13,7 +13,7 @@ import { useEffect, useState, useRef } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import TakePictureButtonSvg from "../assets/TakePictureButton.svg";
-import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ReturnHeader from "../components/ReturnHeader";
 import * as ImagePicker from "expo-image-picker";
 import { ImageEditor } from "@tahsinz21366/expo-crop-image";

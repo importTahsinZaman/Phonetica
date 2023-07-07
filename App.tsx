@@ -1,6 +1,6 @@
 import "expo-dev-client";
 import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
-import { Animated, StyleSheet, Pressable } from "react-native";
+import { Animated, StyleSheet, Pressable, View } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -62,15 +62,10 @@ const toastConfig = {
 
 const App = () => {
   let [fontsLoaded] = useFonts({
-    //Thickness Number 1:
     SpaceGrotesk_300Light,
-    //Thickness Number 2:
     SpaceGrotesk_400Regular,
-    //Thickness Number 3:
     SpaceGrotesk_500Medium,
-    //Thickness Number 4:
     SpaceGrotesk_600SemiBold,
-    //Thickness Number 5:
     SpaceGrotesk_700Bold,
   });
 
@@ -89,24 +84,14 @@ const App = () => {
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    //IMPORTANT: THIS DELAY IS HERE BECAUSE I COULDN'T FIGURE OUT HOW TO USE THE ONLAYOUTROOTVIEW
-    // FUNCTION W/O HAVING A VIEW COMPONENT AS THE PARENT COMPONENT TO EVERYTHING ELSE.
-    // INSTEAD, I CALL THE FUNCTION MANUALLY AND THE DELAY SOMEWHAT MAKES SURE EVERYTHING IS ACTUALLY
-    // RENDERED IN. I THINK THIS MAY BE CAUSING A DOUBLE RENDER BUT IDK
-    const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-    await delay(250);
-
-    if (fontsLoaded && isFirstLaunch != null) {
-      if (isFirstLaunch) {
-        tabBarRef?.current?.setVisible(false);
-      } else if (!isFirstLaunch) {
-        tabBarRef?.current?.setVisible(true);
-      }
-      await SplashScreen.hideAsync();
+    if (isFirstLaunch) {
+      tabBarRef?.current?.setVisible(false);
+    } else if (!isFirstLaunch) {
+      tabBarRef?.current?.setVisible(true);
     }
-  }, [fontsLoaded]);
 
-  onLayoutRootView();
+    await SplashScreen.hideAsync();
+  }, [fontsLoaded]);
 
   const _renderIcon = (routeName: "Home" | "Learn", selectedTab) => {
     const ICON_SIZE = 33.12;
@@ -142,66 +127,67 @@ const App = () => {
 
   if (isFirstLaunch == null || !fontsLoaded) {
     return null;
-  } else {
-    return (
-      <NavigationContainer>
-        <StatusBar hidden={false} style={"dark"} />
-        <CurvedBottomBarExpo.Navigator
-          type="DOWN"
-          ref={tabBarRef}
-          initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
-          style={styles.bottomBar}
-          shadowStyle={styles.shadow}
-          height={72}
-          bgColor="white"
-          screenOptions={{
-            header: () => null,
-          }}
-          borderTopLeftRight
-          renderCircle={({ selectedTab, navigate }) => (
-            <Animated.View style={styles.btnCircleUp}>
-              <Pressable
-                style={styles.button}
-                onPress={() => {
-                  navigate("Scan");
-                  tabBarRef?.current?.setVisible(false);
-                }}
-              >
-                <ScanIcon width={33.12} height={33.12} />
-              </Pressable>
-            </Animated.View>
-          )}
-          tabBar={renderTabBar}
-        >
-          <CurvedBottomBarExpo.Screen
-            name="Home"
-            position="LEFT"
-            component={HomeScreen}
-          />
-          <CurvedBottomBarExpo.Screen
-            name="Learn"
-            component={LearnScreen}
-            position="RIGHT"
-          />
-
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          <Stack.Screen name="Scan" component={ScanScreen} />
-          <Stack.Screen
-            name="TextSelect"
-            component={TextSelectScreen}
-            initialParams={{ ReturnHome: false, BackNavigation: false }}
-          />
-          <Stack.Screen
-            name="Translation"
-            component={TranslationScreen}
-            initialParams={{ ReturnHome: false }}
-          />
-          <Stack.Screen name="Flashcard" component={FlashcardScreen} />
-        </CurvedBottomBarExpo.Navigator>
-        <Toast config={toastConfig} />
-      </NavigationContainer>
-    );
   }
+
+  return (
+    <NavigationContainer>
+      <StatusBar hidden={false} style={"dark"} />
+      <CurvedBottomBarExpo.Navigator
+        type="DOWN"
+        ref={tabBarRef}
+        initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
+        style={styles.bottomBar}
+        shadowStyle={styles.shadow}
+        height={72}
+        bgColor="white"
+        screenOptions={{
+          header: () => null,
+        }}
+        borderTopLeftRight
+        renderCircle={({ selectedTab, navigate }) => (
+          <Animated.View style={styles.btnCircleUp}>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                navigate("Scan");
+                tabBarRef?.current?.setVisible(false);
+              }}
+            >
+              <ScanIcon width={33.12} height={33.12} />
+            </Pressable>
+          </Animated.View>
+        )}
+        tabBar={renderTabBar}
+      >
+        <CurvedBottomBarExpo.Screen
+          name="Home"
+          position="LEFT"
+          component={HomeScreen}
+        />
+        <CurvedBottomBarExpo.Screen
+          name="Learn"
+          component={LearnScreen}
+          position="RIGHT"
+        />
+
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Scan" component={ScanScreen} />
+        <Stack.Screen
+          name="TextSelect"
+          component={TextSelectScreen}
+          initialParams={{ ReturnHome: false, BackNavigation: false }}
+        />
+        <Stack.Screen
+          name="Translation"
+          component={TranslationScreen}
+          initialParams={{ ReturnHome: false }}
+        />
+        <Stack.Screen name="Flashcard" component={FlashcardScreen} />
+      </CurvedBottomBarExpo.Navigator>
+      <View onLayout={onLayoutRootView}></View>
+      <Toast config={toastConfig} />
+    </NavigationContainer>
+  );
 };
 
 const styles = StyleSheet.create({

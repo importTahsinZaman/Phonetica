@@ -133,7 +133,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
   ) => {
     const prompt = `Explain, the definition and usage of occurrence ${
       instance ? instance : 1
-    } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it. If the word is not a valid English word or makes no sense within the context of the given text, return 'invalid scan'`;
+    } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it. If the word is not a valid English word or makes no sense within the context of the given text, return 'invalid scan' Never include profanity or disturbing/offensive content in response`;
 
     if (isExpoGo) {
       console.log("Prompt: " + prompt);
