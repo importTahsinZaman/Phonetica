@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "Phonetica",
     slug: "Phonetica",
-    version: "1.0.8",
+    version: "1.0.9",
     orientation: "portrait",
     icon: "./app/assets/icon.png",
     userInterfaceStyle: "light",
@@ -20,7 +20,7 @@ export default {
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
-      buildNumber: "9",
+      buildNumber: "10",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON,

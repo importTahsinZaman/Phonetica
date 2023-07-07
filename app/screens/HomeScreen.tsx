@@ -13,6 +13,9 @@ import FeaturedVideos from "../components/FeaturedVideos";
 import CustomText from "../components/CustomText";
 import RecentScans from "../components/RecentScans";
 import Flashcards from "../components/Flashcards";
+import { tabBarRef } from "../components/HelperFunctions";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -52,6 +55,14 @@ const Content = ({ navigation }) => {
 };
 
 const HomeScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      tabBarRef?.current?.setVisible(true);
+    }
+  }, [isFocused]);
+
   return (
     <SafeAreaView
       className="bg-white h-screen w-full"

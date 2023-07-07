@@ -1,10 +1,21 @@
-import { TouchableOpacity, Platform, StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../components/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
+import { tabBarRef } from "../components/HelperFunctions";
 
 const LearnScreen = ({}) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      tabBarRef?.current?.setVisible(true);
+    }
+  }, [isFocused]);
+
   return (
     <SafeAreaView
       style={{

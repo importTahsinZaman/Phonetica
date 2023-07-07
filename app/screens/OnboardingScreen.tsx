@@ -15,6 +15,8 @@ import {
 } from "expo-tracking-transparency";
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
 
 // `true` when running in Expo Go.
 const isExpoGo =
@@ -84,6 +86,13 @@ const DotComponent = ({ selected }) => {
 };
 
 const OnboardingScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      tabBarRef?.current?.setVisible(false);
+    }
+  }, [isFocused]);
   return (
     <Onboarding
       bottomBarColor="white"
@@ -173,7 +182,6 @@ const OnboardingScreen = ({ navigation }) => {
         }
 
         navigation.navigate("Home");
-        tabBarRef?.current?.setVisible(true);
       }}
       pages={[
         {

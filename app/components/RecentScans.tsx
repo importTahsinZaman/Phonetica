@@ -147,7 +147,6 @@ const RecentScans = ({ navigation }) => {
     await AsyncStorage.multiSet(newScans);
     await AsyncStorage.multiSet(newTimes);
 
-    tabBarRef?.current?.setVisible(false);
     navigation.navigate("TextSelect", { ReturnHome: true });
   };
 

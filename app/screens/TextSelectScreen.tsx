@@ -22,6 +22,7 @@ import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SkeletonComponent from "../components/SkeletonComponent";
 import { FlatList } from "react-native-gesture-handler";
+import { tabBarRef } from "../components/HelperFunctions";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 
@@ -45,6 +46,7 @@ export default function TextSelectScreen({ route, navigation }) {
   useEffect(() => {
     setOcrText("");
     if (isFocused) {
+      tabBarRef?.current?.setVisible(false);
       if (ReturnHome || BackNavigation) {
         getSavedOcrText();
       } else {
@@ -257,7 +259,6 @@ export default function TextSelectScreen({ route, navigation }) {
         color="black"
         text={ReturnHome ? "Home" : "Scan Text"}
         destination={ReturnHome ? "Home" : "Scan"}
-        showNavBar={ReturnHome ? true : false}
       ></ReturnHeader>
       {formattedText && !gettingText ? (
         <FlatList

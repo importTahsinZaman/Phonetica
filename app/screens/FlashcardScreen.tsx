@@ -25,6 +25,7 @@ import { useFlashcardsGlobal } from "../components/Flashcards";
 import Toast from "react-native-toast-message";
 import SpeakerIcon from "../assets/SpeakerIcon.svg";
 import * as Speech from "expo-speech";
+import { tabBarRef } from "../components/HelperFunctions";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -162,6 +163,7 @@ const FlashcardScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
+      tabBarRef?.current?.setVisible(false);
       init();
     } else {
       Speech.stop();
@@ -188,7 +190,6 @@ const FlashcardScreen = ({ route, navigation }) => {
           navigation={navigation}
           text="Home"
           destination="Home"
-          showNavBar={true}
           color="black"
         ></ReturnHeader>
         <View className="absolute w-full h-full p-8 flex justify-center items-center">
@@ -210,7 +211,6 @@ const FlashcardScreen = ({ route, navigation }) => {
           navigation={navigation}
           text="Home"
           destination="Home"
-          showNavBar={true}
           color="black"
         ></ReturnHeader>
         <Carousel

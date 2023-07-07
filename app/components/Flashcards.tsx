@@ -50,7 +50,6 @@ const Flashcards = ({ navigation }) => {
               className="m-2 flex-1 rounded-xl bg-[#F6F6F6] shadow flex"
               style={{ elevation: 15 }}
               onPress={() => {
-                tabBarRef?.current?.setVisible(false);
                 navigation.navigate("Flashcard", {
                   initialFlashcardIndex: index,
                   initialFeeling: flashcards[index]["feeling"],

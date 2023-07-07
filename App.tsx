@@ -75,21 +75,13 @@ const App = () => {
     AsyncStorage.getItem("alreadyLaunched").then(async (value) => {
       if (value == null) {
         setIsFirstLaunch(true);
-        tabBarRef?.current?.setVisible(false);
       } else {
         setIsFirstLaunch(false);
-        tabBarRef?.current?.setVisible(true);
       }
     });
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (isFirstLaunch) {
-      tabBarRef?.current?.setVisible(false);
-    } else if (!isFirstLaunch) {
-      tabBarRef?.current?.setVisible(true);
-    }
-
     await SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
@@ -150,7 +142,6 @@ const App = () => {
               style={styles.button}
               onPress={() => {
                 navigate("Scan");
-                tabBarRef?.current?.setVisible(false);
               }}
             >
               <ScanIcon width={33.12} height={33.12} />

@@ -15,6 +15,7 @@ import DefineContainer from "../components/DefineContainer";
 import PronounceContainer from "../components/PronounceContainer";
 
 import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
+import { tabBarRef } from "../components/HelperFunctions";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence!
@@ -37,6 +38,7 @@ const TranslationScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
+      tabBarRef?.current?.setVisible(false);
       setShowTranslate(true);
       setShowDefine(false);
       setShowPronounce(false);
@@ -159,7 +161,6 @@ const TranslationScreen = ({ route, navigation }) => {
         destination="TextSelect"
         color="black"
         text="Select Sentence"
-        showNavBar={false}
         props={{ BackNavigation: true, ReturnHome: ReturnHome }}
       ></ReturnHeader>
       <DoubleLanguagePicker></DoubleLanguagePicker>

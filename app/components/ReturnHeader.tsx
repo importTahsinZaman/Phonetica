@@ -15,7 +15,6 @@ type Props = {
   text?: string;
   destination?: string;
   color?: string;
-  showNavBar?: boolean;
   props?: object;
   navigation: any; //TODO: FIX THIS
 };
@@ -24,7 +23,6 @@ const Header1: React.FC<Props> = ({
   text = "",
   destination = "Home",
   color = "white",
-  showNavBar = true,
   props,
   navigation,
 }) => {
@@ -39,7 +37,6 @@ const Header1: React.FC<Props> = ({
         className="flex flex-row items-center py-2"
         onPressIn={() => {
           navigation.navigate(destination, props);
-          tabBarRef?.current?.setVisible(showNavBar);
         }}
       >
         <LeftArrow className="" style={{ color: color }}></LeftArrow>

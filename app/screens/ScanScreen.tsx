@@ -147,7 +147,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             });
           } else {
             setEditorVisible(false);
-            tabBarRef?.current?.setVisible(true);
             navigation.navigate("Home");
           }
         }
@@ -166,6 +165,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     adCompletedRef.current = false;
     if (isFocused) {
+      tabBarRef?.current?.setVisible(false);
       let retrievedScanCount: number;
       const checkIfAdLoadNeeded = async () => {
         await AsyncStorage.getItem("ScanCount").then((result) => {
@@ -197,11 +197,14 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
-      <View className="flex-1 justify-center">
-        <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+      <View>
+        <ReturnHeader navigation={navigation}></ReturnHeader>
+        <View className="flex-1 justify-center">
+          <Text style={{ textAlign: "center" }}>
+            We need your permission to show the camera
+          </Text>
+          <Button onPress={requestPermission} title="grant permission" />
+        </View>
       </View>
     );
   }
