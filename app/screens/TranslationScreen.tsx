@@ -29,7 +29,7 @@ const TranslationScreen = ({ route, navigation }) => {
   const [showPronounce, setShowPronounce] = useState(false);
 
   const configuration = new Configuration({
-    apiKey: OPEN_AI_API_KEY,
+    apiKey: __DEV__ ? OPEN_AI_API_KEY : process.env.OPEN_AI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
@@ -104,7 +104,7 @@ const TranslationScreen = ({ route, navigation }) => {
       const options = {
         method: "GET",
         headers: {
-          "X-RapidAPI-Key": NLP_API_KEY,
+          "X-RapidAPI-Key": __DEV__ ? NLP_API_KEY : process.env.NLP_API_KEY,
           "X-RapidAPI-Host": "nlp-translation.p.rapidapi.com",
         },
       };
@@ -119,7 +119,10 @@ const TranslationScreen = ({ route, navigation }) => {
       }
     } else if (targetLangAbbreviation != "EN-US") {
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", DEEPL_KEY);
+      myHeaders.append(
+        "Authorization",
+        __DEV__ ? DEEPL_KEY : process.env.DEEPL_KEY
+      );
 
       var formdata = new FormData();
       formdata.append("text", text);

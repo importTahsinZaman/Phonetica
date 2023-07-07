@@ -163,7 +163,10 @@ export default function TextSelectScreen({ route, navigation }) {
     setGettingText(true);
     setFormattedText(null);
     var myHeaders = new Headers();
-    myHeaders.append("apikey", OCR_SPACE_API_KEY);
+    myHeaders.append(
+      "apikey",
+      __DEV__ ? OCR_SPACE_API_KEY : process.env.OCR_SPACE_API_KEY
+    );
 
     var formdata = new FormData();
     formdata.append("language", "eng");

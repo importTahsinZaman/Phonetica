@@ -164,7 +164,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           const options = {
             method: "GET",
             headers: {
-              "X-RapidAPI-Key": NLP_API_KEY,
+              "X-RapidAPI-Key": __DEV__ ? NLP_API_KEY : process.env.NLP_API_KEY,
               "X-RapidAPI-Host": "nlp-translation.p.rapidapi.com",
             },
           };
@@ -197,7 +197,10 @@ const DefineContainer: React.FC<ComponentProps> = ({
           let queryText = addKeepTags(englishExplanation, word);
 
           var myHeaders = new Headers();
-          myHeaders.append("Authorization", DEEPL_KEY);
+          myHeaders.append(
+            "Authorization",
+            __DEV__ ? DEEPL_KEY : process.env.DEEPL_KEY
+          );
 
           var formdata = new FormData();
           formdata.append("text", queryText);
