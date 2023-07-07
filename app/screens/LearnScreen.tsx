@@ -18,11 +18,6 @@ const LearnScreen = ({}) => {
           COMING SOON!
         </CustomText>
       </SafeAreaView>
-      {__DEV__ && (
-        <TouchableOpacity onPress={() => AsyncStorage.clear()}>
-          <CustomText>dont press it</CustomText>
-        </TouchableOpacity>
-      )}
     </SafeAreaView>
   );
 };

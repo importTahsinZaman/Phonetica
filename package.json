@@ -56,6 +56,7 @@
     "@types/react": "~18.0.14",
     "@types/react-native": "^0.72.2",
     "react-native-svg-transformer": "^1.0.0",
+    "reactotron-react-native": "^5.0.3",
     "typescript": "^4.9.4"
   },
   "private": true

@@ -36,6 +36,11 @@ import Constants, { ExecutionEnvironment } from "expo-constants";
 
 import Toast, { BaseToast } from "react-native-toast-message";
 
+if (__DEV__) {
+  import("./app/components/ReactotronConfig").then(() =>
+    console.log("Reactotron Configured")
+  );
+}
 SplashScreen.preventAutoHideAsync();
 
 // `true` when running in Expo Go.
