@@ -20,7 +20,7 @@ export default {
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
-      buildNumber: "10",
+      buildNumber: "12",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
@@ -63,6 +63,12 @@ export default {
       eas: {
         projectId: "3ce28d51-eedb-4909-ae7c-970bdcb7aacf",
       },
+    },
+    updates: {
+      url: "https://u.expo.dev/3ce28d51-eedb-4909-ae7c-970bdcb7aacf",
+    },
+    runtimeVersion: {
+      policy: "sdkVersion",
     },
   },
 };

@@ -197,7 +197,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
-      <View>
+      <View className="flex-1 bg-black">
         <ReturnHeader navigation={navigation}></ReturnHeader>
         <View className="flex-1 justify-center">
           <Text style={{ textAlign: "center" }}>

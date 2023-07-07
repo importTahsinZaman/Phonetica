@@ -44,8 +44,6 @@ const FlashcardScreen = ({ route, navigation }) => {
   const [definitionSide, setDefinitionSide] = useState(false);
   const spin = useSharedValue<number>(0);
 
-  console.log("Width: ", PAGE_WIDTH, " Height: ", PAGE_HEIGHT); //414, 896
-
   const rStyle = useAnimatedStyle(() => {
     const spinVal = interpolate(spin.value, [0, 1], [0, 180]);
     return {
