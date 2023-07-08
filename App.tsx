@@ -1,17 +1,21 @@
+// Importing necessary modules and components for the app
 import "expo-dev-client";
-import React, { createRef, useEffect, useCallback, useState } from "react"; // <== import createRef
+import React, { createRef, useEffect, useCallback, useState } from "react";
 import { Animated, StyleSheet, Pressable, View } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
+// Importing SVG icons for the app
 import HomeIcon from "./app/assets/HomeIcon.svg";
 import LearnIcon from "./app/assets/LearnIcon.svg";
 import ScanIcon from "./app/assets/ScanIcon.svg";
 
+// Importing helper functions for the app
 import { tabBarRef } from "./app/components/HelperFunctions";
 
+// Importing screens for the app
 import HomeScreen from "./app/screens/HomeScreen";
 import LearnScreen from "./app/screens/LearnScreen";
 import ScanScreen from "./app/screens/ScanScreen";
@@ -20,9 +24,11 @@ import TranslationScreen from "./app/screens/TranslationScreen";
 import OnboardingScreen from "./app/screens/OnboardingScreen";
 import FlashcardScreen from "./app/screens/FlashcardScreen";
 
+// Importing splash screen and async storage for the app
 import * as SplashScreen from "expo-splash-screen";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Importing fonts for the app
 import {
   useFonts,
   SpaceGrotesk_300Light,
@@ -60,7 +66,9 @@ const toastConfig = {
   ),
 };
 
+// Main App component
 const App = () => {
+  // Loading fonts for the app
   let [fontsLoaded] = useFonts({
     SpaceGrotesk_300Light,
     SpaceGrotesk_400Regular,
@@ -69,8 +77,10 @@ const App = () => {
     SpaceGrotesk_700Bold,
   });
 
+  // State variable to check if it's the first launch of the app
   const [isFirstLaunch, setIsFirstLaunch] = useState<null | boolean>(null);
 
+  // Checking if it's the first launch of the app
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then(async (value) => {
       if (value == null) {
@@ -81,10 +91,12 @@ const App = () => {
     });
   }, []);
 
+  // Function to hide the splash screen
   const onLayoutRootView = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
+  // Function to render the correct icon based on the route name
   const _renderIcon = (routeName: "Home" | "Learn", selectedTab) => {
     const ICON_SIZE = 33.12;
 
@@ -109,6 +121,8 @@ const App = () => {
         break;
     }
   };
+
+  // Function to render the tab bar
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     return (
       <Pressable onPress={() => navigate(routeName)} style={styles.tabbarItem}>
@@ -117,10 +131,12 @@ const App = () => {
     );
   };
 
+  // If it's the first launch or the fonts are not loaded, return null
   if (isFirstLaunch == null || !fontsLoaded) {
     return null;
   }
 
+  // Return the main app component
   return (
     <NavigationContainer>
       <StatusBar hidden={false} style={"dark"} />
@@ -160,7 +176,6 @@ const App = () => {
           component={LearnScreen}
           position="RIGHT"
         />
-
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Scan" component={ScanScreen} />
         <Stack.Screen
@@ -181,15 +196,19 @@ const App = () => {
   );
 };
 
+// Styles for the app
 const styles = StyleSheet.create({
+  // Style for the button
   button: {
     flex: 1,
     justifyContent: "center",
   },
+  // Style for the bottom bar
   bottomBar: {
     zIndex: 999,
     backgroundColor: "#0000",
   },
+  // Style for the shadow
   shadow: {
     shadowColor: "black",
     shadowOffset: {
@@ -199,9 +218,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 19,
     elevation: 15,
-    // background color must be set
     backgroundColor: "#0000",
   },
+  // Style for the circle button
   btnCircleUp: {
     width: 77.28,
     height: 77.28,
@@ -219,15 +238,18 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 1,
   },
+  // Style for the tab bar item
   tabbarItem: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
+  // Style for the image
   img: {
     width: 30,
     height: 30,
   },
 });
 
+// Exporting the App component
 export default App;
