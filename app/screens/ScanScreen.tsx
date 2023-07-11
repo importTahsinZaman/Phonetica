@@ -8,6 +8,7 @@ import {
   Platform,
   StatusBar,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { Camera, CameraType } from "expo-camera";
@@ -20,6 +21,7 @@ import { ImageEditor } from "@tahsinz21366/expo-crop-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tabBarRef } from "../components/HelperFunctions";
 import { useIsFocused } from "@react-navigation/native";
+import CustomText from "../components/CustomText";
 
 import Constants, { ExecutionEnvironment } from "expo-constants";
 import {
@@ -101,6 +103,12 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [mediaLibraryPermission, requestMediaLibraryPermission] =
+    ImagePicker.useMediaLibraryPermissions();
+  const [
+    mediaLibraryPermissionModalVisible,
+    setMediaLibraryPermissionModalVisible,
+  ] = useState(false);
   const [imageUri, setImageUri] = useState("");
   const [editorVisible, setEditorVisible] = useState(false);
   const scanCount = useRef(1);
@@ -253,6 +261,18 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
+  const handleImageButton = () => {
+    if (mediaLibraryPermission?.granted) {
+      pickImage();
+    } else if (!mediaLibraryPermission?.granted) {
+      if (mediaLibraryPermission?.canAskAgain) {
+        requestMediaLibraryPermission();
+      } else {
+        setMediaLibraryPermissionModalVisible(true);
+      }
+    }
+  };
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -300,7 +320,7 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               style={{ height: PAGE_WIDTH * 0.1973333333333333333 }}
             >
               <TouchableOpacity
-                onPress={pickImage}
+                onPress={handleImageButton}
                 className="flex-1 items-center h-full justify-center"
               >
                 <Ionicons
@@ -400,6 +420,44 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             });
           }}
         />
+      )}
+      {mediaLibraryPermissionModalVisible && (
+        <Modal
+          visible={mediaLibraryPermissionModalVisible}
+          transparent={true}
+          onRequestClose={() => {
+            setMediaLibraryPermissionModalVisible(false);
+          }}
+        >
+          <SafeAreaView className="bg-[#000000a3] flex-1 flex items-center justify-center">
+            <View className=" bg-[#ffffff] mx-[45] rounded-lg p-4 py-6">
+              <CustomText className=" text-center">
+                Phonetica needs your permission to scan photos from your camera
+                roll
+              </CustomText>
+
+              <View className="flex flex-row pt-5">
+                <TouchableOpacity
+                  onPress={() => {
+                    setMediaLibraryPermissionModalVisible(false);
+                  }}
+                  className="grow items-center"
+                >
+                  <CustomText className="text-[#FFBF23] ">Close</CustomText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setMediaLibraryPermissionModalVisible(false);
+                    redirectToSettings();
+                  }}
+                  className="grow items-center"
+                >
+                  <CustomText className="text-[#FFBF23]">Settings</CustomText>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </SafeAreaView>
+        </Modal>
       )}
     </View>
   );
