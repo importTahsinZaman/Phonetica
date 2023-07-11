@@ -27,6 +27,9 @@ import {
   adTrackingGranted,
 } from "../components/HelperFunctions";
 
+import * as IntentLauncher from "expo-intent-launcher";
+import * as Linking from "expo-linking";
+
 const IMAGE_COMPRESSION_AMOUNT = 0.7;
 const IMAGE_SAVE_FORMAT = SaveFormat.JPEG;
 
@@ -194,16 +197,44 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
     return <View />;
   }
 
+  // Redirect the user to the app's settings page
+  const redirectToSettings = () => {
+    if (Platform.OS === "android") {
+      // For Android, use the IntentLauncherAndroid module
+      IntentLauncher.startActivityAsync(
+        IntentLauncher.ActivityAction.APPLICATION_SETTINGS
+      );
+    } else {
+      // For iOS, use the Linking module
+      Linking.openURL("app-settings:");
+    }
+  };
+
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
       <View className="flex-1 bg-black">
         <ReturnHeader navigation={navigation}></ReturnHeader>
-        <View className="flex-1 justify-center">
-          <Text style={{ textAlign: "center" }}>
-            We need your permission to show the camera
+        <View className="flex-1 justify-center text-center">
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              marginHorizontal: 50,
+            }}
+          >
+            We need your permission to show the camera so you can scan text!
           </Text>
-          <Button onPress={requestPermission} title="grant permission" />
+          <Button
+            onPress={() => {
+              if (permission.canAskAgain) {
+                requestPermission();
+              } else {
+                redirectToSettings();
+              }
+            }}
+            title={permission.canAskAgain ? "continue" : "open settings"}
+          />
         </View>
       </View>
     );

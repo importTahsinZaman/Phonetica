@@ -1,5 +1,5 @@
 import Onboarding from "react-native-onboarding-swiper";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+import { Dimensions, TouchableOpacity, View, SafeAreaView } from "react-native";
 import CustomText from "../components/CustomText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingImage1 from "../assets/OnboardingImage1.svg";
@@ -33,12 +33,14 @@ if (!isExpoGo) {
 }
 
 const PAGE_WIDTH = Dimensions.get("window").width;
+const PAGE_HEIGHT = Dimensions.get("window").height;
 
 const NextButtonComponent = ({ ...props }) => {
   return (
     <TouchableOpacity
       {...props}
-      className="mr-4 p-4 px-12 bg-[#FFBF23] rounded "
+      className="mr-4 p-4 px-12 bg-[#FFBF23] rounded"
+      style={{ bottom: 15 }}
     >
       <CustomText fontThicknessNumber={4}>Next</CustomText>
     </TouchableOpacity>
@@ -50,6 +52,7 @@ const SkipButtonComponent = ({ ...props }) => {
     <TouchableOpacity
       {...props}
       className="ml-4 p-4 px-12  bg-[#FFBF23] rounded "
+      style={{ bottom: 15 }}
     >
       <CustomText fontThicknessNumber={4}>Skip</CustomText>
     </TouchableOpacity>
@@ -61,6 +64,7 @@ const DoneButtonComponent = ({ ...props }) => {
     <TouchableOpacity
       {...props}
       className="mr-4 p-4 px-12 bg-[#FFBF23] rounded "
+      style={{ bottom: 15 }}
     >
       <CustomText fontThicknessNumber={4}>Done</CustomText>
     </TouchableOpacity>
@@ -79,6 +83,7 @@ const DotComponent = ({ selected }) => {
         height: 8,
         marginHorizontal: 3,
         backgroundColor,
+        bottom: 15,
       }}
       className="rounded-full"
     />
@@ -95,6 +100,17 @@ const OnboardingScreen = ({ navigation }) => {
   }, [isFocused]);
   return (
     <Onboarding
+      allowFontScalingText={false}
+      allowFontScalingButtons={false}
+      flatlistProps={{
+        virtualizedListProps: {
+          // Enable virtualization here
+          initialNumToRender: 5, // Adjust this value based on your use case
+          windowSize: 5, // Adjust this value based on your use case
+          removeClippedSubviews: true,
+          // Other FlatList props...
+        },
+      }}
       bottomBarColor="white"
       bottomBarHighlight={false}
       NextButtonComponent={NextButtonComponent}

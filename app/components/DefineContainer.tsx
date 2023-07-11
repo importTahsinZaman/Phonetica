@@ -23,6 +23,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
+let analytics: () => {
+  (): any;
+  new (): any;
+  logEvent: {
+    (
+      arg0: string,
+      arg1: {
+        definitionExplanation: string;
+        englishDefinitionExplanation: string;
+      }
+    ): any;
+    new (): any;
+  };
+};
+if (!isExpoGo) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  analytics = require("@react-native-firebase/analytics").default;
+}
+
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 type ComponentProps = {
@@ -75,7 +94,8 @@ const DefineContainer: React.FC<ComponentProps> = ({
     useState(false);
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
-  const [addFlashcardEnabled, setAddFlashcardEnabled] = useState(false);
+  const [addFlashcardEnabled, setAddFlashcardEnabled] = useState(true);
+  const [reportDefinitionEnabled, setReportDefinitionEnabled] = useState(true);
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? "#FFBF23" : "#ffffff";
@@ -295,6 +315,42 @@ const DefineContainer: React.FC<ComponentProps> = ({
     };
   }, [addFlashcardEnabled]);
 
+  useEffect(() => {
+    let timeoutId: string | number | NodeJS.Timeout | undefined;
+
+    if (!reportDefinitionEnabled) {
+      timeoutId = setTimeout(() => {
+        setReportDefinitionEnabled(true);
+      }, 20000);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [reportDefinitionEnabled]);
+
+  const reportDefinition = async () => {
+    if (!isExpoGo && reportDefinitionEnabled) {
+      try {
+        await analytics().logEvent("definition_report", {
+          definitionExplanation: definitionExplanation,
+          englishDefinitionExplanation: englishDefinitionExplanation,
+        });
+        Toast.show({
+          type: "success",
+          text1: "Sent Report",
+          text2: "Thank you for keeping Phonetica safe",
+        });
+      } catch {
+        Toast.show({
+          type: "error",
+          text1: "Error Sending Report",
+          text2: "The server did not receive your report",
+        });
+      }
+    }
+  };
+
   return (
     <SafeAreaView className="my-4 w-full grow flex">
       <SafeAreaView style={styles.wordsContainer} className=" max-h-[28%]">
@@ -340,6 +396,18 @@ const DefineContainer: React.FC<ComponentProps> = ({
                 <CustomText className="text-[#8D8D8D] text-base">
                   {definitionExplanation}
                 </CustomText>
+                {reportDefinitionEnabled && (
+                  <TouchableOpacity disabled={!reportDefinitionEnabled}>
+                    <CustomText
+                      className="text-sm text-[#FFBF23] self-end"
+                      onPress={() => {
+                        reportDefinition();
+                      }}
+                    >
+                      Report
+                    </CustomText>
+                  </TouchableOpacity>
+                )}
               </ScrollView>
               {englishDefinitionExplanation &&
                 targetLangAbbreviation != "EN-US" && (
@@ -347,6 +415,18 @@ const DefineContainer: React.FC<ComponentProps> = ({
                     <CustomText className="text-[#8D8D8D] text-base">
                       {englishDefinitionExplanation}
                     </CustomText>
+                    {reportDefinitionEnabled && (
+                      <TouchableOpacity disabled={!reportDefinitionEnabled}>
+                        <CustomText
+                          className="text-sm text-[#FFBF23] self-end"
+                          onPress={() => {
+                            reportDefinition();
+                          }}
+                        >
+                          Report
+                        </CustomText>
+                      </TouchableOpacity>
+                    )}
                   </ScrollView>
                 )}
             </SafeAreaView>
