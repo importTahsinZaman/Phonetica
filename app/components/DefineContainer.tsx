@@ -336,6 +336,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
           definitionExplanation: definitionExplanation,
           englishDefinitionExplanation: englishDefinitionExplanation,
         });
+        setReportDefinitionEnabled(false);
         Toast.show({
           type: "success",
           text1: "Sent Report",

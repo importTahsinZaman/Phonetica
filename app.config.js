@@ -20,7 +20,7 @@ export default {
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
-      buildNumber: "12",
+      buildNumber: "13",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
