@@ -21,6 +21,8 @@ export default {
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
       buildNumber: "13",
+      appStoreUrl:
+        "https://apps.apple.com/us/app/phonetica-learn-to-read/id6450615825",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON,

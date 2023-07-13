@@ -52,7 +52,8 @@
     "tailwindcss": "^3.3.2",
     "expo-updates": "~0.16.4",
     "expo-intent-launcher": "~10.5.2",
-    "expo-linking": "~4.0.1"
+    "expo-linking": "~4.0.1",
+    "expo-store-review": "~6.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -16,6 +16,8 @@ import Flashcards from "../components/Flashcards";
 import { tabBarRef } from "../components/HelperFunctions";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as StoreReview from "expo-store-review";
 
 const PAGE_WIDTH = Dimensions.get("window").width;
 const PAGE_HEIGHT = Dimensions.get("window").height;
@@ -57,9 +59,64 @@ const Content = ({ navigation }) => {
 const HomeScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
 
+  const checkAndAskReview = async () => {
+    try {
+      const askReviewTimesJSONString: string | null =
+        await AsyncStorage.getItem("AskReviewTimes");
+
+      const openCountSinceLastReviewAsk = parseInt(
+        await AsyncStorage.getItem("OpenCountSinceLastReviewAsk")
+      );
+
+      const askReviewTimes = JSON.parse(askReviewTimesJSONString);
+      let newAskReviewTimes = askReviewTimes;
+      const NOW = new Date().getTime();
+      const STORE_REVIEW_HAS_ACTION = await StoreReview.hasAction();
+
+      let willAskForReview = false;
+
+      const checkForReview = async (time: number, removeFromIndex: number) => {
+        if (
+          NOW >= time &&
+          openCountSinceLastReviewAsk >= 5 &&
+          STORE_REVIEW_HAS_ACTION
+        ) {
+          willAskForReview = true;
+          newAskReviewTimes.splice(removeFromIndex, 1);
+        }
+      };
+
+      askReviewTimes.forEach((time: number, index: number) => {
+        checkForReview(time, index);
+      });
+
+      if (willAskForReview) {
+        await AsyncStorage.setItem("OpenCountSinceLastReviewAsk", "0");
+        StoreReview.requestReview();
+      } else {
+        const newOpenCount = openCountSinceLastReviewAsk + 1;
+        await AsyncStorage.setItem(
+          "OpenCountSinceLastReviewAsk",
+          newOpenCount.toString()
+        );
+      }
+
+      await AsyncStorage.setItem(
+        "AskReviewTimes",
+        JSON.stringify(newAskReviewTimes)
+      );
+    } catch (e) {
+      if (__DEV__) {
+        console.error(e);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       tabBarRef?.current?.setVisible(true);
+
+      checkAndAskReview();
     }
   }, [isFocused]);
 

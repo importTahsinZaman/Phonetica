@@ -93,6 +93,46 @@ const DotComponent = ({ selected }) => {
 const OnboardingScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
 
+  const calculateReviewTimes = () => {
+    const ONE_DAY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const ONE_MONTH = ONE_DAY * 30; // 1 month in milliseconds
+    const ONE_YEAR = ONE_DAY * 367; // 1 year + 2 DAY BUFFER in milliseconds. Buffer to ensure alignment with Apple policy
+    const NOW = new Date().getTime(); // Number of milliseconds since January 1, 1970 00:00:00.
+
+    const firstAsk = NOW + ONE_DAY; // First Ask: 24 hours from now
+    const secondAsk = firstAsk + ONE_DAY * 3; // Second Ask: 3 days after First Ask
+    const thirdAsk = secondAsk + ONE_DAY * 7; // Third Ask: 1 week after second ask
+    // ======
+    const fourthAsk = thirdAsk + ONE_YEAR; // Fourth Ask: 1 year after third ask
+    const fifthAsk = fourthAsk + ONE_MONTH; // Fifth Ask: 1 month after fourth ask
+    const sixthAsk = fifthAsk + ONE_MONTH * 4; // Sixth Ask: 4 months after fifth ask
+    // ======
+    const seventhAsk = sixthAsk + ONE_YEAR; // Seventh Ask: 1 year after sixth ask
+    const eighthAsk = seventhAsk + ONE_MONTH; // Eighth Ask: 1 month after seventh ask
+    const ninthAsk = eighthAsk + ONE_MONTH * 3; // Ninth Ask: 3 months after eighth ask
+    // ======
+    const tenthAsk = ninthAsk + ONE_YEAR; // Tenth Ask: 1 year after ninth ask
+    const eleventhAsk = tenthAsk + ONE_MONTH; // Eleventh Ask: 1 month after tenth ask
+    const twelfthAsk = eleventhAsk + ONE_MONTH * 2; // Twelfth Ask: 2 months after eleventh ask
+
+    const askReviewTimes = [
+      firstAsk,
+      secondAsk,
+      thirdAsk,
+      fourthAsk,
+      fifthAsk,
+      sixthAsk,
+      seventhAsk,
+      eighthAsk,
+      ninthAsk,
+      tenthAsk,
+      eleventhAsk,
+      twelfthAsk,
+    ];
+
+    return askReviewTimes;
+  };
+
   useEffect(() => {
     if (isFocused) {
       tabBarRef?.current?.setVisible(false);
@@ -169,6 +209,8 @@ const OnboardingScreen = ({ navigation }) => {
           },
         ]);
 
+        const askReviewTimes = calculateReviewTimes();
+
         await AsyncStorage.multiSet([
           ["alreadyLaunched", "true"],
           [
@@ -189,6 +231,8 @@ const OnboardingScreen = ({ navigation }) => {
           ["RecentScanTime4", ""],
           ["ScanCount", "0"],
           ["Flashcards", flashCardJson],
+          ["OpenCountSinceLastReviewAsk", "0"],
+          ["AskReviewTimes", JSON.stringify(askReviewTimes)],
         ]);
 
         if (isExpoGo) {
