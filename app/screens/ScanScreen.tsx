@@ -71,16 +71,15 @@ if (!isExpoGo) {
     .then(() => {
       trackingPermissionPromise.then(() => {
         let AD_ID = TestIds.REWARDED_INTERSTITIAL;
-        // ADS ARE TURNED OFF RIGHT NOW, THIS AD WON'T EVEN SHOW SO... KEEPING THIS COMMENTED OUT
-        // if (__DEV__) {
-        //   AD_ID = TestIds.REWARDED_INTERSTITIAL;
-        // } else {
-        //   if (Platform.OS === "ios") {
-        //     AD_ID = "ca-app-pub-6289844451431860/4650586365";
-        //   } else {
-        //     AD_ID = "ca-app-pub-6289844451431860/8279728235";
-        //   }
-        // }
+        if (__DEV__) {
+          AD_ID = TestIds.REWARDED_INTERSTITIAL;
+        } else {
+          if (Platform.OS === "ios") {
+            AD_ID = "ca-app-pub-6289844451431860/4650586365";
+          } else {
+            AD_ID = "ca-app-pub-6289844451431860/8279728235"; //ANDROID ADS DON'T GET CALLED BC WAITING FOR APP VERIFICATION FROM AD MOB
+          }
+        }
         rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
           AD_ID,
           {
@@ -274,7 +273,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -362,7 +360,6 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
             controlBar: {
               position: "bottom",
               backgroundColor: "white",
-              // height: 85,
               cropButton: {
                 text: "crop",
                 color: "#8D8D8D",
@@ -405,8 +402,12 @@ const ScanScreen: React.FC<Props> = ({ navigation }) => {
               base64: true,
             }).then((result) => {
               imageBase64.current = result.base64;
-              if (scanCount.current == AD_FREQUENCY - 1 && !isExpoGo && false) {
-                //ADS DISABLED FOR NOW ^^^^
+              if (
+                scanCount.current == AD_FREQUENCY - 1 &&
+                !isExpoGo &&
+                Platform.OS === "ios"
+              ) {
+                //ADS DISABLED FOR ANDROID FOR NOW ^^^^
                 rewardedInterstitial.show();
               } else {
                 updateScanCount();
