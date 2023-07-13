@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "Phonetica",
     slug: "Phonetica",
-    version: "1.0.9",
+    version: "1.0.10",
     orientation: "portrait",
     icon: "./app/assets/icon.png",
     userInterfaceStyle: "light",
@@ -20,7 +20,7 @@ export default {
 
       supportsTablet: false,
       bundleIdentifier: "com.Zaman.Phonetica",
-      buildNumber: "13",
+      buildNumber: "14",
       appStoreUrl:
         "https://apps.apple.com/us/app/phonetica-learn-to-read/id6450615825",
     },
@@ -58,6 +58,13 @@ export default {
         {
           cameraPermission:
             "Your camera will be used to scan and then translate text.",
+        },
+      ],
+      [
+        "expo-image-picker",
+        {
+          photosPermission:
+            "Your image library will be used so you can select an image to scan",
         },
       ],
     ],
