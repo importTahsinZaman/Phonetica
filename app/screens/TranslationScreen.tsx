@@ -14,8 +14,14 @@ import TranslateContainer from "../components/TranslateContainer";
 import DefineContainer from "../components/DefineContainer";
 import PronounceContainer from "../components/PronounceContainer";
 
-import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
-import { tabBarRef } from "../components/HelperFunctions";
+import {
+  useTargetLangAbbreviationGlobal,
+  useTargetLangNumGlobal,
+} from "../components/LanguagePicker";
+import {
+  getTranslationAPIChoice,
+  tabBarRef,
+} from "../components/HelperFunctions";
 
 const TranslationScreen = ({ route, navigation }) => {
   //This whole page only deals with one sentence!
@@ -25,6 +31,7 @@ const TranslationScreen = ({ route, navigation }) => {
   const [translatedText, setTranslatedText] = useState(""); //translated text
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
+  const [targetLangNum, setTargetLangNum] = useTargetLangNumGlobal();
   const [showTranslate, setShowTranslate] = useState(true);
   const [showDefine, setShowDefine] = useState(false);
   const [showPronounce, setShowPronounce] = useState(false);
@@ -101,8 +108,10 @@ const TranslationScreen = ({ route, navigation }) => {
   };
 
   const translateText = async (text: string) => {
-    if (targetLangAbbreviation === "bn") {
-      const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${text}&to=bn&from=en`;
+    const API_CHOICE = getTranslationAPIChoice(targetLangNum);
+
+    if (API_CHOICE === "NLP") {
+      const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${text}&to=${targetLangAbbreviation}&from=en`;
       const options = {
         method: "GET",
         headers: {
@@ -115,11 +124,11 @@ const TranslationScreen = ({ route, navigation }) => {
         const response = await fetch(url, options);
         let result = await response.text();
         result = JSON.parse(result);
-        setTranslatedText(result["translated_text"]["bn"]);
+        setTranslatedText(result["translated_text"][targetLangAbbreviation]);
       } catch (error) {
         console.log("NLP API ERROR: ", error);
       }
-    } else if (targetLangAbbreviation != "EN-US") {
+    } else if (API_CHOICE === "DEEPL") {
       var myHeaders = new Headers();
       myHeaders.append(
         "Authorization",

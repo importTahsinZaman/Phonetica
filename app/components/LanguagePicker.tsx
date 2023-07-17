@@ -7,7 +7,7 @@ import {
   getUserTargetLanguage,
   setUserTargetLanguage,
   LangMap,
-  DeeplLangAbbreviationMap,
+  AbbreviationMap,
 } from "./HelperFunctions";
 
 import { GlobalStore } from "react-native-global-state-hooks";
@@ -75,7 +75,7 @@ const LanguagePicker = ({
         //These setStates are for app's global targetLanguage state
         setTargetLangNum(language);
         setTargetLangString(LangMap(language));
-        setTargetLangAbbreviation(DeeplLangAbbreviationMap(language));
+        setTargetLangAbbreviation(AbbreviationMap(language));
       });
     } else if (disabled) {
       setCountry("1");
@@ -116,7 +116,7 @@ const LanguagePicker = ({
             //Global State Sets:
             setTargetLangNum(e.value);
             setTargetLangString(LangMap(e.value));
-            setTargetLangAbbreviation(DeeplLangAbbreviationMap(e.value));
+            setTargetLangAbbreviation(AbbreviationMap(e.value));
 
             if (coolDown) {
               const delay = (ms) => new Promise((res) => setTimeout(res, ms));

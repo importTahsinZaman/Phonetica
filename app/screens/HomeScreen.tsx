@@ -49,7 +49,7 @@ const Content = ({ navigation }) => {
         fontThicknessNumber={4}
         style={styles.Header}
       >
-        Your Recent Scans
+        Recent Scans
       </CustomText>
       <RecentScans navigation={navigation}></RecentScans>
     </View>

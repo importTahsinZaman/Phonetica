@@ -59,11 +59,11 @@ export const LangMap = (langNum: string | number) => {
   return obj?.language;
 };
 
-export const DeeplLangAbbreviationMap = (langNum: string | number) => {
-  //Converts num to deepl abbreviation for that corresponding language ex: 1 to EN-US, 2 to BG
+export const AbbreviationMap = (langNum: string | number) => {
+  //Converts num to abbreviation for that corresponding language ex: 1 to EN-US, 2 to BG
   langNum = langNum.toString();
   let obj = LanguageData.find((o) => o.value == langNum);
-  return obj?.DeeplAbbreviation;
+  return obj?.abbreviation;
 };
 
 export const getUserTargetLanguage = async () => {
@@ -79,6 +79,13 @@ export const getUserTargetLanguage = async () => {
     //Return English on fail
     return "1";
   }
+};
+
+export const getTranslationAPIChoice = (langNum: string | number) => {
+  //Converts language number to which api should be used for that language
+  langNum = langNum.toString();
+  let obj = LanguageData.find((o) => o.value == langNum);
+  return obj?.apiChoice;
 };
 
 export const setUserTargetLanguage = async (value: string) => {

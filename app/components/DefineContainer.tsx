@@ -15,10 +15,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import * as Speech from "expo-speech";
 import SkeletonComponent from "./SkeletonComponent";
 import SkeletonComponent2 from "./SkeletonComponent2";
-import { useTargetLangAbbreviationGlobal } from "../components/LanguagePicker";
+import {
+  useTargetLangAbbreviationGlobal,
+  useTargetLangNumGlobal,
+} from "../components/LanguagePicker";
 import Constants, { ExecutionEnvironment } from "expo-constants";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getTranslationAPIChoice } from "./HelperFunctions";
 
 const isExpoGo =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
@@ -94,6 +98,7 @@ const DefineContainer: React.FC<ComponentProps> = ({
     useState(false);
   const [targetLangAbbreviation, setTargetLangAbbreviation] =
     useTargetLangAbbreviationGlobal();
+  const [targetLangNum, setTargetLangNum] = useTargetLangNumGlobal();
   const [addFlashcardEnabled, setAddFlashcardEnabled] = useState(true);
   const [reportDefinitionEnabled, setReportDefinitionEnabled] = useState(true);
 
@@ -155,10 +160,6 @@ const DefineContainer: React.FC<ComponentProps> = ({
       instance ? instance : 1
     } of the word "${word}" in the context of this text: "${text}". Keep the word within quotation marks whenever referring to it. If the word is not a valid English word or makes no sense within the context of the given text, return 'invalid scan' Never include profanity or disturbing/offensive content in response`;
 
-    if (isExpoGo) {
-      console.log("Prompt: " + prompt);
-    }
-
     setWaitingForExplanationAPIResult(true);
     await openai
       .createCompletion({
@@ -172,15 +173,21 @@ const DefineContainer: React.FC<ComponentProps> = ({
       })
       .then(async (result) => {
         const response1 = JSON.parse(result.request._response);
-        const englishExplanation = response1.choices[0].text.trimStart();
-        setEnglishDefinitionExplanation(englishExplanation);
+        let englishExplanation = response1.choices[0].text.trimStart();
 
-        if (isExpoGo) {
-          console.log("English Explanation: ", englishExplanation);
+        //Sometimes chatgpt puts a period and a ton of spaces. Fix this:
+        const firstChar = englishExplanation.trimStart().charAt(0);
+        const secondChar = englishExplanation.trimStart().charAt(1);
+        if (firstChar === "." && secondChar === " ") {
+          englishExplanation = englishExplanation.slice(1).trimStart();
         }
 
-        if (targetLangAbbreviation === "bn") {
-          const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${englishExplanation}&to=bn&from=en&protected_words=${word}`;
+        setEnglishDefinitionExplanation(englishExplanation);
+
+        const API_CHOICE = getTranslationAPIChoice(targetLangNum);
+
+        if (API_CHOICE === "NLP") {
+          const url = `https://nlp-translation.p.rapidapi.com/v1/translate?text=${englishExplanation}&to=${targetLangAbbreviation}&from=en&protected_words=${word}`;
           const options = {
             method: "GET",
             headers: {
@@ -193,11 +200,13 @@ const DefineContainer: React.FC<ComponentProps> = ({
             const response = await fetch(url, options);
             let result = await response.text();
             result = JSON.parse(result);
-            setDefinitionExplanation(result["translated_text"]["bn"]);
+            setDefinitionExplanation(
+              result["translated_text"][targetLangAbbreviation]
+            );
           } catch (error) {
             console.log("NLP API ERROR: ", error);
           }
-        } else if (targetLangAbbreviation != "EN-US") {
+        } else if (API_CHOICE === "DEEPL") {
           function addKeepTags(sentence: string, word: string) {
             // Create a regular expression with word boundaries
             var regex = new RegExp("\\b" + word + "\\b", "gi");
